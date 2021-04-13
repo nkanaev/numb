@@ -1,0 +1,18 @@
+operator predecence (high to low):
+
+    *  /  %  <<  >>  &
+    +  -  |  ^
+    ==  !=  <  <=  >  >=
+    &&
+    ||
+
+grammar:
+
+    val  → val op val
+    val  → val unit?
+    val  → [-]? val
+    val  → "(" val ")"
+    val  → dec
+    op   → [* / + -]
+    dec  → [0-9]+
+    unit → [a-z]+
