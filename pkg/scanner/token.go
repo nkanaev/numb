@@ -1,4 +1,4 @@
-package parser
+package scanner
 
 type token int
 
