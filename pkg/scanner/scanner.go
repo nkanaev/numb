@@ -6,7 +6,7 @@ type Scanner struct {
 	src []rune
 	cur int
 
-	Token token
+	Token Token
 	Value string
 }
 

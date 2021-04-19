@@ -1,9 +1,9 @@
 package scanner
 
-type token int
+type Token int
 
 const (
-	Illegal token = iota
+	Illegal Token = iota
 
 	LAND // &&
 	LOR  // ||
@@ -30,7 +30,7 @@ const (
 	NUM
 )
 
-func (t token) String() string {
+func (t Token) String() string {
 	if t == Illegal {
 		return "ILLEGAL"
 	}
@@ -46,7 +46,11 @@ func (t token) String() string {
 	return "???"
 }
 
-func (t token) Precedence() int {
+const (
+	LowestPrec = 0
+)
+
+func (t Token) Precedence() int {
 	switch t {
 	case LOR:
 		return 1
@@ -59,10 +63,10 @@ func (t token) Precedence() int {
 	case MUL, DIV, MOD, SHL, SHR, AND:
 		return 5
 	}
-	return 0
+	return LowestPrec
 }
 
-var tokenString = map[string]token{
+var tokenString = map[string]Token{
 	"&&": LAND,
 	"||": LOR,
 
