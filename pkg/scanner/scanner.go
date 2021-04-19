@@ -2,56 +2,61 @@ package scanner
 
 import "unicode"
 
-type parser struct {
+type Scanner struct {
 	src []rune
 	cur int
 
-	tok token
-	val string
+	Token token
+	Value string
 }
 
-func New(line string) *parser {
-	return &parser{
+func New(line string) *Scanner {
+	return &Scanner{
 		src: []rune(line),
-		tok: Illegal,
+		Token: Illegal,
 	}
 }
 
-func (p *parser) char() rune {
-	if p.cur >= len(p.src) {
-		return rune(0)
+func (s *Scanner) char() rune {
+	if s.cur >= len(s.src) {
+		return 0
 	}
-	return p.src[p.cur]
+	return s.src[s.cur]
 }
 
-func (p *parser) nextChar() {
-	p.cur += 1
+func (s *Scanner) nextChar() {
+	s.cur += 1
 }
 
-func (p *parser) next() {
-	for ; unicode.IsSpace(p.char()); p.nextChar() {
+func (s *Scanner) next() {
+	for ; unicode.IsSpace(s.char()); s.nextChar() {
 	}
-	ch := p.char()
+	ch := s.char()
 	switch {
 	case unicode.IsDigit(ch):
-		start := p.cur
-		for ; unicode.IsDigit(p.char()); p.nextChar() {
+		start := s.cur
+		for ; unicode.IsDigit(s.char()); s.nextChar() {
 		}
-		p.tok = NUM
-		p.val = string(p.src[start:p.cur])
+		s.Token = NUM
+		s.Value = string(s.src[start:s.cur])
 	case isOp(string([]rune{ch})):
 		val := string([]rune{ch})
-		p.tok = tokenString[val]
-		p.val = val
+		s.Token = tokenString[val]
+		s.Value = val
 
-		p.nextChar()
-		val2 := string([]rune{ch, p.char()})
+		s.nextChar()
+		val2 := string([]rune{ch, s.char()})
 		if isOp(val2) {
-			p.tok = tokenString[val2]
-			p.val = val2
-			p.nextChar()
+			s.Token = tokenString[val2]
+			s.Value = val2
+			s.nextChar()
 		}
 	default:
-		p.tok = Illegal
+		s.Token = Illegal
 	}
+}
+
+func (s *Scanner) Scan() bool {
+	s.next()
+	return s.Token != Illegal
 }

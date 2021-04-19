@@ -1,24 +1,34 @@
 package scanner
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestParseNumber(t *testing.T) {
 	p := New(" 123")
-	p.next()
-	if p.tok != NUM || p.val != "123" {
-		t.Errorf("\nwant: %s (%#v)\nhave: %s (%#v)", NUM, "123", p.tok, p.val)
+	p.Scan()
+	if p.Token != NUM || p.Value != "123" {
+		t.Errorf("\nwant: %s (%#v)\nhave: %s (%#v)", NUM, "123", p.Token, p.Value)
 	}
 }
 
 func TestParseToken(t *testing.T) {
 	want := []token{ADD, SUB, LEQ, GEQ, LSS, GTR}
-	have := "+ - <= >= < >"
+	have := make([]token, 0)
+	text := "+ - <= >= < >"
 
-	p := New(have)
-	for _, tok := range want {
-		p.next()
-		if p.tok != tok {
-			t.Fatalf("\nwant: %s\nhave: %s", tok, p.tok)
-		}
+	s := New(text)
+	for s.Scan() {
+		have = append(have, s.Token)
+	}
+
+	if !reflect.DeepEqual(want, have) {
+		t.Fatalf("\nwant: %s\nhave: %s", want, have)
+	}
+
+	// final call
+	if s.Scan() {
+		t.Fatal("expected to return false")
 	}
 }
