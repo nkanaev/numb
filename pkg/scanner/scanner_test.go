@@ -14,8 +14,8 @@ func TestParseNumber(t *testing.T) {
 }
 
 func TestParseToken(t *testing.T) {
-	want := []token{ADD, SUB, LEQ, GEQ, LSS, GTR}
-	have := make([]token, 0)
+	want := []Token{ADD, SUB, LEQ, GEQ, LSS, GTR}
+	have := make([]Token, 0)
 	text := "+ - <= >= < >"
 
 	s := New(text)
