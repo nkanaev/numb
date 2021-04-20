@@ -16,7 +16,7 @@ type Const struct {
 	Val float64
 }
 
-func (n *Const) Eval(map[string]float64) float64 {
+func (n *Const) Eval(env map[string]float64) float64 {
 	return n.Val
 }
 
@@ -33,6 +33,10 @@ func (n *BinOP) String() string {
 	return fmt.Sprintf("%s %s %s", n.Lhs.String(), n.Op.String(), n.Rhs.String())
 }
 
-func (n *BinOP) Eval(map[string]float64) float64 {
+func (n *BinOP) Eval(env map[string]float64) float64 {
+	switch n.Op {
+	case scanner.ADD:
+		return n.Lhs.Eval(env) + n.Rhs.Eval(env)
+	}
 	return 0
 }
