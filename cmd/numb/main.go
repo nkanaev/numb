@@ -4,25 +4,19 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
+
+	"github.com/nkanaev/numb/pkg/parser"
 )
 
 var prompt = "> "
 
-type Value struct {
-	num float64
-}
-
-func (v *Value) String() string {
-	return strconv.FormatInt(int64(v.num), 10)
-}
-
-func eval(expr string, vars map[string]Value) *Value {
-	return nil	
+func eval(expr string, env map[string]float64) (float64, error) {
+	tree := parser.Parse(expr)
+	return tree.Eval(env), nil
 }
 
 func repl() {
-	vars := make(map[string]Value)
+	env := make(map[string]float64)
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("enter `q` to quit")
 	fmt.Print(prompt)
@@ -31,9 +25,9 @@ func repl() {
 		if line == "q" {
 			break
 		}
-		val := eval(line, vars)
-		if val != nil {
-			fmt.Println(" ", val.String())
+		val, err := eval(line, env)
+		if err == nil {
+			fmt.Println(" ", val)
 		}
 		fmt.Print(prompt)
 	}
