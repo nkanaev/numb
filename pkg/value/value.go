@@ -10,6 +10,14 @@ func NewInt(x int64) Value {
 	return Value{Num: big.NewRat(x, 1)}
 }
 
+func Parse(x string) Value {
+	num, ok := new(big.Rat).SetString(x)
+	if !ok {
+		panic("unable to parse number: " + x)
+	}
+	return Value{Num: num}
+}
+
 func (a Value) Mul(b Value) Value {
 	return Value{Num: new(big.Rat).Mul(a.Num, b.Num)}
 }

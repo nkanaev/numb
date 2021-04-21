@@ -2,7 +2,6 @@ package parser
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/scanner"
@@ -29,13 +28,8 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		p.expect(token.RPAREN)
 		return &ast.ParenExpr{Expr: expr}
 	case token.NUM:
-		num, err := strconv.Atoi(p.s.Value)
-		if err != nil {
-			panic(err)
-		}
 		p.s.Scan()
-		// TODO: pass string directly
-		return value.NewInt(int64(num))
+		return value.Parse(p.s.Value)
 	}	
 	fmt.Println(p.s.Token)
 	panic("die")
