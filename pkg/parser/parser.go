@@ -6,6 +6,7 @@ import (
 
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/scanner"
+	"github.com/nkanaev/numb/pkg/value"
 )
 
 type parser struct {
@@ -20,7 +21,8 @@ func (p *parser) parseUnaryExpr() ast.Node {
 			panic(err)
 		}
 		p.s.Scan()
-		return &ast.Const{Val: float64(num)}
+		// TODO: pass string directly
+		return value.NewInt(int64(num))
 	}	
 	fmt.Println(p.s.Token)
 	panic("die")
