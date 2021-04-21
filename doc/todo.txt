@@ -13,4 +13,4 @@
 - decide on syntax:
   % modulo/percentage?
   ^ exponent/xor?
-- binary ops (and, or, xor, lshift, rshift, modulo, exponent)
+- binary ops (and, or, xor, modulo, exponent)

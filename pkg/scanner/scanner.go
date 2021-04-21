@@ -50,10 +50,22 @@ func (s *Scanner) next() {
 		s.Token = token.RPAREN
 		s.nextChar()
 	case ch == '*' || ch == '/' || ch == '+' || ch == '-':
-		val := string(ch)
-		s.Token = token.TokenString[val]
-		s.Value = val
+		s.Token = token.TokenString[string(ch)]
 		s.nextChar()
+	case ch == '<' || ch == '>':
+		s.nextChar()
+		if s.char() != ch {
+			s.cur -= 1
+			s.Token = token.Illegal
+			return
+		}
+		s.nextChar()
+		switch ch {
+		case '<':
+			s.Token = token.SHL
+		case '>':
+			s.Token = token.SHR
+		}
 	default:
 		s.Token = token.Illegal
 	}

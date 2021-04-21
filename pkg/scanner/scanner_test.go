@@ -19,9 +19,10 @@ func TestParseToken(t *testing.T) {
 	want := []token.Token{
 		token.ADD, token.SUB, token.MUL, token.QUO,
 		token.LPAREN, token.RPAREN,
+		token.SHL, token.SHR,
 	}
 	have := make([]token.Token, 0)
-	text := "+ - * / ( )"
+	text := "+ - * / ( ) << >>"
 
 	s := New(text)
 	for s.Scan() {

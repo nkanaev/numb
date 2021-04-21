@@ -26,6 +26,20 @@ func (a Value) Quo(b Value) Value {
 	return Value{Num: new(big.Rat).Quo(a.Num, b.Num)}
 }
 
+func (a Value) Lsh(b Value) Value {
+	ia, ib := a.Num.Num(), uint(b.Num.Num().Uint64())
+	num := big.NewRat(1, 1)
+	num.Num().Lsh(ia, ib)
+	return Value{Num: num}
+}
+
+func (a Value) Rsh(b Value) Value {
+	ia, ib := a.Num.Num(), uint(b.Num.Num().Uint64())
+	num := big.NewRat(1, 1)
+	num.Num().Rsh(ia, ib)
+	return Value{Num: num}
+}
+
 func (a Value) String() string {
 	return a.Num.RatString()
 }
