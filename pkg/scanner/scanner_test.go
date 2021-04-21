@@ -3,19 +3,24 @@ package scanner
 import (
 	"reflect"
 	"testing"
+
+	"github.com/nkanaev/numb/pkg/token"
 )
 
 func TestParseNumber(t *testing.T) {
 	p := New(" 123")
 	p.Scan()
-	if p.Token != NUM || p.Value != "123" {
-		t.Errorf("\nwant: %s (%#v)\nhave: %s (%#v)", NUM, "123", p.Token, p.Value)
+	if p.Token != token.NUM || p.Value != "123" {
+		t.Errorf("\nwant: %s (%#v)\nhave: %s (%#v)", token.NUM, "123", p.Token, p.Value)
 	}
 }
 
 func TestParseToken(t *testing.T) {
-	want := []Token{ADD, SUB, MUL, QUO, LPAREN, RPAREN}
-	have := make([]Token, 0)
+	want := []token.Token{
+		token.ADD, token.SUB, token.MUL, token.QUO,
+		token.LPAREN, token.RPAREN,
+	}
+	have := make([]token.Token, 0)
 	text := "+ - * / ( )"
 
 	s := New(text)

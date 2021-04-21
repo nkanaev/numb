@@ -3,7 +3,7 @@ package ast
 import (
 	"testing"
 
-	"github.com/nkanaev/numb/pkg/scanner"
+	"github.com/nkanaev/numb/pkg/token"
 	"github.com/nkanaev/numb/pkg/value"
 )
 
@@ -19,12 +19,12 @@ func TestASTConst(t *testing.T) {
 func TestASTBinOPEval(t *testing.T) {
 	testcases := []struct {
 		str string
-		tok scanner.Token
+		tok token.Token
 	}{
-		{"8", scanner.ADD},
-		{"4", scanner.SUB},
-		{"12", scanner.MUL},
-		{"3", scanner.QUO},
+		{"8", token.ADD},
+		{"4", token.SUB},
+		{"12", token.MUL},
+		{"3", token.QUO},
 	}
 	for _, testcase := range testcases {
 		root := &BinOP{Lhs: value.NewInt(6), Rhs: value.NewInt(2), Op: testcase.tok}

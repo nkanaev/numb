@@ -6,6 +6,7 @@ import (
 
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/scanner"
+	"github.com/nkanaev/numb/pkg/token"
 	"github.com/nkanaev/numb/pkg/value"
 )
 
@@ -13,7 +14,7 @@ type parser struct {
 	s *scanner.Scanner
 }
 
-func (p *parser) expect(t scanner.Token) {
+func (p *parser) expect(t token.Token) {
 	if p.s.Token != t {
 		panic("expected " + t.String())
 	}
@@ -22,12 +23,12 @@ func (p *parser) expect(t scanner.Token) {
 
 func (p *parser) parsePrimaryExpr() ast.Node {
 	switch p.s.Token {
-	case scanner.LPAREN:
+	case token.LPAREN:
 		p.s.Scan()
 		expr := p.parseExpr()
-		p.expect(scanner.RPAREN)
+		p.expect(token.RPAREN)
 		return &ast.ParenExpr{Expr: expr}
-	case scanner.NUM:
+	case token.NUM:
 		num, err := strconv.Atoi(p.s.Value)
 		if err != nil {
 			panic(err)
@@ -60,7 +61,7 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 }
 
 func (p *parser) parseExpr() ast.Node {
-	return p.parseBinaryExpr(scanner.LowestPrec+1)
+	return p.parseBinaryExpr(token.LowestPrec+1)
 }
 
 func Parse(line string) ast.Node {

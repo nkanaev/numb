@@ -1,19 +1,23 @@
 package scanner
 
-import "unicode"
+import (
+	"unicode"
+	
+	"github.com/nkanaev/numb/pkg/token"
+)
 
 type Scanner struct {
 	src []rune
 	cur int
 
-	Token Token
+	Token token.Token
 	Value string
 }
 
 func New(line string) *Scanner {
 	return &Scanner{
 		src: []rune(line),
-		Token: Illegal,
+		Token: token.Illegal,
 	}
 }
 
@@ -37,32 +41,25 @@ func (s *Scanner) next() {
 		start := s.cur
 		for ; unicode.IsDigit(s.char()); s.nextChar() {
 		}
-		s.Token = NUM
+		s.Token = token.NUM
 		s.Value = string(s.src[start:s.cur])
 	case ch == '(':
-		s.Token = LPAREN
+		s.Token = token.LPAREN
 		s.nextChar()
 	case ch == ')':
-		s.Token = RPAREN
+		s.Token = token.RPAREN
 		s.nextChar()
-	case isOp(string([]rune{ch})):
-		val := string([]rune{ch})
-		s.Token = tokenString[val]
+	case ch == '*' || ch == '/' || ch == '+' || ch == '-':
+		val := string(ch)
+		s.Token = token.TokenString[val]
 		s.Value = val
-
 		s.nextChar()
-		val2 := string([]rune{ch, s.char()})
-		if isOp(val2) {
-			s.Token = tokenString[val2]
-			s.Value = val2
-			s.nextChar()
-		}
 	default:
-		s.Token = Illegal
+		s.Token = token.Illegal
 	}
 }
 
 func (s *Scanner) Scan() bool {
 	s.next()
-	return s.Token != Illegal
+	return s.Token != token.Illegal
 }

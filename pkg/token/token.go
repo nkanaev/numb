@@ -1,4 +1,4 @@
-package scanner
+package token
 
 type Token int
 
@@ -30,7 +30,7 @@ func (t Token) String() string {
 		return "NUM"
 	}
 
-	for str, tok := range tokenString {
+	for str, tok := range TokenString {
 		if tok == t {
 			return str
 		}
@@ -59,7 +59,7 @@ func (t Token) Precedence() int {
 	return LowestPrec
 }
 
-var tokenString = map[string]Token{
+var TokenString = map[string]Token{
 	"|": OR,
 	"^": XOR,
 
@@ -71,9 +71,4 @@ var tokenString = map[string]Token{
 	"-": SUB,
 	"*": MUL,
 	"/": QUO,
-}
-
-func isOp(t string) bool {
-	_, ok := tokenString[t]
-	return ok
 }

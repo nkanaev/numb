@@ -3,7 +3,7 @@ package ast
 import (
 	"fmt"
 
-	"github.com/nkanaev/numb/pkg/scanner"
+	"github.com/nkanaev/numb/pkg/token"
 	"github.com/nkanaev/numb/pkg/value"
 )
 
@@ -14,7 +14,7 @@ type Node interface {
 
 type BinOP struct {
 	Lhs, Rhs Node
-	Op scanner.Token	
+	Op token.Token
 }
 
 func (n *BinOP) String() string {
@@ -23,13 +23,13 @@ func (n *BinOP) String() string {
 
 func (n *BinOP) Eval(env map[string]value.Value) value.Value {
 	switch n.Op {
-	case scanner.ADD:
+	case token.ADD:
 		return n.Lhs.Eval(env).Add(n.Rhs.Eval(env))
-	case scanner.SUB:
+	case token.SUB:
 		return n.Lhs.Eval(env).Sub(n.Rhs.Eval(env))
-	case scanner.MUL:
+	case token.MUL:
 		return n.Lhs.Eval(env).Mul(n.Rhs.Eval(env))
-	case scanner.QUO:
+	case token.QUO:
 		return n.Lhs.Eval(env).Quo(n.Rhs.Eval(env))
 	}
 	return value.NewInt(0)
