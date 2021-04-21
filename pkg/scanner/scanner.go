@@ -39,6 +39,12 @@ func (s *Scanner) next() {
 		}
 		s.Token = NUM
 		s.Value = string(s.src[start:s.cur])
+	case ch == '(':
+		s.Token = LPAREN
+		s.nextChar()
+	case ch == ')':
+		s.Token = RPAREN
+		s.nextChar()
 	case isOp(string([]rune{ch})):
 		val := string([]rune{ch})
 		s.Token = tokenString[val]

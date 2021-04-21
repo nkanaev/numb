@@ -16,6 +16,9 @@ const (
 	MUL // *
 	QUO // /
 
+	LPAREN // (
+	RPAREN // )
+
 	NUM
 )
 
@@ -32,6 +35,13 @@ func (t Token) String() string {
 			return str
 		}
 	}	
+
+	if t == LPAREN {
+		return "("
+	}
+	if t == RPAREN {
+		return ")"
+	}
 	return "???"
 }
 

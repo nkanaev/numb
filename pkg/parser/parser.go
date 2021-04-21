@@ -13,8 +13,20 @@ type parser struct {
 	s *scanner.Scanner
 }
 
-func (p *parser) parseUnaryExpr() ast.Node {
+func (p *parser) expect(t scanner.Token) {
+	if p.s.Token != t {
+		panic("expected " + t.String())
+	}
+	p.s.Scan()
+}
+
+func (p *parser) parsePrimaryExpr() ast.Node {
 	switch p.s.Token {
+	case scanner.LPAREN:
+		p.s.Scan()
+		expr := p.parseExpr()
+		p.expect(scanner.RPAREN)
+		return &ast.ParenExpr{Expr: expr}
 	case scanner.NUM:
 		num, err := strconv.Atoi(p.s.Value)
 		if err != nil {
@@ -26,6 +38,10 @@ func (p *parser) parseUnaryExpr() ast.Node {
 	}	
 	fmt.Println(p.s.Token)
 	panic("die")
+}
+
+func (p *parser) parseUnaryExpr() ast.Node {
+	return p.parsePrimaryExpr()
 }
 
 func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
@@ -43,9 +59,13 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 	return lhs
 }
 
+func (p *parser) parseExpr() ast.Node {
+	return p.parseBinaryExpr(scanner.LowestPrec+1)
+}
+
 func Parse(line string) ast.Node {
 	s := scanner.New(line)
 	p := &parser{s: s}
 	s.Scan()
-	return p.parseBinaryExpr(scanner.LowestPrec+1)
+	return p.parseExpr()
 }

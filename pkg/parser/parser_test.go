@@ -33,3 +33,16 @@ func TestParserBinOP(t *testing.T) {
 		}
 	}
 }
+
+func TestParserParen(t *testing.T) {
+	expr := "(1 + 2) * 3"
+	have := Parse(expr)
+	want := &ast.BinOP{
+		Lhs: &ast.ParenExpr{Expr: &ast.BinOP{Lhs: value.NewInt(1), Rhs: value.NewInt(2), Op: scanner.ADD}},
+		Rhs: value.NewInt(3),
+		Op: scanner.MUL,
+	}
+	if !reflect.DeepEqual(want, have) {
+		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
+	}
+}
