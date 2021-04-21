@@ -5,9 +5,6 @@ type Token int
 const (
 	Illegal Token = iota
 
-	LAND // &&
-	LOR  // ||
-
 	OR  // |
 	XOR // ^
 	AND // &
@@ -17,15 +14,7 @@ const (
 	ADD // +
 	SUB // -
 	MUL // *
-	DIV // /
-	MOD // %
-
-	EQL // ==
-	LSS // <
-	GTR // >
-	NEQ // !=
-	LEQ // <=
-	GEQ // >=
+	QUO // /
 
 	NUM
 )
@@ -52,24 +41,15 @@ const (
 
 func (t Token) Precedence() int {
 	switch t {
-	case LOR:
-		return 1
-	case LAND:
-		return 2
-	case EQL, NEQ, LSS, LEQ, GTR, GEQ:
-		return 3
 	case ADD, SUB, OR, XOR:
-		return 4
-	case MUL, DIV, MOD, SHL, SHR, AND:
+		return 1
+	case MUL, QUO, SHL, SHR, AND:
 		return 5
 	}
 	return LowestPrec
 }
 
 var tokenString = map[string]Token{
-	"&&": LAND,
-	"||": LOR,
-
 	"|": OR,
 	"^": XOR,
 
@@ -80,15 +60,7 @@ var tokenString = map[string]Token{
 	"+": ADD,
 	"-": SUB,
 	"*": MUL,
-	"/": DIV,
-	"%": MOD,
-
-	"==": EQL,
-	"<":  LSS,
-	">":  GTR,
-	"!=": NEQ,
-	"<=": LEQ,
-	">=": GEQ,
+	"/": QUO,
 }
 
 func isOp(t string) bool {
