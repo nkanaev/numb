@@ -16,6 +16,7 @@ const (
 	MUL // *
 	QUO // /
 	REM // mod
+	EXP // pow
 
 	LPAREN // (
 	RPAREN // )
@@ -73,4 +74,6 @@ var TokenString = map[string]Token{
 	"*": MUL,
 	"/": QUO,
 	"mod": REM,
+
+	"pow": EXP,
 }

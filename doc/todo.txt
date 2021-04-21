@@ -11,3 +11,4 @@
 - formats (sci/hex/oct/human-readable)
 
 - binary ops (and, or, xor, modulo, exponent)
+- exponent precedence?

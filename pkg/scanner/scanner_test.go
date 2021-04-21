@@ -20,14 +20,16 @@ func TestParseToken(t *testing.T) {
 		token.ADD, token.SUB, token.MUL, token.QUO,
 		token.LPAREN, token.RPAREN,
 		token.SHL, token.SHR,
-		token.AND, token.OR, token.XOR, token.REM, token.VAR,
+		token.AND, token.OR, token.XOR, token.REM, token.EXP,
+		token.VAR,
 	}
 	have := make([]token.Token, 0)
 	text := `
 		+ - * /
 		( )
 		<< >>
-		and or xor mod foobar
+		and or xor mod pow
+		foobar
 	`
 	s := New(text)
 	for s.Scan() {
