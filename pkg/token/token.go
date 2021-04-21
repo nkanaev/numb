@@ -5,9 +5,9 @@ type Token int
 const (
 	Illegal Token = iota
 
-	OR  // |
-	XOR // ^
-	AND // &
+	OR  // or
+	XOR // xor
+	AND // and
 	SHL // <<
 	SHR // >>
 
@@ -15,11 +15,13 @@ const (
 	SUB // -
 	MUL // *
 	QUO // /
+	REM // mod
 
 	LPAREN // (
 	RPAREN // )
 
 	NUM
+	VAR
 )
 
 func (t Token) String() string {
@@ -53,17 +55,16 @@ func (t Token) Precedence() int {
 	switch t {
 	case ADD, SUB, OR, XOR:
 		return 1
-	case MUL, QUO, SHL, SHR, AND:
-		return 5
+	case MUL, QUO, REM, SHL, SHR, AND:
+		return 2
 	}
 	return LowestPrec
 }
 
 var TokenString = map[string]Token{
-	"|": OR,
-	"^": XOR,
-
-	"&":  AND,
+	"or": OR,
+	"xor": XOR,
+	"and": AND,
 	"<<": SHL,
 	">>": SHR,
 
@@ -71,4 +72,5 @@ var TokenString = map[string]Token{
 	"-": SUB,
 	"*": MUL,
 	"/": QUO,
+	"mod": REM,
 }

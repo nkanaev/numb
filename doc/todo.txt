@@ -10,7 +10,4 @@
 - format vs. unit conversion ambiguity
 - formats (sci/hex/oct/human-readable)
 
-- decide on syntax:
-  % modulo/percentage?
-  ^ exponent/xor?
 - binary ops (and, or, xor, modulo, exponent)

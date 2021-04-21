@@ -66,6 +66,21 @@ func (s *Scanner) next() {
 		case '>':
 			s.Token = token.SHR
 		}
+	case unicode.IsLetter(ch):
+		letters := make([]rune, 0)
+		for unicode.IsLetter(ch) || unicode.IsNumber(ch) {
+			letters = append(letters, ch)
+			s.nextChar()
+			ch = s.char()
+		}
+		word := string(letters)
+		if tok, ok := token.TokenString[word]; ok {
+			s.Token = tok
+			s.Value = word
+		} else {
+			s.Token = token.VAR
+			s.Value = word
+		}
 	default:
 		s.Token = token.Illegal
 	}
