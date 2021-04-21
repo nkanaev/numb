@@ -35,6 +35,16 @@ func (n *BinOP) Eval(env map[string]value.Value) value.Value {
 		return n.Lhs.Eval(env).Lsh(n.Rhs.Eval(env))
 	case token.SHR:
 		return n.Lhs.Eval(env).Rsh(n.Rhs.Eval(env))
+	case token.AND:
+		return n.Lhs.Eval(env).And(n.Rhs.Eval(env))
+	case token.OR:
+		return n.Lhs.Eval(env).Or(n.Rhs.Eval(env))
+	case token.XOR:
+		return n.Lhs.Eval(env).Xor(n.Rhs.Eval(env))
+	case token.REM:
+		return n.Lhs.Eval(env).Rem(n.Rhs.Eval(env))
+	case token.EXP:
+		return n.Lhs.Eval(env).Exp(n.Rhs.Eval(env))
 	}
 	return value.NewInt(0)
 }

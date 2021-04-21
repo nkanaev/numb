@@ -56,7 +56,7 @@ func (t Token) Precedence() int {
 	switch t {
 	case ADD, SUB, OR, XOR:
 		return 1
-	case MUL, QUO, REM, SHL, SHR, AND:
+	case MUL, QUO, REM, SHL, SHR, AND, EXP:
 		return 2
 	}
 	return LowestPrec

@@ -48,6 +48,36 @@ func (a Value) Rsh(b Value) Value {
 	return Value{Num: num}
 }
 
+func (a Value) And(b Value) Value {
+	num := big.NewRat(1, 1)
+	num.Num().And(a.Num.Num(), b.Num.Num())
+	return Value{Num: num}
+}
+
+func (a Value) Or(b Value) Value {
+	num := big.NewRat(1, 1)
+	num.Num().Or(a.Num.Num(), b.Num.Num())
+	return Value{Num: num}
+}
+
+func (a Value) Xor(b Value) Value {
+	num := big.NewRat(1, 1)
+	num.Num().Xor(a.Num.Num(), b.Num.Num())
+	return Value{Num: num}
+}
+
+func (a Value) Rem(b Value) Value {
+	num := big.NewRat(1, 1)
+	num.Num().Rem(a.Num.Num(), b.Num.Num())
+	return Value{Num: num}
+}
+
+func (a Value) Exp(b Value) Value {
+	num := big.NewRat(1, 1)
+	num.Num().Exp(a.Num.Num(), b.Num.Num(), nil)
+	return Value{Num: num}
+}
+
 func (a Value) String() string {
 	return a.Num.RatString()
 }

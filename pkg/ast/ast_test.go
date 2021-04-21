@@ -27,6 +27,11 @@ func TestASTBinOPEval(t *testing.T) {
 		{"3", token.QUO},
 		{"24", token.SHL},
 		{"1", token.SHR},
+		{"2", token.AND},
+		{"6", token.OR},
+		{"4", token.XOR},
+		{"0", token.REM},
+		{"36", token.EXP},
 	}
 	for _, testcase := range testcases {
 		root := &BinOP{Lhs: value.NewInt(6), Rhs: value.NewInt(2), Op: testcase.tok}
