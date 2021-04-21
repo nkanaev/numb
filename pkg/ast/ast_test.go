@@ -17,10 +17,21 @@ func TestASTConst(t *testing.T) {
 }
 
 func TestASTBinOPEval(t *testing.T) {
-	root := &BinOP{Lhs: value.NewInt(2), Rhs: value.NewInt(3), Op: scanner.ADD}	
-	have := root.Eval(nil).String()
-	want := "5"
-	if have != want {
-		t.Fatalf("\nwant: %s\nhave: %s", want, have)
+	testcases := []struct {
+		str string
+		tok scanner.Token
+	}{
+		{"8", scanner.ADD},
+		{"4", scanner.SUB},
+		{"12", scanner.MUL},
+		{"3", scanner.QUO},
+	}
+	for _, testcase := range testcases {
+		root := &BinOP{Lhs: value.NewInt(6), Rhs: value.NewInt(2), Op: testcase.tok}
+		have := root.Eval(nil).String()
+		want := testcase.str
+		if have != want {
+			t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", root, want, have)
+		}
 	}
 }

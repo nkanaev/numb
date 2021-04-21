@@ -29,6 +29,12 @@ func (n *BinOP) Eval(env map[string]value.Value) value.Value {
 	switch n.Op {
 	case scanner.ADD:
 		return n.Lhs.Eval(env).Add(n.Rhs.Eval(env))
+	case scanner.SUB:
+		return n.Lhs.Eval(env).Sub(n.Rhs.Eval(env))
+	case scanner.MUL:
+		return n.Lhs.Eval(env).Mul(n.Rhs.Eval(env))
+	case scanner.QUO:
+		return n.Lhs.Eval(env).Quo(n.Rhs.Eval(env))
 	}
 	return value.NewInt(0)
 }
