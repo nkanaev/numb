@@ -2,7 +2,7 @@ package scanner
 
 import (
 	"unicode"
-	
+
 	"github.com/nkanaev/numb/pkg/token"
 )
 
@@ -16,7 +16,7 @@ type Scanner struct {
 
 func New(line string) *Scanner {
 	return &Scanner{
-		src: []rune(line),
+		src:   []rune(line),
 		Token: token.Illegal,
 	}
 }

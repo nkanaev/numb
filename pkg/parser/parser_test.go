@@ -40,7 +40,7 @@ func TestParserParen(t *testing.T) {
 	want := &ast.BinOP{
 		Lhs: &ast.ParenExpr{Expr: &ast.BinOP{Lhs: value.NewInt(1), Rhs: value.NewInt(2), Op: token.ADD}},
 		Rhs: value.NewInt(3),
-		Op: token.MUL,
+		Op:  token.MUL,
 	}
 	if !reflect.DeepEqual(want, have) {
 		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)

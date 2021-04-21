@@ -37,7 +37,7 @@ func (t Token) String() string {
 		if tok == t {
 			return str
 		}
-	}	
+	}
 
 	if t == LPAREN {
 		return "("
@@ -63,16 +63,16 @@ func (t Token) Precedence() int {
 }
 
 var TokenString = map[string]Token{
-	"or": OR,
+	"or":  OR,
 	"xor": XOR,
 	"and": AND,
-	"<<": SHL,
-	">>": SHR,
+	"<<":  SHL,
+	">>":  SHR,
 
-	"+": ADD,
-	"-": SUB,
-	"*": MUL,
-	"/": QUO,
+	"+":   ADD,
+	"-":   SUB,
+	"*":   MUL,
+	"/":   QUO,
 	"mod": REM,
 
 	"pow": EXP,

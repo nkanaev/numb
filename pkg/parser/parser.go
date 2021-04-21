@@ -30,7 +30,7 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 	case token.NUM:
 		p.s.Scan()
 		return value.Parse(p.s.Value)
-	}	
+	}
 	fmt.Println(p.s.Token)
 	panic("die")
 }
@@ -60,7 +60,7 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 }
 
 func (p *parser) parseExpr() ast.Node {
-	return p.parseBinaryExpr(token.LowestPrec+1)
+	return p.parseBinaryExpr(token.LowestPrec + 1)
 }
 
 func Parse(line string) ast.Node {
