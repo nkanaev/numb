@@ -2,9 +2,6 @@ operator predecence (high to low):
 
     *  /  %  <<  >>  &
     +  -  |  ^
-    ==  !=  <  <=  >  >=
-    &&
-    ||
 
 grammar:
 
