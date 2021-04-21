@@ -14,7 +14,7 @@ type Node interface {
 
 type BinOP struct {
 	Lhs, Rhs Node
-	Op token.Token
+	Op       token.Token
 }
 
 func (n *BinOP) String() string {
@@ -50,7 +50,7 @@ func (n *BinOP) Eval(env map[string]value.Value) value.Value {
 }
 
 type ParenExpr struct {
-	Expr Node	
+	Expr Node
 }
 
 func (n *ParenExpr) Eval(env map[string]value.Value) value.Value {
@@ -59,4 +59,20 @@ func (n *ParenExpr) Eval(env map[string]value.Value) value.Value {
 
 func (n *ParenExpr) String() string {
 	return "(" + n.Expr.String() + ")"
+}
+
+type Unary struct {
+	Op   token.Token
+	Expr Node
+}
+
+func (n *Unary) Eval(env map[string]value.Value) value.Value {
+	if n.Op == token.SUB {
+		return n.Expr.Eval(env).Neg()
+	}
+	return n.Expr.Eval(env)
+}
+
+func (n *Unary) String() string {
+	return n.Op.String() + n.Expr.String()
 }

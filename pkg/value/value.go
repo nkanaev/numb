@@ -78,6 +78,10 @@ func (a Value) Exp(b Value) Value {
 	return Value{Num: num}
 }
 
+func (a Value) Neg() Value {
+	return Value{Num: new(big.Rat).Neg(a.Num)}
+}
+
 func (a Value) String() string {
 	return a.Num.RatString()
 }

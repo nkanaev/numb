@@ -1,5 +1,4 @@
 - numeric types (float, hex/oct/bin)
-- unary
 - variables
 - constants
 - precision settings

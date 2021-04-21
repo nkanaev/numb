@@ -46,3 +46,12 @@ func TestParserParen(t *testing.T) {
 		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
 	}
 }
+
+func TestParserUnary(t *testing.T) {
+	expr := "-100"
+	have := Parse(expr)
+	want := &ast.Unary{Op: token.SUB, Expr: value.NewInt(100)}
+	if !reflect.DeepEqual(want, have) {
+		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
+	}
+}

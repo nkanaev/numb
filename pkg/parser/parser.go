@@ -36,6 +36,11 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 }
 
 func (p *parser) parseUnaryExpr() ast.Node {
+	if p.s.Token == token.ADD || p.s.Token == token.SUB {
+		tok := p.s.Token
+		p.s.Scan()
+		return &ast.Unary{Op: tok, Expr: p.parseExpr()}
+	}
 	return p.parsePrimaryExpr()
 }
 
