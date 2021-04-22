@@ -28,8 +28,9 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		p.expect(token.RPAREN)
 		return &ast.ParenExpr{Expr: expr}
 	case token.NUM:
+		val := p.s.Value
 		p.s.Scan()
-		return value.Parse(p.s.Value)
+		return value.Parse(val)
 	}
 	fmt.Println(p.s.Token)
 	panic("die")

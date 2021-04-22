@@ -55,3 +55,16 @@ func TestParserUnary(t *testing.T) {
 		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
 	}
 }
+
+func TestParseBitOps(t *testing.T) {
+	expr := "0b101 and 0b111"
+	have := Parse(expr)
+	want := &ast.BinOP{
+		Lhs: value.NewInt(5),
+		Rhs: value.NewInt(7),
+		Op:  token.AND,
+	}
+	if !reflect.DeepEqual(want, have) {
+		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
+	}
+}

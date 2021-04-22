@@ -45,6 +45,9 @@ func (t Token) String() string {
 	if t == RPAREN {
 		return ")"
 	}
+	if t == VAR {
+		return "VAR"
+	}
 	return "???"
 }
 

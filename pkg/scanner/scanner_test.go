@@ -8,10 +8,21 @@ import (
 )
 
 func TestParseNumber(t *testing.T) {
-	p := New(" 123")
-	p.Scan()
-	if p.Token != token.NUM || p.Value != "123" {
-		t.Errorf("\nwant: %s (%#v)\nhave: %s (%#v)", token.NUM, "123", p.Token, p.Value)
+	text := " 123 0b101 0x123 0123 0o123"
+	want := []string{"123", "0b101", "0x123", "123", "0o123"}
+	have := make([]string, 0)
+
+	s := New(text)
+	for s.Scan() {
+		if s.Token != token.NUM {
+			t.Log(s.Value)
+			t.Fatalf("expected %s, got %s", token.NUM, s.Token)
+		}
+		have = append(have, s.Value)
+	}
+
+	if !reflect.DeepEqual(want, have) {
+		t.Fatalf("\nwant: %s\nhave: %s", want, have)
 	}
 }
 

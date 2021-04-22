@@ -1,6 +1,7 @@
 package scanner
 
 import (
+	"strings"
 	"unicode"
 
 	"github.com/nkanaev/numb/pkg/token"
@@ -38,11 +39,31 @@ func (s *Scanner) next() {
 	ch := s.char()
 	switch {
 	case unicode.IsDigit(ch):
-		start := s.cur
-		for ; unicode.IsDigit(s.char()); s.nextChar() {
+		accept := "0123456789"
+		prefix := ""
+		digits := make([]rune, 0)
+		if ch == '0' {
+			s.nextChar()
+			ch = s.char()
+			if ch == 'b' {
+				prefix = "0b"
+				accept = "01"
+				s.nextChar()
+			} else if ch == 'x' {
+				prefix = "0x"
+				accept = "0123456789abcdefABCDEF"
+				s.nextChar()
+			} else if ch == 'o' {
+				prefix = "0o"
+				accept = "01234567"
+				s.nextChar()
+			}
+		}
+		for ; strings.ContainsRune(accept, s.char()); s.nextChar() {
+			digits = append(digits, s.char())
 		}
 		s.Token = token.NUM
-		s.Value = string(s.src[start:s.cur])
+		s.Value = prefix + string(digits)
 	case ch == '(':
 		s.Token = token.LPAREN
 		s.nextChar()

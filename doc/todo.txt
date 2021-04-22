@@ -1,4 +1,4 @@
-- numeric types (float, hex/oct/bin)
+- floating point numbers
 - variables
 - constants
 - precision settings
