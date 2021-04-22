@@ -5,5 +5,4 @@
 - functions
 - units & unit conversion
 
-- format vs. unit conversion ambiguity
-- formats (sci/hex/oct/human-readable)
+- formats (sci/rat/human-readable)

@@ -11,6 +11,8 @@ type Value struct {
 	Fmt NumeralSystem
 }
 
+// TODO: fix all Rat.Num() to int(Rat)
+
 func NewInt(x int64) Value {
 	return Value{Num: big.NewRat(x, 1)}
 }

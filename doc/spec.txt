@@ -1,0 +1,22 @@
+operator predecence (high to low):
+
+    *  /  <<  >>  and  mod
+    +  -  or  xor
+    as to
+
+grammar:
+
+    expr → expr op expr
+    expr → expr unit
+    expr → `+` | `-` expr
+    expr → `(` expr `)`
+    expr → num
+    expr → expr `as` fmt
+    expr → expr `to` unit
+    expr → var
+    expr → var `=` expr
+
+    op   → `+` | `-` | `*` ...
+    fmt  → `dec` | `hex` | `oct` | `bin`
+    num  → ???
+    unit → ???
