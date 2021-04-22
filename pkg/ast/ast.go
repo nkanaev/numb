@@ -107,3 +107,16 @@ func (n *Var) Eval(env map[string]value.Value) value.Value {
 func (n *Var) String() string {
 	return n.Name
 }
+
+type Format struct {
+	Expr Node
+	Fmt  value.NumeralSystem
+}
+
+func (n *Format) Eval(env map[string]value.Value) value.Value {
+	return n.Expr.Eval(env).As(n.Fmt)
+}
+
+func (n *Format) String() string {
+	return n.Expr.String() + " as " + n.Fmt.String()
+}

@@ -93,3 +93,15 @@ func TestParseVar(t *testing.T) {
 		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
 	}
 }
+
+func TestParseFormat(t *testing.T) {
+	expr := "123 as hex"
+	have := Parse(expr)
+	want := &ast.Format{
+		Expr: value.NewInt(123),
+		Fmt:  value.HEX,
+	}
+	if !reflect.DeepEqual(want, have) {
+		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
+	}
+}

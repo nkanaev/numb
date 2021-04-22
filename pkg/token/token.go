@@ -25,6 +25,8 @@ const (
 
 	NUM
 	VAR
+
+	KEYWORD
 )
 
 func (t Token) String() string {
@@ -52,6 +54,9 @@ func (t Token) String() string {
 	}
 	if t == ASSIGN {
 		return "ASSIGN"
+	}
+	if t == KEYWORD {
+		return "KEYWORD"
 	}
 	return "???"
 }
@@ -84,4 +89,14 @@ var TokenString = map[string]Token{
 	"mod": REM,
 
 	"pow": EXP,
+}
+
+var Keywords = map[string]int {
+	"as": 1,
+	"to": 1,
+}
+
+func IsKeyword(x string) bool {
+	_, ok := Keywords[x]
+	return ok
 }

@@ -101,6 +101,9 @@ func (s *Scanner) next() {
 		if tok, ok := token.TokenString[word]; ok {
 			s.Token = tok
 			s.Value = word
+		} else if token.IsKeyword(word) {
+			s.Token = token.KEYWORD
+			s.Value = word
 		} else {
 			s.Token = token.VAR
 			s.Value = word
@@ -111,6 +114,7 @@ func (s *Scanner) next() {
 }
 
 func (s *Scanner) Scan() bool {
+	s.Value = ""
 	s.next()
 	return s.Token != token.Illegal
 }

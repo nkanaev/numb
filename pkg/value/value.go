@@ -6,18 +6,8 @@ import (
 	"strings"
 )
 
-type NumeralSystem int
-
-const (
-	DEC NumeralSystem = iota
-	HEX
-	OCT
-	BIN
-	RAT
-)
-
 type Value struct {
-	Num  *big.Rat
+	Num *big.Rat
 	Fmt NumeralSystem
 }
 
@@ -103,6 +93,11 @@ func (a Value) Exp(b Value) Value {
 
 func (a Value) Neg() Value {
 	return Value{Num: new(big.Rat).Neg(a.Num), Fmt: a.Fmt}
+}
+
+func (a Value) As(n NumeralSystem) Value {
+	a.Fmt = n
+	return a
 }
 
 func (a Value) String() string {

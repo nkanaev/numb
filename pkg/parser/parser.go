@@ -20,7 +20,7 @@ func (p *parser) expect(t token.Token) {
 	p.s.Scan()
 }
 
-func (p *parser) parsePrimaryExpr() ast.Node {
+func (p *parser) parseOperand() ast.Node {
 	switch p.s.Token {
 	case token.LPAREN:
 		p.s.Scan()
@@ -43,6 +43,27 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 	}
 	fmt.Println(p.s.Token)
 	panic("die")
+}
+
+func (p *parser) parsePrimaryExpr() ast.Node {
+	expr := p.parseOperand()
+	for {
+		if p.s.Token == token.KEYWORD && p.s.Value == "as" {
+			p.expect(token.KEYWORD)
+			if p.s.Token != token.VAR {
+				panic("expected format")
+			}
+			f, ok := value.StringToNumeral[p.s.Value]
+			if !ok {
+				panic("unknown format: " + p.s.Value)
+			}
+			expr = &ast.Format{Expr: expr, Fmt: f}
+			p.expect(token.VAR)
+			continue
+		}
+		break
+	}
+	return expr
 }
 
 func (p *parser) parseUnaryExpr() ast.Node {

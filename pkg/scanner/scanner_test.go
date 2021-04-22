@@ -56,3 +56,21 @@ func TestParseToken(t *testing.T) {
 		t.Fatal("expected to return false")
 	}
 }
+
+func TestParseKeywords(t *testing.T) {
+	want := []string{"as", "to"}
+	have := make([]string, 0)
+	text := " as to"
+	
+	s := New(text)
+	for s.Scan() {
+		if s.Token != token.KEYWORD {
+			t.Fatalf("expected %s, got %s", token.KEYWORD, s.Token)
+		}
+		have = append(have, s.Value)
+	}
+
+	if !reflect.DeepEqual(want, have) {
+		t.Fatalf("\nwant: %s\nhave: %s", want, have)
+	}
+}
