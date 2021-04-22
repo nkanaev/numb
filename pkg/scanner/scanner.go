@@ -64,6 +64,9 @@ func (s *Scanner) next() {
 		}
 		s.Token = token.NUM
 		s.Value = prefix + string(digits)
+	case ch == '=':
+		s.Token = token.ASSIGN
+		s.nextChar()
 	case ch == '(':
 		s.Token = token.LPAREN
 		s.nextChar()

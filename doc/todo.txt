@@ -1,5 +1,4 @@
 - floating point numbers
-- variables
 - constants
 - precision settings
 - time

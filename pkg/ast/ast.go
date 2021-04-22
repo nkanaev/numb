@@ -76,3 +76,34 @@ func (n *Unary) Eval(env map[string]value.Value) value.Value {
 func (n *Unary) String() string {
 	return n.Op.String() + n.Expr.String()
 }
+
+type Assign struct {
+	Name string
+	Expr Node
+}
+
+func (n *Assign) Eval(env map[string]value.Value) value.Value {
+	val := n.Expr.Eval(env)
+	env[n.Name] = val
+	return val
+}
+
+func (n *Assign) String() string {
+	return n.Name + " = " + n.Expr.String()
+}
+
+type Var struct {
+	Name string
+}
+
+func (n *Var) Eval(env map[string]value.Value) value.Value {
+	val, ok := env[n.Name]
+	if !ok {
+		panic(n.Name +" not defined")
+	}
+	return val
+}
+
+func (n *Var) String() string {
+	return n.Name
+}

@@ -31,6 +31,15 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		val := p.s.Value
 		p.s.Scan()
 		return value.Parse(val)
+	case token.VAR:
+		name := p.s.Value
+		p.expect(token.VAR)
+		if p.s.Token == token.ASSIGN {
+			p.expect(token.ASSIGN)
+			expr := p.parseExpr()
+			return &ast.Assign{Name: name, Expr: expr}
+		}
+		return &ast.Var{Name: name}
 	}
 	fmt.Println(p.s.Token)
 	panic("die")

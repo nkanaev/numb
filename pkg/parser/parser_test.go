@@ -68,3 +68,28 @@ func TestParseBitOps(t *testing.T) {
 		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
 	}
 }
+
+func TestParseAssign(t *testing.T) {
+	expr := "foo = 123"
+	have := Parse(expr)
+	want := &ast.Assign{
+		Name: "foo",
+		Expr: value.NewInt(123),
+	}
+	if !reflect.DeepEqual(want, have) {
+		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
+	}
+}
+
+func TestParseVar(t *testing.T) {
+	expr := "foo + 123"
+	have := Parse(expr)
+	want := &ast.BinOP{
+		Lhs: &ast.Var{Name: "foo"},
+		Rhs: value.NewInt(123),
+		Op:  token.ADD,
+	}
+	if !reflect.DeepEqual(want, have) {
+		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
+	}
+}

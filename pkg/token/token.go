@@ -21,6 +21,8 @@ const (
 	LPAREN // (
 	RPAREN // )
 
+	ASSIGN // =
+
 	NUM
 	VAR
 )
@@ -47,6 +49,9 @@ func (t Token) String() string {
 	}
 	if t == VAR {
 		return "VAR"
+	}
+	if t == ASSIGN {
+		return "ASSIGN"
 	}
 	return "???"
 }
