@@ -91,5 +91,6 @@ func Parse(line string) ast.Node {
 	s := scanner.New(line)
 	p := &parser{s: s}
 	s.Scan()
+	// TODO: check for trailing chars
 	return p.parseExpr()
 }
