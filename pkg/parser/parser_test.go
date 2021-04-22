@@ -60,8 +60,8 @@ func TestParseBitOps(t *testing.T) {
 	expr := "0b101 and 0b111"
 	have := Parse(expr)
 	want := &ast.BinOP{
-		Lhs: value.NewInt(5),
-		Rhs: value.NewInt(7),
+		Lhs: value.NewInt(5).As(value.BIN),
+		Rhs: value.NewInt(7).As(value.BIN),
 		Op:  token.AND,
 	}
 	if !reflect.DeepEqual(want, have) {
