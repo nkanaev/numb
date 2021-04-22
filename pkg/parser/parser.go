@@ -20,7 +20,7 @@ func (p *parser) expect(t token.Token) {
 	p.s.Scan()
 }
 
-func (p *parser) parseOperand() ast.Node {
+func (p *parser) parsePrimaryExpr() ast.Node {
 	switch p.s.Token {
 	case token.LPAREN:
 		p.s.Scan()
@@ -45,27 +45,6 @@ func (p *parser) parseOperand() ast.Node {
 	panic("die")
 }
 
-func (p *parser) parsePrimaryExpr() ast.Node {
-	expr := p.parseOperand()
-	for {
-		if p.s.Token == token.KEYWORD && p.s.Value == "as" {
-			p.expect(token.KEYWORD)
-			if p.s.Token != token.VAR {
-				panic("expected format")
-			}
-			f, ok := value.StringToNumeral[p.s.Value]
-			if !ok {
-				panic("unknown format: " + p.s.Value)
-			}
-			expr = &ast.Format{Expr: expr, Fmt: f}
-			p.expect(token.VAR)
-			continue
-		}
-		break
-	}
-	return expr
-}
-
 func (p *parser) parseUnaryExpr() ast.Node {
 	if p.s.Token == token.ADD || p.s.Token == token.SUB {
 		tok := p.s.Token
@@ -83,9 +62,23 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 			break
 		}
 		tok := p.s.Token
-		p.s.Scan()
-		rhs := p.parseBinaryExpr(prec + 1)
-		lhs = &ast.BinOP{Lhs: lhs, Rhs: rhs, Op: tok}
+		switch tok {
+		case token.AS:
+			p.expect(token.AS)
+			if p.s.Token != token.VAR {
+				panic("expected format")
+			}
+			f, ok := value.StringToNumeral[p.s.Value]
+			if !ok {
+				panic("unknown format: " + p.s.Value)
+			}
+			lhs = &ast.Format{Expr: lhs, Fmt: f}
+			p.expect(token.VAR)
+		default:
+			p.s.Scan()
+			rhs := p.parseBinaryExpr(prec + 1)
+			lhs = &ast.BinOP{Lhs: lhs, Rhs: rhs, Op: tok}
+		}
 	}
 	return lhs
 }

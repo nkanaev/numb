@@ -74,7 +74,7 @@ func (s *Scanner) next() {
 		s.Token = token.RPAREN
 		s.nextChar()
 	case ch == '*' || ch == '/' || ch == '+' || ch == '-':
-		s.Token = token.TokenString[string(ch)]
+		s.Token = token.StringToOperator[string(ch)]
 		s.nextChar()
 	case ch == '<' || ch == '>':
 		s.nextChar()
@@ -98,12 +98,13 @@ func (s *Scanner) next() {
 			ch = s.char()
 		}
 		word := string(letters)
-		if tok, ok := token.TokenString[word]; ok {
+		if tok, ok := token.StringToOperator[word]; ok {
 			s.Token = tok
 			s.Value = word
-		} else if token.IsKeyword(word) {
-			s.Token = token.KEYWORD
-			s.Value = word
+		} else if word == "as" {
+			s.Token = token.AS
+		} else if word == "to" {
+			s.Token = token.TO
 		} else {
 			s.Token = token.VAR
 			s.Value = word

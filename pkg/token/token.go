@@ -5,6 +5,7 @@ type Token int
 const (
 	Illegal Token = iota
 
+	operator_beg
 	OR  // or
 	XOR // xor
 	AND // and
@@ -17,6 +18,7 @@ const (
 	QUO // /
 	REM // mod
 	EXP // pow
+	operator_end
 
 	LPAREN // (
 	RPAREN // )
@@ -26,39 +28,40 @@ const (
 	NUM
 	VAR
 
-	KEYWORD
+	AS
+	TO
 )
 
+var tokenToString = map[Token]string{
+	Illegal: "ILLEGAL",
+
+	OR: "OR",
+	XOR: "XOR",
+	AND: "AND",
+	SHL: "<<",
+	SHR: ">>",
+
+	ADD: "+",
+	SUB: "-",
+	MUL: "*",
+	QUO: "/",
+	REM: "mod",
+	EXP: "pow",
+
+	LPAREN: "(",
+	RPAREN: ")",
+
+	ASSIGN: "=",
+
+	NUM: "NUM",
+	VAR: "VAR",
+
+	AS: "as",
+	TO: "to",
+}
+
 func (t Token) String() string {
-	if t == Illegal {
-		return "ILLEGAL"
-	}
-	if t == NUM {
-		return "NUM"
-	}
-
-	for str, tok := range TokenString {
-		if tok == t {
-			return str
-		}
-	}
-
-	if t == LPAREN {
-		return "("
-	}
-	if t == RPAREN {
-		return ")"
-	}
-	if t == VAR {
-		return "VAR"
-	}
-	if t == ASSIGN {
-		return "ASSIGN"
-	}
-	if t == KEYWORD {
-		return "KEYWORD"
-	}
-	return "???"
+	return tokenToString[t]
 }
 
 const (
@@ -67,15 +70,17 @@ const (
 
 func (t Token) Precedence() int {
 	switch t {
-	case ADD, SUB, OR, XOR:
+	case TO, AS:
 		return 1
-	case MUL, QUO, REM, SHL, SHR, AND, EXP:
+	case ADD, SUB, OR, XOR:
 		return 2
+	case MUL, QUO, REM, SHL, SHR, AND, EXP:
+		return 3
 	}
 	return LowestPrec
 }
 
-var TokenString = map[string]Token{
+var StringToOperator = map[string]Token{
 	"or":  OR,
 	"xor": XOR,
 	"and": AND,
@@ -91,12 +96,8 @@ var TokenString = map[string]Token{
 	"pow": EXP,
 }
 
-var Keywords = map[string]int {
-	"as": 1,
-	"to": 1,
-}
-
-func IsKeyword(x string) bool {
-	_, ok := Keywords[x]
-	return ok
+func init() {
+	for x := operator_beg + 1; x < operator_end; x++ {
+		StringToOperator[x.String()] = x
+	}
 }

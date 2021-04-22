@@ -95,13 +95,17 @@ func TestParseVar(t *testing.T) {
 }
 
 func TestParseFormat(t *testing.T) {
-	expr := "123 as hex"
+	expr := "10 + 1 as hex"
 	have := Parse(expr)
 	want := &ast.Format{
-		Expr: value.NewInt(123),
+		Expr: &ast.BinOP{
+			Lhs: value.NewInt(10),
+			Rhs: value.NewInt(1),
+			Op:  token.ADD,
+		},
 		Fmt:  value.HEX,
 	}
 	if !reflect.DeepEqual(want, have) {
-		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
+		t.Errorf("\nexpr: %s\nwant: %#v\nhave: %#v", expr, want, have)
 	}
 }
