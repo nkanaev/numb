@@ -57,13 +57,27 @@ func (p *parser) parseUnaryExpr() ast.Node {
 func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 	lhs := p.parseUnaryExpr()
 	for {
-		prec := p.s.Token.Precedence()
+		tok := p.s.Token
+		prec := tok.Precedence()
 		if prec < prec1 {
 			break
 		}
+		p.s.Scan()
+		rhs := p.parseBinaryExpr(prec + 1)
+		lhs = &ast.BinOP{Lhs: lhs, Rhs: rhs, Op: tok}
+	}
+	return lhs
+}
+
+func (p *parser) parseExpr() ast.Node {
+	return p.parseBinaryExpr(token.LowestPrec + 1)
+}
+
+func (p *parser) parseRoot() ast.Node {
+	lhs := p.parseExpr()
+	for {
 		tok := p.s.Token
-		switch tok {
-		case token.AS:
+		if tok == token.AS {
 			p.expect(token.AS)
 			if p.s.Token != token.VAR {
 				panic("expected format")
@@ -74,17 +88,11 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 			}
 			lhs = &ast.Format{Expr: lhs, Fmt: f}
 			p.expect(token.VAR)
-		default:
-			p.s.Scan()
-			rhs := p.parseBinaryExpr(prec + 1)
-			lhs = &ast.BinOP{Lhs: lhs, Rhs: rhs, Op: tok}
+			continue
 		}
+		break
 	}
 	return lhs
-}
-
-func (p *parser) parseExpr() ast.Node {
-	return p.parseBinaryExpr(token.LowestPrec + 1)
 }
 
 func Parse(line string) ast.Node {
@@ -92,5 +100,5 @@ func Parse(line string) ast.Node {
 	p := &parser{s: s}
 	s.Scan()
 	// TODO: check for trailing chars
-	return p.parseExpr()
+	return p.parseRoot()
 }

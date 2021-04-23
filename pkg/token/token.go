@@ -70,12 +70,10 @@ const (
 
 func (t Token) Precedence() int {
 	switch t {
-	case TO, AS:
-		return 1
 	case ADD, SUB, OR, XOR:
-		return 2
+		return 1
 	case MUL, QUO, REM, SHL, SHR, AND, EXP:
-		return 3
+		return 2
 	}
 	return LowestPrec
 }

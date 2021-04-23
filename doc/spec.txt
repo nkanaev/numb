@@ -6,13 +6,15 @@ operator predecence (high to low):
 
 grammar:
 
+    root → root `as` fmt
+    root → root `to` unit
+    root → expr
+
     expr → expr op expr
     expr → expr unit
     expr → `+` | `-` expr
     expr → `(` expr `)`
     expr → num
-    expr → expr `as` fmt
-    expr → expr `to` unit
     expr → var
     expr → var `=` expr
 
