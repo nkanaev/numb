@@ -12,8 +12,6 @@ type Value struct {
 	Prec int
 }
 
-// TODO: fix all Rat.Num() to int(Rat)
-
 func toInt(x *big.Rat) *big.Int {
 	return new(big.Int).Div(x.Num(), x.Denom())
 }
