@@ -14,6 +14,10 @@ type Value struct {
 
 // TODO: fix all Rat.Num() to int(Rat)
 
+func toInt(x *big.Rat) *big.Int {
+	return new(big.Int).Div(x.Num(), x.Denom())
+}
+
 func NewInt(x int64) Value {
 	return Value{Num: big.NewRat(x, 1)}
 }
@@ -51,14 +55,14 @@ func (a Value) Quo(b Value) Value {
 }
 
 func (a Value) Lsh(b Value) Value {
-	ia, ib := a.Num.Num(), uint(b.Num.Num().Uint64())
+	ia, ib := toInt(a.Num), uint(toInt(b.Num).Uint64())
 	num := big.NewRat(1, 1)
 	num.Num().Lsh(ia, ib)
 	return Value{Num: num, Fmt: a.Fmt}
 }
 
 func (a Value) Rsh(b Value) Value {
-	ia, ib := a.Num.Num(), uint(b.Num.Num().Uint64())
+	ia, ib := toInt(a.Num), uint(toInt(b.Num).Uint64())
 	num := big.NewRat(1, 1)
 	num.Num().Rsh(ia, ib)
 	return Value{Num: num, Fmt: a.Fmt}
@@ -66,31 +70,31 @@ func (a Value) Rsh(b Value) Value {
 
 func (a Value) And(b Value) Value {
 	num := big.NewRat(1, 1)
-	num.Num().And(a.Num.Num(), b.Num.Num())
+	num.Num().And(toInt(a.Num), toInt(b.Num))
 	return Value{Num: num, Fmt: a.Fmt}
 }
 
 func (a Value) Or(b Value) Value {
 	num := big.NewRat(1, 1)
-	num.Num().Or(a.Num.Num(), b.Num.Num())
+	num.Num().Or(toInt(a.Num), toInt(b.Num))
 	return Value{Num: num, Fmt: a.Fmt}
 }
 
 func (a Value) Xor(b Value) Value {
 	num := big.NewRat(1, 1)
-	num.Num().Xor(a.Num.Num(), b.Num.Num())
+	num.Num().Xor(toInt(a.Num), toInt(b.Num))
 	return Value{Num: num, Fmt: a.Fmt}
 }
 
 func (a Value) Rem(b Value) Value {
 	num := big.NewRat(1, 1)
-	num.Num().Rem(a.Num.Num(), b.Num.Num())
+	num.Num().Rem(toInt(a.Num), toInt(b.Num))
 	return Value{Num: num, Fmt: a.Fmt}
 }
 
 func (a Value) Exp(b Value) Value {
 	num := big.NewRat(1, 1)
-	num.Num().Exp(a.Num.Num(), b.Num.Num(), nil)
+	num.Num().Exp(toInt(a.Num), toInt(b.Num), nil)
 	return Value{Num: num, Fmt: a.Fmt}
 }
 
@@ -118,13 +122,14 @@ func (a Value) String() string {
 		if prec == 0 {
 			prec = 4
 		}
+		// TODO: trailing zeros
 		return a.Num.FloatString(prec)
 	case HEX:
-		return fmt.Sprintf("%#x", a.Num.Num())
+		return fmt.Sprintf("%#x", toInt(a.Num))
 	case OCT:
-		return fmt.Sprintf("%O", a.Num.Num())
+		return fmt.Sprintf("%O", toInt(a.Num))
 	case BIN:
-		return fmt.Sprintf("%#b", a.Num.Num())
+		return fmt.Sprintf("%#b", toInt(a.Num))
 	case RAT:
 		return a.Num.String()
 	}
