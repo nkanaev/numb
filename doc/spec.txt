@@ -1,5 +1,6 @@
 operator predecence (high to low):
 
+    pow
     *  /  <<  >>  and  mod
     +  -  or  xor
 
