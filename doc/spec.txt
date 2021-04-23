@@ -2,7 +2,6 @@ operator predecence (high to low):
 
     *  /  <<  >>  and  mod
     +  -  or  xor
-    as to
 
 grammar:
 
