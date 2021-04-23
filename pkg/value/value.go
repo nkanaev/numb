@@ -7,8 +7,9 @@ import (
 )
 
 type Value struct {
-	Num *big.Rat
-	Fmt NumeralSystem
+	Num  *big.Rat
+	Fmt  NumeralSystem
+	Prec int
 }
 
 // TODO: fix all Rat.Num() to int(Rat)
@@ -102,16 +103,30 @@ func (a Value) As(n NumeralSystem) Value {
 	return a
 }
 
+func (a Value) WithPrec(p int) Value {
+	a.Prec = p
+	return a
+}
+
 func (a Value) String() string {
 	switch a.Fmt {
 	case DEC:
-		return a.Num.RatString()
+		if a.Num.IsInt() {
+			return a.Num.RatString()
+		}
+		prec := a.Prec
+		if prec == 0 {
+			prec = 4
+		}
+		return a.Num.FloatString(prec)
 	case HEX:
 		return fmt.Sprintf("%#x", a.Num.Num())
 	case OCT:
 		return fmt.Sprintf("%O", a.Num.Num())
 	case BIN:
 		return fmt.Sprintf("%#b", a.Num.Num())
+	case RAT:
+		return a.Num.String()
 	}
 	return a.Num.String()
 }

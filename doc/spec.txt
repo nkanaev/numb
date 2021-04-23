@@ -19,6 +19,6 @@ grammar:
     expr → var `=` expr
 
     op   → `+` | `-` | `*` ...
-    fmt  → `dec` | `hex` | `oct` | `bin`
+    fmt  → `dec` | `hex` | `oct` | `bin` | `rat`
     num  → ???
     unit → ???

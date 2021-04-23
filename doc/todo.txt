@@ -5,4 +5,4 @@
 - functions
 - units & unit conversion
 
-- formats (sci/rat/human-readable)
+- formats (sci/human-readable)
