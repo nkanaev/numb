@@ -62,6 +62,13 @@ func (s *Scanner) next() {
 		for ; strings.ContainsRune(accept, s.char()); s.nextChar() {
 			digits = append(digits, s.char())
 		}
+		if prefix == "" && s.char() == '.' {
+			digits = append(digits, s.char())
+			s.nextChar()
+			for ; strings.ContainsRune(accept, s.char()); s.nextChar() {
+				digits = append(digits, s.char())
+			}
+		}
 		s.Token = token.NUM
 		s.Value = prefix + string(digits)
 	case ch == '=':

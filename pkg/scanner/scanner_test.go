@@ -8,8 +8,8 @@ import (
 )
 
 func TestParseNumber(t *testing.T) {
-	text := " 123 0b101 0x123 0123 0o123"
-	want := []string{"123", "0b101", "0x123", "123", "0o123"}
+	text := " 123 0b101 0x123 0123 0o123 123.456"
+	want := []string{"123", "0b101", "0x123", "123", "0o123", "123.456"}
 	have := make([]string, 0)
 
 	s := New(text)
