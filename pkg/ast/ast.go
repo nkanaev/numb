@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/nkanaev/numb/pkg/token"
+	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
 )
 
@@ -125,4 +126,31 @@ func (n *Format) Eval(env map[string]value.Value) value.Value {
 
 func (n *Format) String() string {
 	return n.Expr.String() + " as " + n.Fmt.String()
+}
+
+type Unit struct {
+	Expr Node
+	Unit *unit.Unit
+}
+
+func (n *Unit) Eval(env map[string]value.Value) value.Value {
+	// TODO: cannot allow multiple units (`100 meter kilogram`)
+	return n.Expr.Eval(env).WithUnit(n.Unit)
+}
+
+func (n *Unit) String() string {
+	return n.Expr.String() + " " + n.Unit.String()
+}
+
+type Convert struct {
+	Expr Node
+	Unit *unit.Unit
+}
+
+func (n *Convert) Eval(env map[string]value.Value) value.Value {
+	return n.Expr.Eval(env).To(n.Unit)
+}
+
+func (n *Convert) String() string {
+	return n.Expr.String() + " to " + n.Unit.String()
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/scanner"
 	"github.com/nkanaev/numb/pkg/token"
+	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
 )
 
@@ -58,6 +59,17 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 	lhs := p.parseUnaryExpr()
 	for {
 		tok := p.s.Token
+
+		if tok == token.VAR {
+			u := unit.Get(p.s.Value)
+			if u == nil {
+				panic("unknown unit: " + p.s.Value)
+			}
+			p.s.Scan()
+			lhs = &ast.Unit{Expr: lhs, Unit: u}
+			continue
+		}
+
 		prec := tok.Precedence()
 		if prec < prec1 {
 			break
@@ -87,6 +99,19 @@ func (p *parser) parseRoot() ast.Node {
 				panic("unknown format: " + p.s.Value)
 			}
 			lhs = &ast.Format{Expr: lhs, Fmt: f}
+			p.expect(token.VAR)
+			continue
+		}
+		if tok == token.TO {
+			p.expect(token.TO)
+			if p.s.Token != token.VAR {
+				panic("expected unit")
+			}
+			u := unit.Get(p.s.Value)
+			if u == nil {
+				panic("unknown unit: " + p.s.Value)
+			}
+			lhs = &ast.Convert{Expr: lhs, Unit: u}
 			p.expect(token.VAR)
 			continue
 		}

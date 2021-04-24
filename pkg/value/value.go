@@ -4,12 +4,15 @@ import (
 	"fmt"
 	"math/big"
 	"strings"
+
+	"github.com/nkanaev/numb/pkg/unit"
 )
 
 type Value struct {
 	Num  *big.Rat
 	Fmt  NumeralSystem
 	Prec int
+	Unit *unit.Unit
 }
 
 func toInt(x *big.Rat) *big.Int {
@@ -36,6 +39,7 @@ func Parse(x string) Value {
 	return Value{Num: num, Fmt: base}
 }
 
+// TODO: preserve unit in do*
 func do(a, b Value, op func(*big.Rat, *big.Rat) *big.Rat) Value {
 	return Value{Num: op(a.Num, b.Num), Fmt: a.Fmt}
 }
@@ -109,33 +113,48 @@ func (a Value) As(n NumeralSystem) Value {
 	return a
 }
 
+func (a Value) To(u *unit.Unit) Value {
+	num := unit.Convert(a.Num, a.Unit, u)
+	return Value{Num: num, Fmt: a.Fmt, Unit: u}
+}
+
+func (a Value) WithUnit(u *unit.Unit) Value {
+	a.Unit = u
+	return a
+}
+
 func (a Value) WithPrec(p int) Value {
 	a.Prec = p
 	return a
 }
 
 func (a Value) String() string {
+	num := ""
 	switch a.Fmt {
 	case DEC:
 		if a.Num.IsInt() {
-			return a.Num.RatString()
+			num = a.Num.RatString()
+		} else {
+			prec := a.Prec
+			if prec == 0 {
+				prec = 4
+			}
+			// TODO: trailing zeros
+			num = a.Num.FloatString(prec)
 		}
-		prec := a.Prec
-		if prec == 0 {
-			prec = 4
-		}
-		// TODO: trailing zeros
-		return a.Num.FloatString(prec)
 	case HEX:
-		return fmt.Sprintf("%#x", toInt(a.Num))
+		num = fmt.Sprintf("%#x", toInt(a.Num))
 	case OCT:
-		return fmt.Sprintf("%O", toInt(a.Num))
+		num = fmt.Sprintf("%O", toInt(a.Num))
 	case BIN:
-		return fmt.Sprintf("%#b", toInt(a.Num))
+		num = fmt.Sprintf("%#b", toInt(a.Num))
 	case RAT:
-		return a.Num.String()
+		num = a.Num.String()
 	}
-	return a.Num.String()
+	if a.Unit != nil {
+		num += " " + a.Unit.String()
+	}
+	return num
 }
 
 func (a Value) Eval(map[string]Value) Value {

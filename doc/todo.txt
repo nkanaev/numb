@@ -1,6 +1,5 @@
 - precision settings
 - time
 - functions
-- units & unit conversion
 
 - formats (sci/human-readable)
