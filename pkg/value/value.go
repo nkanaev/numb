@@ -36,58 +36,62 @@ func Parse(x string) Value {
 	return Value{Num: num, Fmt: base}
 }
 
+func do(a, b Value, op func(*big.Rat, *big.Rat) *big.Rat) Value {
+	return Value{Num: op(a.Num, b.Num), Fmt: a.Fmt}
+}
+
+func doInt(a, b Value, op func(*big.Int, *big.Int) *big.Int) Value {
+	int := op(toInt(a.Num), toInt(b.Num))
+	rat := big.NewRat(1, 1)
+	rat.Num().Set(int)
+	return Value{Num: rat, Fmt: a.Fmt}
+}
+
+func doShift(a, b Value, op func(*big.Int, uint) *big.Int) Value {
+	ia, ib := toInt(a.Num), uint(toInt(b.Num).Uint64())
+	num := big.NewRat(1, 1)
+	num.Num().Set(op(ia, ib))
+	return Value{Num: num, Fmt: a.Fmt}
+}
+
 func (a Value) Mul(b Value) Value {
-	return Value{Num: new(big.Rat).Mul(a.Num, b.Num), Fmt: a.Fmt}
+	return do(a, b, new(big.Rat).Mul)
 }
 
 func (a Value) Add(b Value) Value {
-	return Value{Num: new(big.Rat).Add(a.Num, b.Num), Fmt: a.Fmt}
+	return do(a, b, new(big.Rat).Add)
 }
 
 func (a Value) Sub(b Value) Value {
-	return Value{Num: new(big.Rat).Sub(a.Num, b.Num), Fmt: a.Fmt}
+	return do(a, b, new(big.Rat).Sub)
 }
 
 func (a Value) Quo(b Value) Value {
-	return Value{Num: new(big.Rat).Quo(a.Num, b.Num), Fmt: a.Fmt}
+	return do(a, b, new(big.Rat).Quo)
 }
 
 func (a Value) Lsh(b Value) Value {
-	ia, ib := toInt(a.Num), uint(toInt(b.Num).Uint64())
-	num := big.NewRat(1, 1)
-	num.Num().Lsh(ia, ib)
-	return Value{Num: num, Fmt: a.Fmt}
+	return doShift(a, b, new(big.Int).Lsh)
 }
 
 func (a Value) Rsh(b Value) Value {
-	ia, ib := toInt(a.Num), uint(toInt(b.Num).Uint64())
-	num := big.NewRat(1, 1)
-	num.Num().Rsh(ia, ib)
-	return Value{Num: num, Fmt: a.Fmt}
+	return doShift(a, b, new(big.Int).Rsh)
 }
 
 func (a Value) And(b Value) Value {
-	num := big.NewRat(1, 1)
-	num.Num().And(toInt(a.Num), toInt(b.Num))
-	return Value{Num: num, Fmt: a.Fmt}
+	return doInt(a, b, new(big.Int).And)
 }
 
 func (a Value) Or(b Value) Value {
-	num := big.NewRat(1, 1)
-	num.Num().Or(toInt(a.Num), toInt(b.Num))
-	return Value{Num: num, Fmt: a.Fmt}
+	return doInt(a, b, new(big.Int).Or)
 }
 
 func (a Value) Xor(b Value) Value {
-	num := big.NewRat(1, 1)
-	num.Num().Xor(toInt(a.Num), toInt(b.Num))
-	return Value{Num: num, Fmt: a.Fmt}
+	return doInt(a, b, new(big.Int).Xor)
 }
 
 func (a Value) Rem(b Value) Value {
-	num := big.NewRat(1, 1)
-	num.Num().Rem(toInt(a.Num), toInt(b.Num))
-	return Value{Num: num, Fmt: a.Fmt}
+	return doInt(a, b, new(big.Int).Rem)
 }
 
 func (a Value) Exp(b Value) Value {
