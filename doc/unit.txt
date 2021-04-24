@@ -1,0 +1,43 @@
+length
+
+    m, meter
+    in, inch
+    ft, foot
+    yd, yard
+    mi, mile
+
+temperature
+
+    k, kelvin
+    c, celsius
+    f, fahrenheit
+
+volume
+
+    l, litre
+    pint/quart/teaspoon/tablespoon ? (imperial vs. american)
+
+mass
+
+    g, gram, gramme
+    t, ton, tonne
+
+time
+
+    sec, second
+    min, minute
+    hour
+    day
+    week
+    month
+    year
+
+angle
+
+    rad, radian
+    deg, degree
+
+digital
+
+    bit
+    b, byte
