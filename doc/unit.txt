@@ -68,20 +68,20 @@ metric prefixes
 
 digital prefixes
 
-    k, kilo
-    m, mega
-    g, giga
-    t, tera
-    p, peta
-    e, exa
-    z, zetta
-    y, yotta
+    k, kilo   1000^1
+    m, mega   1000^2
+    g, giga   1000^3
+    t, tera   1000^4
+    p, peta   1000^5
+    e, exa    1000^6
+    z, zetta  1000^7
+    y, yotta  1000^8
 
-    ki, kibi
-    mi, mebi
-    gi, gibi
-    ti, tebi
-    pi, pebi
-    ei, exi
-    zi, zebi
-    yi, yobi
+    ki, kibi   1024^1
+    mi, mebi   1024^2
+    gi, gibi   1024^3
+    ti, tebi   1024^4
+    pi, pebi   1024^5
+    ei, exi    1024^6
+    zi, zebi   1024^7
+    yi, yobi   1024^8
