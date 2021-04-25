@@ -5,8 +5,9 @@ import (
 )
 
 type prefix struct {
-	symbol, name string
-	value        *big.Int
+	abbr  string
+	name  string
+	value *big.Int
 }
 
 func exp(b, n int64) *big.Int {
