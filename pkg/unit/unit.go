@@ -28,15 +28,23 @@ func (u *Unit) String() string {
 	return u.name
 }
 
-var meter = &Unit{name: "m", value: 1, offset: 0, dimension: LENGTH}
-var inch = &Unit{name: "in", value: 0.0254, offset: 0, dimension: LENGTH}
+var units = map[string]Unit{
+	"m": Unit{name: "m", value: 1, offset: 0, dimension: LENGTH},
+	"in": Unit{name: "in", value: 0.0254, offset: 0, dimension: LENGTH},
+}
+
+var aliases = map[string]string{
+	"meter": "m",
+	"metre": "m",
+}
 
 func Get(x string) *Unit {
-	if x == "m" {
-		return meter
+	if alias, ok := aliases[x]; ok {
+		x = alias
 	}
-	if x == "in" {
-		return inch
+	unit, ok := units[x]
+	if ok {
+		return &unit
 	}
 	return nil
 }
