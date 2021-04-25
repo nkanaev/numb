@@ -24,9 +24,9 @@ mass
 
 time
 
-    sec, second
+    s, sec, second
     min, minute
-    hour
+    h, hour
     day
     week
     month
@@ -41,3 +41,47 @@ digital
 
     bit
     b, byte
+
+metric prefixes
+
+    d, deci   10^-1
+    c, centi  10^-2
+    m, milli  10^-3
+    u, micro  10^-6
+    n, nano   10^-9
+    p, pico   10^-12
+    f, femto  10^-15
+    a, atto   10^-18
+    z, zepto  10^-21
+    y, yocto  10^-24
+
+    da, deca  10^1
+    h, hecto  10^2
+    k, kilo   10^3
+    M, mega   10^6
+    G, giga   10^9
+    T, tera   10^12
+    P, peta   10^15
+    E, exa    10^18
+    Z, zetta  10^21
+    Y, yotta  10^24
+
+digital prefixes
+
+    k, kilo
+    m, mega
+    g, giga
+    t, tera
+    p, peta
+    e, exa
+    z, zetta
+    y, yotta
+
+    ki, kibi
+    mi, mebi
+    gi, gibi
+    ti, tebi
+    pi, pebi
+    ei, exi
+    zi, zebi
+    yi, yobi
