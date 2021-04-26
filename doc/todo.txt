@@ -1,5 +1,6 @@
-- precision settings
-- time
+- settings: decimal precision
+- settings: thousand separator
+- time/date types
+- currency
 - functions
-
 - formats (sci/human-readable)
