@@ -22,16 +22,18 @@ mass
 
     g, gram, gramme
     t, ton, tonne
+    lb, pound
+    oz, ounce
 
 time
 
     s, sec, second
     min, minute
-    h, hour
+    h, hr, hour
     day
     week
-    month
-    year
+    month ? (julian vs. approx.)
+    year  ? (julian vs. approx.)
 
 angle
 

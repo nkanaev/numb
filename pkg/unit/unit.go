@@ -81,6 +81,7 @@ func init() {
 		lengthUnits,
 		temperatureUnits,
 		volumeUnits,
+		timeUnits,
 	}
 	for _, unitList := range unitLists {
 		for _, bu := range unitList {
