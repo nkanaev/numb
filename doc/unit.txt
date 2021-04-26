@@ -1,6 +1,6 @@
 length
 
-    m, meter
+    m, meter, metre
     in, inch
     ft, foot
     yd, yard
@@ -14,7 +14,8 @@ temperature
 
 volume
 
-    l, litre
+    m³, m3
+    l, liter, litre
     pint/quart/teaspoon/tablespoon ? (imperial vs. american)
 
 mass
