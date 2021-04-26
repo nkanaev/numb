@@ -3,4 +3,6 @@
 - time/date types
 - currency
 - functions
-- formats (sci/human-readable)
+
+- advanced repl
+- text editor

@@ -19,7 +19,7 @@ grammar:
     expr → var `=` expr
 
     op   → `+` | `-` | `*` ...
-    fmt  → `dec` | `hex` | `oct` | `bin` | `rat` | `exp`
+    fmt  → `dec` | `hex` | `oct` | `bin` | `rat` | `exp` | `wat`
 
     num  → int | hex | oct | bin
     int  → [0-9]+

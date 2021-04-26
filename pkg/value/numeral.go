@@ -10,6 +10,7 @@ const (
 	RAT
 	SCI
 	EXP
+	WAT
 )
 
 var NumeralToString = map[NumeralSystem]string {
@@ -20,6 +21,7 @@ var NumeralToString = map[NumeralSystem]string {
 	RAT: "rat",
 	SCI: "sci",
 	EXP: "exp",
+	WAT: "wat",
 }
 
 var StringToNumeral = map[string]NumeralSystem{}
