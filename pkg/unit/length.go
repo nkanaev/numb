@@ -16,8 +16,26 @@ var lengthUnits = []baseUnit{
 	},
 	{
 		name: "in",
-		aliases: []string{"inch"},
+		aliases: []string{"inch", "inches"},
 		value: f64(0.0254),
+		dimension: LENGTH,
+	},
+	{
+		name: "ft",
+		aliases: []string{"foot", "feet"},
+		value: f64(0.3048),
+		dimension: LENGTH,
+	},
+	{
+		name: "yd",
+		aliases: []string{"yard", "yards"},
+		value: f64(0.9144),
+		dimension: LENGTH,
+	},
+	{
+		name: "mi",
+		aliases: []string{"mile", "miles"},
+		value: f64(1609.344),
 		dimension: LENGTH,
 	},
 }
