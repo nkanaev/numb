@@ -79,6 +79,7 @@ func Get(x string) *Unit {
 func init() {
 	unitLists := [][]baseUnit{
 		lengthUnits,
+		temperatureUnits,
 	}
 	for _, unitList := range unitLists {
 		for _, bu := range unitList {
