@@ -9,6 +9,7 @@ const (
 	BIN
 	RAT
 	SCI
+	EXP
 )
 
 var NumeralToString = map[NumeralSystem]string {
@@ -18,6 +19,7 @@ var NumeralToString = map[NumeralSystem]string {
 	BIN: "bin",
 	RAT: "rat",
 	SCI: "sci",
+	EXP: "exp",
 }
 
 var StringToNumeral = map[string]NumeralSystem{}

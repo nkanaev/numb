@@ -5,8 +5,8 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/consts"
+	"github.com/nkanaev/numb/pkg/unit"
 )
 
 type Value struct {
@@ -172,6 +172,8 @@ func (a Value) String() string {
 		num = fmt.Sprintf("%#b", toInt(a.Num))
 	case RAT:
 		num = a.Num.String()
+	case EXP:
+		num = fmt.Sprintf("%e", new(big.Float).SetRat(a.Num))
 	}
 	if a.Unit != nil {
 		num += " " + a.Unit.String()
