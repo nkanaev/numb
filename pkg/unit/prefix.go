@@ -7,12 +7,22 @@ import (
 type prefix struct {
 	abbr  string
 	name  string
-	value *big.Int
+	value *big.Rat
 }
 
-func exp(b, n int64) *big.Int {
+func exp(b, n int64) *big.Rat {
+	if n < 0 {
+		int := big.NewInt(b)
+		int.Exp(int, big.NewInt(-n), nil)
+		rat := big.NewRat(1, 1)
+		rat.Denom().Set(int)
+		return rat
+	}
 	int := big.NewInt(b)
-	return int.Exp(int, big.NewInt(n), nil)
+	int.Exp(int, big.NewInt(n), nil)
+	rat := big.NewRat(1, 1)
+	rat.Num().Set(int)
+	return rat
 }
 
 var metricPrefixes = []prefix{

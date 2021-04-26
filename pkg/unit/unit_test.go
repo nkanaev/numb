@@ -32,4 +32,16 @@ func TestUnitGetPrefixed(t *testing.T) {
 			t.Errorf("\ntext: %s\nwant: %#v\nhave: %#v", text, want, have)
 		}
 	}
+
+	for _, text := range []string{"cm", "centimeter", "centimetre"} {
+		have := Get(text)
+		want := &Unit{
+			name: "cm",
+			value: big.NewRat(1, 100),
+			dimension: LENGTH,
+		}
+		if !reflect.DeepEqual(want, have) {
+			t.Errorf("\ntext: %s\nwant: %#v (%s)\nhave: %#v (%s)", text, want, want.value, have, have.value)
+		}
+	}
 }
