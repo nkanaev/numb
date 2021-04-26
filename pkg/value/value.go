@@ -58,7 +58,6 @@ func prepare(a, b Value) (Value, Value, *unit.Unit) {
 	return a, b, u
 }
 
-// TODO: preserve unit in do*
 func do(a, b Value, op func(*big.Rat, *big.Rat) *big.Rat) Value {
 	a, b, u := prepare(a, b)
 	return Value{Num: op(a.Num, b.Num), Fmt: a.Fmt, Unit: u}
