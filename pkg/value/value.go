@@ -39,23 +39,39 @@ func Parse(x string) Value {
 	return Value{Num: num, Fmt: base}
 }
 
+func prepare(a, b Value) (Value, Value, *unit.Unit) {
+	var u *unit.Unit
+	if a.Unit != nil {
+		u = a.Unit
+		if b.Unit != nil {
+			b = b.To(a.Unit)
+		}
+	} else if b.Unit != nil {
+		u = b.Unit
+	}
+	return a, b, u
+}
+
 // TODO: preserve unit in do*
 func do(a, b Value, op func(*big.Rat, *big.Rat) *big.Rat) Value {
-	return Value{Num: op(a.Num, b.Num), Fmt: a.Fmt}
+	a, b, u := prepare(a, b)
+	return Value{Num: op(a.Num, b.Num), Fmt: a.Fmt, Unit: u}
 }
 
 func doInt(a, b Value, op func(*big.Int, *big.Int) *big.Int) Value {
+	a, b, u := prepare(a, b)
 	int := op(toInt(a.Num), toInt(b.Num))
 	rat := big.NewRat(1, 1)
 	rat.Num().Set(int)
-	return Value{Num: rat, Fmt: a.Fmt}
+	return Value{Num: rat, Fmt: a.Fmt, Unit: u}
 }
 
 func doShift(a, b Value, op func(*big.Int, uint) *big.Int) Value {
+	a, b, u := prepare(a, b)
 	ia, ib := toInt(a.Num), uint(toInt(b.Num).Uint64())
 	num := big.NewRat(1, 1)
 	num.Num().Set(op(ia, ib))
-	return Value{Num: num, Fmt: a.Fmt}
+	return Value{Num: num, Fmt: a.Fmt, Unit: u}
 }
 
 func (a Value) Mul(b Value) Value {
@@ -99,13 +115,14 @@ func (a Value) Rem(b Value) Value {
 }
 
 func (a Value) Exp(b Value) Value {
+	a, b, u := prepare(a, b)
 	num := big.NewRat(1, 1)
 	num.Num().Exp(toInt(a.Num), toInt(b.Num), nil)
-	return Value{Num: num, Fmt: a.Fmt}
+	return Value{Num: num, Fmt: a.Fmt, Unit: u}
 }
 
 func (a Value) Neg() Value {
-	return Value{Num: new(big.Rat).Neg(a.Num), Fmt: a.Fmt}
+	return Value{Num: new(big.Rat).Neg(a.Num), Fmt: a.Fmt, Unit: a.Unit}
 }
 
 func (a Value) As(n NumeralSystem) Value {
