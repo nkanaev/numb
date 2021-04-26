@@ -83,6 +83,7 @@ func init() {
 		volumeUnits,
 		timeUnits,
 		digitalUnits,
+		angleUnits,
 	}
 	for _, unitList := range unitLists {
 		for _, bu := range unitList {

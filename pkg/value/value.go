@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/nkanaev/numb/pkg/unit"
+	"github.com/nkanaev/numb/pkg/consts"
 )
 
 type Value struct {
@@ -13,6 +14,11 @@ type Value struct {
 	Fmt  NumeralSystem
 	Prec int
 	Unit *unit.Unit
+}
+
+var Consts = map[string]Value{
+	"pi": Value{Num: consts.PI},
+	"e": Value{Num: consts.E},
 }
 
 func toInt(x *big.Rat) *big.Int {
