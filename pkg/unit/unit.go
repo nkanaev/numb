@@ -1,15 +1,13 @@
 package unit
 
 import (
-	"fmt"
 	"math/big"
 )
 
 type Dimension uint
 
 const (
-	UNKNOWN Dimension = 1 << iota
-	LENGTH
+	LENGTH Dimension = 1 << iota
 	TEMPERATURE
 	VOLUME
 	MASS
@@ -19,61 +17,75 @@ const (
 )
 
 type Unit struct {
-	name string
-	value, offset float64
+	name      string
+	value     *big.Rat
+	offset    *big.Rat
 	dimension Dimension
+}
+
+type baseUnit struct {
+	name      string
+	value     *big.Rat
+	offset    *big.Rat
+	aliases   []string
+	dimension Dimension
+	prefixes  *[]prefix
+}
+
+func (bu baseUnit) Expand() map[string]*Unit {
+	result := make(map[string]*Unit, 0)
+	unit := &Unit{
+		name:      bu.name,
+		value:     bu.value,
+		offset:    bu.offset,
+		dimension: bu.dimension,
+	}
+
+	result[bu.name] = unit
+	for _, alias := range bu.aliases {
+		result[alias] = unit
+	}
+
+	if bu.prefixes != nil {
+		for _, pr := range *bu.prefixes {
+			prefixValue := big.NewRat(1, 1)
+			prefixValue.Num().Set(pr.value)
+			prefixValue.Mul(prefixValue, bu.value)
+			prefixUnit := &Unit{
+				name:      pr.abbr + bu.name,
+				value:     prefixValue,
+				offset:    bu.offset,
+				dimension: bu.dimension,
+			}
+
+			result[pr.abbr+bu.name] = prefixUnit
+			for _, alias := range bu.aliases {
+				result[pr.name+alias] = prefixUnit
+			}
+		}
+	}
+	return result
 }
 
 func (u *Unit) String() string {
 	return u.name
 }
 
-var units = map[string]Unit{
-	"m": Unit{name: "m", value: 1, offset: 0, dimension: LENGTH},
-	"in": Unit{name: "in", value: 0.0254, offset: 0, dimension: LENGTH},
-}
-
-var aliases = map[string]string{
-	"meter": "m",
-	"metre": "m",
-}
+var db = map[string]*Unit{}
 
 func Get(x string) *Unit {
-	if alias, ok := aliases[x]; ok {
-		x = alias
-	}
-	unit, ok := units[x]
-	if ok {
-		return &unit
-	}
-	return nil
+	return db[x]
 }
 
-func normalize(n *big.Rat, u *Unit) *big.Rat {
-	// (n + u.offset) * u.value
-	offset := new(big.Rat).SetFloat64(u.offset)
-	value := new(big.Rat).SetFloat64(u.value)
-	num := new(big.Rat).Set(n)
-	num = num.Add(num, offset)
-	return num.Mul(num, value)
-}
-
-func denormalize(n *big.Rat, u *Unit) *big.Rat {
-	// (n / u.value) - u.offset
-	offset := new(big.Rat).SetFloat64(u.offset)
-	value := new(big.Rat).SetFloat64(u.value)
-	num := new(big.Rat).Set(n)
-	num = num.Quo(num, value)
-	return num.Sub(num, offset)
-}
-
-func Convert(n *big.Rat, from, to *Unit) *big.Rat {
-	if from.dimension != to.dimension {
-		panic(fmt.Sprintf("incompatible units: %s & %s", from, to))
+func init() {
+	unitLists := [][]baseUnit{
+		lengthUnits,
 	}
-	if from.name == to.name {
-		return new(big.Rat).Set(n)
+	for _, unitList := range unitLists {
+		for _, bu := range unitList {
+			for key, val := range bu.Expand() {
+				db[key] = val
+			}
+		}
 	}
-	// normalize
-	return denormalize(normalize(n, from), to)
 }

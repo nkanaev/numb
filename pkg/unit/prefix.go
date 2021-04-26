@@ -12,7 +12,7 @@ type prefix struct {
 
 func exp(b, n int64) *big.Int {
 	int := big.NewInt(b)
-	return int.Exp(int, n, nil)
+	return int.Exp(int, big.NewInt(n), nil)
 }
 
 var metricPrefixes = []prefix{
