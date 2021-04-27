@@ -22,3 +22,7 @@ examples:
       38.1 cm
     > (0b1000 - 1) xor 2 as hex
       0x5
+
+install:
+
+    $ go get -u github.com/nkanaev/numb/cmd/numb
