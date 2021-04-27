@@ -40,6 +40,23 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 			expr := p.parseExpr()
 			return &ast.Assign{Name: name, Expr: expr}
 		}
+		if p.s.Token == token.LPAREN {
+			args := make([]ast.Node, 0)
+			p.expect(token.LPAREN)			
+			for {
+				if p.s.Token == token.COMMA {
+					p.expect(token.COMMA)
+					continue
+				} else if p.s.Token == token.RPAREN {
+					p.expect(token.RPAREN)
+					break
+				} else if p.s.Token == token.Illegal {
+					panic("wut")
+				}
+				args = append(args, p.parseExpr())
+			}
+			return &ast.FunCall{Name: name, Args: args}
+		}
 		return &ast.Var{Name: name}
 	}
 	fmt.Println(p.s.Token)

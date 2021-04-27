@@ -22,6 +22,7 @@ const (
 
 	LPAREN // (
 	RPAREN // )
+	COMMA  // ,
 
 	ASSIGN // =
 
@@ -50,6 +51,7 @@ var tokenToString = map[Token]string{
 
 	LPAREN: "(",
 	RPAREN: ")",
+	COMMA:  ",",
 
 	ASSIGN: "=",
 

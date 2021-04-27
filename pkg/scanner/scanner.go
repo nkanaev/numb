@@ -80,6 +80,9 @@ func (s *Scanner) next() {
 	case ch == ')':
 		s.Token = token.RPAREN
 		s.nextChar()
+	case ch == ',':
+		s.Token = token.COMMA
+		s.nextChar()
 	case ch == '*' || ch == '/' || ch == '+' || ch == '-':
 		s.Token = token.StringToOperator[string(ch)]
 		s.nextChar()

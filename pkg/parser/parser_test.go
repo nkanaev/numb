@@ -6,6 +6,7 @@ import (
 
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/token"
+	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
 )
 
@@ -104,6 +105,18 @@ func TestParseFormat(t *testing.T) {
 			Op:  token.ADD,
 		},
 		Fmt:  value.HEX,
+	}
+	if !reflect.DeepEqual(want, have) {
+		t.Errorf("\nexpr: %s\nwant: %#v\nhave: %#v", expr, want, have)
+	}
+}
+
+func TestParseFunCall(t *testing.T) {
+	expr := "sin(2 radian)"
+	have := Parse(expr)
+	want := &ast.FunCall{
+		Name: "sin",
+		Args: []ast.Node{&ast.Unit{Expr: value.NewInt(2), Unit: unit.Get("rad")}},
 	}
 	if !reflect.DeepEqual(want, have) {
 		t.Errorf("\nexpr: %s\nwant: %#v\nhave: %#v", expr, want, have)

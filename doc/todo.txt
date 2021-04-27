@@ -2,7 +2,6 @@
 - settings: thousand separator
 - time/date types
 - currency
-- functions
 
 - advanced repl
 - text editor

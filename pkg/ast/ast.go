@@ -2,7 +2,9 @@ package ast
 
 import (
 	"fmt"
+	"strings"
 
+	"github.com/nkanaev/numb/pkg/funcs"
 	"github.com/nkanaev/numb/pkg/token"
 	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
@@ -153,4 +155,29 @@ func (n *Convert) Eval(env map[string]value.Value) value.Value {
 
 func (n *Convert) String() string {
 	return n.Expr.String() + " to " + n.Unit.String()
+}
+
+type FunCall struct {
+	Name string
+	Args []Node
+}
+
+func (n *FunCall) Eval(env map[string]value.Value) value.Value {
+	fn := funcs.Get(n.Name)
+	if fn == nil {
+		panic("no such function: " + n.Name)
+	}
+	args := make([]value.Value, len(n.Args))
+	for i, arg := range n.Args {
+		args[i] = arg.Eval(env)
+	}
+	return (*fn)(args...)
+}
+
+func (n *FunCall) String() string {
+	args := make([]string, len(n.Args))
+	for i, arg := range n.Args {
+		args[i] = arg.String()
+	}
+	return n.Name + "(" + strings.Join(args, ", ") + ")"
 }
