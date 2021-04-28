@@ -6,7 +6,7 @@ numb
     ... is a tool for working with numbers and units.
     ... supports arbitrary-precision arithmetic.
     ... provides mathematical functions.
-    ... is what `bc` & `units` unix commands' ugly child could look like.
+    ... is an ugly child of `bc` & `units` unix commands.
     ... is MIT licensed.
 
 examples:
