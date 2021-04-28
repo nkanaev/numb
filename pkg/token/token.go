@@ -36,7 +36,7 @@ const (
 var tokenToString = map[Token]string{
 	Illegal: "ILLEGAL",
 
-	OR: "OR",
+	OR:  "OR",
 	XOR: "XOR",
 	AND: "AND",
 	SHL: "<<",

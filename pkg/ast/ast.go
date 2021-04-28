@@ -108,7 +108,7 @@ func (n *Var) Eval(env map[string]value.Value) value.Value {
 	}
 	val, ok := env[n.Name]
 	if !ok {
-		panic(n.Name +" not defined")
+		panic(n.Name + " not defined")
 	}
 	return val
 }

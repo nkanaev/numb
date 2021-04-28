@@ -42,7 +42,7 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		}
 		if p.s.Token == token.LPAREN {
 			args := make([]ast.Node, 0)
-			p.expect(token.LPAREN)			
+			p.expect(token.LPAREN)
 			for {
 				if p.s.Token == token.COMMA {
 					p.expect(token.COMMA)

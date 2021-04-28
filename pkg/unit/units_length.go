@@ -8,34 +8,34 @@ func f64(n float64) *big.Rat {
 
 var lengthUnits = []baseUnit{
 	{
-		name: "m",
-		aliases: []string{"meter", "metre"},
-		value: f64(1),
+		name:      "m",
+		aliases:   []string{"meter", "metre"},
+		value:     f64(1),
 		dimension: LENGTH,
-		prefixes: &metricPrefixes,
+		prefixes:  &metricPrefixes,
 	},
 	{
-		name: "in",
-		aliases: []string{"inch", "inches"},
-		value: f64(0.0254),
-		dimension: LENGTH,
-	},
-	{
-		name: "ft",
-		aliases: []string{"foot", "feet"},
-		value: f64(0.3048),
+		name:      "in",
+		aliases:   []string{"inch", "inches"},
+		value:     f64(0.0254),
 		dimension: LENGTH,
 	},
 	{
-		name: "yd",
-		aliases: []string{"yard", "yards"},
-		value: f64(0.9144),
+		name:      "ft",
+		aliases:   []string{"foot", "feet"},
+		value:     f64(0.3048),
 		dimension: LENGTH,
 	},
 	{
-		name: "mi",
-		aliases: []string{"mile", "miles"},
-		value: f64(1609.344),
+		name:      "yd",
+		aliases:   []string{"yard", "yards"},
+		value:     f64(0.9144),
+		dimension: LENGTH,
+	},
+	{
+		name:      "mi",
+		aliases:   []string{"mile", "miles"},
+		value:     f64(1609.344),
 		dimension: LENGTH,
 	},
 }

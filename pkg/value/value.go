@@ -18,7 +18,7 @@ type Value struct {
 
 var Consts = map[string]Value{
 	"pi": Value{Num: consts.PI},
-	"e": Value{Num: consts.E},
+	"e":  Value{Num: consts.E},
 }
 
 func toInt(x *big.Rat) *big.Int {

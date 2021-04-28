@@ -25,14 +25,14 @@ type Unit struct {
 }
 
 type baseUnit struct {
-	name      string
-	value     *big.Rat
-	offset    *big.Rat
-	aliases   []string
-	shortaliases   []string
-	dimension Dimension
-	prefixes  *[]prefix
-	prefixpow int
+	name         string
+	value        *big.Rat
+	offset       *big.Rat
+	aliases      []string
+	shortaliases []string
+	dimension    Dimension
+	prefixes     *[]prefix
+	prefixpow    int
 }
 
 func (bu baseUnit) Expand() map[string]*Unit {

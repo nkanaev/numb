@@ -13,7 +13,7 @@ const (
 	WAT
 )
 
-var NumeralToString = map[NumeralSystem]string {
+var NumeralToString = map[NumeralSystem]string{
 	DEC: "dec",
 	HEX: "hex",
 	OCT: "oct",

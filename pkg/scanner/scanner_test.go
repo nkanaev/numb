@@ -61,7 +61,7 @@ func TestParseKeywords(t *testing.T) {
 	want := []token.Token{token.AS, token.TO}
 	have := make([]token.Token, 0)
 	text := " as to"
-	
+
 	s := New(text)
 	for s.Scan() {
 		have = append(have, s.Token)

@@ -104,7 +104,7 @@ func TestParseFormat(t *testing.T) {
 			Rhs: value.NewInt(1),
 			Op:  token.ADD,
 		},
-		Fmt:  value.HEX,
+		Fmt: value.HEX,
 	}
 	if !reflect.DeepEqual(want, have) {
 		t.Errorf("\nexpr: %s\nwant: %#v\nhave: %#v", expr, want, have)
