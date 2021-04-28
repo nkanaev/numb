@@ -1,6 +1,4 @@
 - settings: decimal precision
 - settings: thousand separator
 - currency
-
-- advanced repl
-- text editor
+- interactive repl
