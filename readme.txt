@@ -7,7 +7,6 @@ numb
     ... supports arbitrary-precision arithmetic.
     ... provides mathematical functions.
     ... is what `bc` & `units` unix commands' ugly child could look like.
-    ... is the closing track of Linkin Park's Meteora album.
     ... is MIT licensed.
 
 examples:
