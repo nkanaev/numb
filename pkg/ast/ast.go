@@ -136,8 +136,11 @@ type Unit struct {
 }
 
 func (n *Unit) Eval(env map[string]value.Value) value.Value {
-	// TODO: cannot allow multiple units (`100 meter kilogram`)
-	return n.Expr.Eval(env).WithUnit(n.Unit)
+	expr := n.Expr.Eval(env)
+	if expr.Unit != nil {
+		panic(fmt.Sprintf("cannot set unit `%s` to `%s`", n.Unit, n.Expr))
+	}
+	return expr.WithUnit(n.Unit)
 }
 
 func (n *Unit) String() string {
