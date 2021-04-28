@@ -7,7 +7,6 @@ numb
     ... is an unholy child of `bc` & `units` unix commands. sort of.
     ... supports arbitrary-precision arithmetic calculations.
     ... has unit conversion capability.
-    ... is a `numi.app` rip-off (which in turn is a `soulver` rip-off).
     ... rhymes with `dumb`.
     ... is the closing track of Linkin Park's Meteora album.
     ... is MIT licensed.

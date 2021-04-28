@@ -1,6 +1,5 @@
 - settings: decimal precision
 - settings: thousand separator
-- time/date types
 - currency
 
 - advanced repl
