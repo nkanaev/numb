@@ -9,6 +9,7 @@ type Dimension uint
 const (
 	LENGTH Dimension = 1 << iota
 	TEMPERATURE
+	AREA
 	VOLUME
 	MASS
 	TIME
@@ -28,8 +29,10 @@ type baseUnit struct {
 	value     *big.Rat
 	offset    *big.Rat
 	aliases   []string
+	shortaliases   []string
 	dimension Dimension
 	prefixes  *[]prefix
+	prefixpow int
 }
 
 func (bu baseUnit) Expand() map[string]*Unit {
@@ -45,11 +48,20 @@ func (bu baseUnit) Expand() map[string]*Unit {
 	for _, alias := range bu.aliases {
 		result[alias] = unit
 	}
+	for _, alias := range bu.shortaliases {
+		result[alias] = unit
+	}
 
 	if bu.prefixes != nil {
 		for _, pr := range *bu.prefixes {
 			prefixValue := big.NewRat(1, 1).Set(pr.value)
 			prefixValue.Mul(prefixValue, bu.value)
+			if bu.prefixpow > 0 {
+				x := new(big.Rat).Set(prefixValue)
+				for i := 1; i < bu.prefixpow; i++ {
+					prefixValue.Mul(prefixValue, x)
+				}
+			}
 			prefixUnit := &Unit{
 				name:      pr.abbr + bu.name,
 				value:     prefixValue,
@@ -60,6 +72,9 @@ func (bu baseUnit) Expand() map[string]*Unit {
 			result[pr.abbr+bu.name] = prefixUnit
 			for _, alias := range bu.aliases {
 				result[pr.name+alias] = prefixUnit
+			}
+			for _, alias := range bu.shortaliases {
+				result[pr.abbr+alias] = prefixUnit
 			}
 		}
 	}
@@ -81,6 +96,7 @@ func init() {
 		lengthUnits,
 		temperatureUnits,
 		volumeUnits,
+		areaUnits,
 		timeUnits,
 		digitalUnits,
 		angleUnits,
