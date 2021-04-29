@@ -1,3 +1,4 @@
 - settings: decimal precision
 - settings: thousand separator
 - currency
+- more units, more funcs, more tests
