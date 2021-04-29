@@ -1,16 +1,18 @@
 package main
 
 import (
-	"bufio"
 	"errors"
-	"fmt"
+	"io"
 	"os"
+	"strings"
 
 	"github.com/nkanaev/numb/pkg/parser"
 	"github.com/nkanaev/numb/pkg/value"
+	"golang.org/x/term"
 )
 
 var prompt = "> "
+var prefix = "  "
 
 func eval(expr string, env map[string]value.Value) (val value.Value, err error) {
 	defer func() {
@@ -31,21 +33,43 @@ func eval(expr string, env map[string]value.Value) (val value.Value, err error) 
 
 func repl() {
 	env := make(map[string]value.Value)
-	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Println("enter `q` to quit")
-	fmt.Print(prompt)
-	for scanner.Scan() {
-		line := scanner.Text()
+
+	state, err := term.MakeRaw(int(os.Stdin.Fd()))
+	if err != nil {
+			panic(err)
+	}
+	defer term.Restore(int(os.Stdin.Fd()), state)
+
+	screen := struct{
+		io.Reader
+		io.Writer
+	}{os.Stdin, os.Stdout}
+	terminal := term.NewTerminal(screen, prompt)
+	terminal.Write([]byte("enter `q` to quit\n"))
+	for {
+		line, err := terminal.ReadLine()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			os.Stderr.WriteString(line + "\n")
+			os.Exit(1)
+		}
+		line = strings.TrimSpace(line)
 		if line == "q" {
 			break
 		}
-		val, err := eval(line, env)
-		if err != nil {
-			fmt.Println(" ", err)
-		} else {
-			fmt.Println(" ", val)
+		if line == "" {
+			continue
 		}
-		fmt.Print(prompt)
+		val, err := eval(line, env)
+		out := ""
+		if err != nil {
+			out = err.Error()
+		} else {
+			out = val.String()
+		}
+		terminal.Write([]byte(prefix + out + "\n"))
 	}
 }
 
