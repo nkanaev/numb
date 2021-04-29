@@ -55,6 +55,9 @@ func TestParseToken(t *testing.T) {
 	if s.Scan() {
 		t.Fatal("expected to return false")
 	}
+	if s.Token != token.END {
+		t.Fatal("expected end token")
+	}
 }
 
 func TestParseKeywords(t *testing.T) {

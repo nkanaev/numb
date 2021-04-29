@@ -36,6 +36,12 @@ func (s *Scanner) nextChar() {
 func (s *Scanner) next() {
 	for ; unicode.IsSpace(s.char()); s.nextChar() {
 	}
+	
+	if s.cur >= len(s.src) {
+		s.Token = token.END
+		return
+	}
+
 	ch := s.char()
 	switch {
 	case unicode.IsDigit(ch):
@@ -127,5 +133,5 @@ func (s *Scanner) next() {
 func (s *Scanner) Scan() bool {
 	s.Value = ""
 	s.next()
-	return s.Token != token.Illegal
+	return s.Token != token.Illegal && s.Token != token.END
 }

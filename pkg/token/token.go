@@ -4,6 +4,7 @@ type Token int
 
 const (
 	Illegal Token = iota
+	END
 
 	operator_beg
 	OR  // or
@@ -35,6 +36,7 @@ const (
 
 var tokenToString = map[Token]string{
 	Illegal: "ILLEGAL",
+	END: "END",
 
 	OR:  "OR",
 	XOR: "XOR",

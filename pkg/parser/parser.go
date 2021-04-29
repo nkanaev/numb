@@ -1,8 +1,6 @@
 package parser
 
 import (
-	"fmt"
-
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/scanner"
 	"github.com/nkanaev/numb/pkg/token"
@@ -43,24 +41,23 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		if p.s.Token == token.LPAREN {
 			args := make([]ast.Node, 0)
 			p.expect(token.LPAREN)
-			for {
+			for p.s.Token != token.RPAREN {
+				args = append(args, p.parseExpr())
 				if p.s.Token == token.COMMA {
 					p.expect(token.COMMA)
 					continue
-				} else if p.s.Token == token.RPAREN {
-					p.expect(token.RPAREN)
-					break
-				} else if p.s.Token == token.Illegal {
-					panic("wut")
 				}
-				args = append(args, p.parseExpr())
 			}
+			p.expect(token.RPAREN)
 			return &ast.FunCall{Name: name, Args: args}
 		}
 		return &ast.Var{Name: name}
+	case token.END:
+		panic("unexpected end")
+	case token.Illegal:
+		panic("illegal char")
 	}
-	fmt.Println(p.s.Token)
-	panic("die")
+	panic("unexpected token: " + p.s.Token.String())
 }
 
 func (p *parser) parseUnaryExpr() ast.Node {
@@ -141,6 +138,9 @@ func Parse(line string) ast.Node {
 	s := scanner.New(line)
 	p := &parser{s: s}
 	s.Scan()
-	// TODO: check for trailing chars
-	return p.parseRoot()
+	root := p.parseRoot()
+	if s.Token != token.END {
+		panic("trailing stuff")
+	}
+	return root
 }
