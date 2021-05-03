@@ -100,6 +100,7 @@ func init() {
 		timeUnits,
 		digitalUnits,
 		angleUnits,
+		massUnits,
 	}
 	for _, unitList := range unitLists {
 		for _, bu := range unitList {
