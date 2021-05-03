@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"io"
 	"os"
 	"strings"
@@ -81,5 +82,8 @@ func repl() {
 }
 
 func main() {
+	flag.IntVar(&prec, "prec", prec, "decimal precision")
+	flag.StringVar(&sep, "sep", sep, "thousand separator")
+	flag.Parse()
 	repl()
 }
