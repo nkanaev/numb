@@ -12,7 +12,6 @@ import (
 type Value struct {
 	Num  *big.Rat
 	Fmt  NumeralSystem
-	Prec int
 	Unit *unit.Unit
 }
 
@@ -145,25 +144,18 @@ func (a Value) WithUnit(u *unit.Unit) Value {
 	return a
 }
 
-func (a Value) WithPrec(p int) Value {
-	a.Prec = p
-	return a
+func (a Value) dec(prec int) string {
+	if a.Num.IsInt() {
+		return a.Num.RatString()
+	}
+	return a.Num.FloatString(prec)
 }
 
 func (a Value) String() string {
 	num := ""
 	switch a.Fmt {
 	case DEC:
-		if a.Num.IsInt() {
-			num = a.Num.RatString()
-		} else {
-			prec := a.Prec
-			if prec == 0 {
-				prec = 4
-			}
-			// TODO: trailing zeros
-			num = a.Num.FloatString(prec)
-		}
+		num = a.dec(2)
 	case HEX:
 		num = fmt.Sprintf("%#x", toInt(a.Num))
 	case OCT:
@@ -193,6 +185,40 @@ func (a Value) String() string {
 			num = x.FloatString(1) + string(suffixes[i-1])
 		}
 	}
+	if a.Unit != nil {
+		num += " " + a.Unit.String()
+	}
+	return num
+}
+
+func (a Value) Format(sep string, prec int) string {
+	num := a.dec(prec)	
+
+	l, r := num, ""
+
+	parts := strings.Split(num, ".")
+	if len(parts) == 2 {
+		l, r = parts[0], parts[1]
+	}
+
+	x := ""
+	for len(l) > 3 {
+		x = x + sep + l[len(l)-3:len(l)]
+		l = l[0:len(l)-3]
+	}
+	l = l + x
+
+	r = strings.TrimRight(r, "0")
+
+	if a.Num.IsInt() || prec == 0 {
+		num = l
+	} else {
+		if r == "" {
+			r = "0"
+		}
+		num = l + "." + r
+	}
+
 	if a.Unit != nil {
 		num += " " + a.Unit.String()
 	}

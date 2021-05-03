@@ -14,6 +14,9 @@ import (
 var prompt = "> "
 var prefix = "  "
 
+var sep = ","
+var prec = 2
+
 func eval(expr string, env map[string]value.Value) (val value.Value, err error) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -67,7 +70,11 @@ func repl() {
 		if err != nil {
 			out = err.Error()
 		} else {
-			out = val.String()
+			if val.Fmt == value.DEC {
+				out = val.Format(sep, prec)
+			} else {
+				out = val.String()
+			}
 		}
 		terminal.Write([]byte(prefix + out + "\n"))
 	}
