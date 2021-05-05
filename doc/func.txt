@@ -1,6 +1,6 @@
 trigonometry
 
-    sin, cos, ...
+    sin, cos, tan, asin, acos, atan
 
 arithmetic
 
