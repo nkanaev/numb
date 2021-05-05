@@ -2,6 +2,7 @@ package unit
 
 import (
 	"math/big"
+	"strings"
 )
 
 type Dimension uint
@@ -15,6 +16,7 @@ const (
 	TIME
 	ANGLE
 	DIGITAL
+	CURRENCY
 )
 
 type Unit struct {
@@ -108,5 +110,24 @@ func init() {
 				db[key] = val
 			}
 		}
+	}
+}
+
+type Currency struct {
+	Code string
+	Rate float64
+}
+
+func AddExchangeRates(currencies []Currency) {
+	for _, cur := range currencies {
+		code1 := strings.ToUpper(cur.Code)
+		code2 := strings.ToLower(cur.Code)
+		u := &Unit{
+			name: code1,
+			value: new(big.Rat).SetFloat64(1 / cur.Rate),
+			dimension: CURRENCY,
+		}
+		db[code1] = u
+		db[code2] = u
 	}
 }
