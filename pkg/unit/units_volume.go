@@ -14,5 +14,6 @@ var volumeUnits = []baseUnit{
 		aliases:   []string{"liter", "litre"},
 		value:     f64(0.001),
 		dimension: VOLUME,
+		prefixes:  &metricPrefixes,
 	},
 }
