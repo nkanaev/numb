@@ -90,7 +90,16 @@ func (u *Unit) String() string {
 var db = map[string]*Unit{}
 
 func Get(x string) *Unit {
-	return db[x]
+	if u, ok := db[x]; ok {
+		return u
+	}
+	if u, ok := db[strings.ToLower(x)]; ok {
+		return u
+	}
+	if u, ok := db[strings.ToUpper(x)]; ok {
+		return u
+	}
+	return nil
 }
 
 func init() {
@@ -120,14 +129,12 @@ type Currency struct {
 
 func AddExchangeRates(currencies []Currency) {
 	for _, cur := range currencies {
-		code1 := strings.ToUpper(cur.Code)
-		code2 := strings.ToLower(cur.Code)
+		code := strings.ToUpper(cur.Code)
 		u := &Unit{
-			name: code1,
+			name: code,
 			value: new(big.Rat).SetFloat64(1 / cur.Rate),
 			dimension: CURRENCY,
 		}
-		db[code1] = u
-		db[code2] = u
+		db[code] = u
 	}
 }
