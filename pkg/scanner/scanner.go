@@ -45,6 +45,7 @@ func (s *Scanner) next() {
 	ch := s.char()
 	switch {
 	case unicode.IsDigit(ch):
+		separators := ",_"
 		accept := "0123456789"
 		prefix := ""
 		digits := make([]rune, 0)
@@ -65,13 +66,20 @@ func (s *Scanner) next() {
 				s.nextChar()
 			}
 		}
-		for ; strings.ContainsRune(accept, s.char()); s.nextChar() {
+		acceptChars := accept + separators
+		for ; strings.ContainsRune(acceptChars, s.char()); s.nextChar() {
+			if strings.ContainsRune(separators, s.char()) {
+				continue
+			}
 			digits = append(digits, s.char())
 		}
 		if prefix == "" && s.char() == '.' {
 			digits = append(digits, s.char())
 			s.nextChar()
-			for ; strings.ContainsRune(accept, s.char()); s.nextChar() {
+			for ; strings.ContainsRune(acceptChars, s.char()); s.nextChar() {
+				if strings.ContainsRune(separators, s.char()) {
+					continue
+				}
 				digits = append(digits, s.char())
 			}
 		}
