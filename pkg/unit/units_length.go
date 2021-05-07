@@ -38,4 +38,33 @@ var lengthUnits = []baseUnit{
 		value:     f64(1609.344),
 		dimension: LENGTH,
 	},
+
+	{
+		name:      "li",
+		aliases:   []string{"link"},
+		value:     f64(0.201168),
+		dimension: LENGTH,
+	},
+	{
+		name:      "rd",
+		aliases:   []string{"rod"},
+		value:     f64(5.0292),
+		dimension: LENGTH,
+	},
+	{
+		name:      "ch",
+		aliases:   []string{"chain"},
+		value:     f64(20.1),
+		dimension: LENGTH,
+	},
+	{
+		name:      "angstrom",
+		value:     exp(10, -10),
+		dimension: LENGTH,
+	},
+	{
+		name:      "mil",
+		value:     f64(0.0000254),
+		dimension: LENGTH,
+	},
 }
