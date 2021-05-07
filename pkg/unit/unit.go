@@ -17,6 +17,10 @@ const (
 	ANGLE
 	DIGITAL
 	CURRENCY
+	FREQUENCY
+	ELECTRIC_CURRENT
+	LUMINOUS_INTENSITY
+	AMOUNT_OF_SUBSTANCE
 )
 
 type Unit struct {
@@ -112,6 +116,10 @@ func init() {
 		digitalUnits,
 		angleUnits,
 		massUnits,
+		frequencyUnits,
+		electricCurrentUnits,
+		luminousIntensityUnits,
+		amountOfSubstanceUnits,
 	}
 	for _, unitList := range unitLists {
 		for _, bu := range unitList {
