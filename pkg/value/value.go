@@ -201,12 +201,18 @@ func (a Value) Format(sep string, prec int) string {
 		l, r = parts[0], parts[1]
 	}
 
+	s := ""
+	if l[0] == '-' {
+		s = "-"
+		l = l[1:len(l)]
+	}
+
 	x := ""
 	for len(l) > 3 {
 		x = x + sep + l[len(l)-3:len(l)]
 		l = l[0:len(l)-3]
 	}
-	l = l + x
+	l = s + l + x
 
 	r = strings.TrimRight(r, "0")
 
