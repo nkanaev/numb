@@ -21,6 +21,7 @@ const (
 	ELECTRIC_CURRENT
 	LUMINOUS_INTENSITY
 	AMOUNT_OF_SUBSTANCE
+	POWER
 )
 
 type Unit struct {
@@ -39,6 +40,7 @@ type baseUnit struct {
 	dimension    Dimension
 	prefixes     *[]prefix
 	prefixpow    int
+	description  string
 }
 
 func (bu baseUnit) Expand() map[string]*Unit {
@@ -120,6 +122,7 @@ func init() {
 		electricCurrentUnits,
 		luminousIntensityUnits,
 		amountOfSubstanceUnits,
+		powerUnits,
 	}
 	for _, unitList := range unitLists {
 		for _, bu := range unitList {
