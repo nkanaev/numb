@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-type Dimension uint
+type Dimension uint32
 
 const (
 	LENGTH Dimension = 1 << iota
@@ -23,6 +23,7 @@ const (
 	AMOUNT_OF_SUBSTANCE
 	POWER
 	FORCE
+	ENERGY
 )
 
 type Unit struct {
@@ -125,6 +126,7 @@ func init() {
 		amountOfSubstanceUnits,
 		powerUnits,
 		forceUnits,
+		energyUnits,
 	}
 	for _, unitList := range unitLists {
 		for _, bu := range unitList {
