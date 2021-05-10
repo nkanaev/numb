@@ -22,6 +22,7 @@ const (
 	LUMINOUS_INTENSITY
 	AMOUNT_OF_SUBSTANCE
 	POWER
+	FORCE
 )
 
 type Unit struct {
@@ -123,6 +124,7 @@ func init() {
 		luminousIntensityUnits,
 		amountOfSubstanceUnits,
 		powerUnits,
+		forceUnits,
 	}
 	for _, unitList := range unitLists {
 		for _, bu := range unitList {
