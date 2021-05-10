@@ -13,7 +13,6 @@ var powerUnits = []baseUnit{
 		aliases:      []string{"horsepower"},
 		value:        f64(745.69987158227),
 		dimension:    POWER,
-		prefixes:     &metricPrefixes,
 		description:  "mechanical horsepower",
 	},
 }
