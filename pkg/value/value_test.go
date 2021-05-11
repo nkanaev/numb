@@ -3,10 +3,10 @@ package value
 import "testing"
 
 func TestFormat(t *testing.T) {
-	testcases := []struct{
+	testcases := []struct {
 		have string
 		prec int
-		sep string
+		sep  string
 		want string
 	}{
 		{"1", 2, ",", "1"},

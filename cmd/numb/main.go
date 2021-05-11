@@ -44,11 +44,11 @@ func repl() {
 
 	state, err := term.MakeRaw(int(os.Stdin.Fd()))
 	if err != nil {
-			panic(err)
+		panic(err)
 	}
 	defer term.Restore(int(os.Stdin.Fd()), state)
 
-	screen := struct{
+	screen := struct {
 		io.Reader
 		io.Writer
 	}{os.Stdin, os.Stdout}

@@ -146,8 +146,8 @@ func AddExchangeRates(currencies []Currency) {
 	for _, cur := range currencies {
 		code := strings.ToUpper(cur.Code)
 		u := &Unit{
-			name: code,
-			value: new(big.Rat).SetFloat64(1 / cur.Rate),
+			name:      code,
+			value:     new(big.Rat).SetFloat64(1 / cur.Rate),
 			dimension: CURRENCY,
 		}
 		db[code] = u

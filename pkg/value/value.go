@@ -192,7 +192,7 @@ func (a Value) String() string {
 }
 
 func (a Value) Format(sep string, prec int) string {
-	num := a.dec(prec)	
+	num := a.dec(prec)
 
 	l, r := num, ""
 
@@ -210,7 +210,7 @@ func (a Value) Format(sep string, prec int) string {
 	x := ""
 	for len(l) > 3 {
 		x = x + sep + l[len(l)-3:len(l)]
-		l = l[0:len(l)-3]
+		l = l[0 : len(l)-3]
 	}
 	l = s + l + x
 

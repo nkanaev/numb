@@ -36,7 +36,7 @@ func (s *Scanner) nextChar() {
 func (s *Scanner) next() {
 	for ; unicode.IsSpace(s.char()); s.nextChar() {
 	}
-	
+
 	if s.cur >= len(s.src) {
 		s.Token = token.END
 		return
