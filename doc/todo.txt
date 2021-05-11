@@ -2,4 +2,5 @@
 - us/imperial units disambugation
 - arithmetic functions
 - more trigonometric functions
+- unit plural form & case sensitivity?
 - documentation
