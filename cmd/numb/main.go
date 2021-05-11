@@ -116,7 +116,7 @@ func loadCurrencies(filepath string) {
 func main() {
 	flag.IntVar(&prec, "prec", prec, "decimal precision")
 	flag.StringVar(&sep, "sep", sep, "thousand separator")
-	flag.StringVar(&rates, "rates", "", "path to exchange rates file")
+	flag.StringVar(&rates, "rates", os.Getenv("NUMB_RATES"), "path to exchange rates file")
 	flag.Parse()
 
 	if rates != "" {
