@@ -15,8 +15,6 @@ import (
 	"golang.org/x/term"
 )
 
-const CURRENCYFILE = "currency.txt"
-
 var prompt = "> "
 var prefix = "  "
 
