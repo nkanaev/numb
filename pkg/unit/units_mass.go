@@ -8,4 +8,11 @@ var massUnits = []baseUnit{
 		dimension: MASS,
 		prefixes:  &metricPrefixes,
 	},
+	{
+		name:      "t",
+		aliases:   []string{"tonne", "metric-ton"},
+		value:     f64(1000),
+		dimension: MASS,
+		prefixes:  &metricPrefixes,
+	},
 }

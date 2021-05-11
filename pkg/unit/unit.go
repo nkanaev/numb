@@ -8,7 +8,7 @@ import (
 type Dimension uint32
 
 const (
-	LENGTH Dimension = 1 << iota
+	LENGTH Dimension = iota
 	TEMPERATURE
 	AREA
 	VOLUME
