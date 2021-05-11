@@ -1,6 +1,7 @@
 package unit
 
 import (
+	"fmt"
 	"math/big"
 	"strings"
 )
@@ -25,6 +26,29 @@ const (
 	FORCE
 	ENERGY
 )
+
+var dimensionNames = map[Dimension]string {
+	LENGTH: "length",
+	TEMPERATURE: "temperature",
+	AREA: "area",
+	VOLUME: "volume",
+	MASS: "mass",
+	TIME: "time",
+	ANGLE: "angle",
+	DIGITAL: "digital",
+	CURRENCY: "currency",
+	FREQUENCY: "frequency",
+	ELECTRIC_CURRENT: "electric current",
+	LUMINOUS_INTENSITY: "luminous intensity",
+	AMOUNT_OF_SUBSTANCE: "amount of substance",
+	POWER: "power",
+	FORCE: "force",
+	ENERGY: "energy",
+}
+
+func (d Dimension) String() string {
+	return dimensionNames[d]
+}
 
 type Unit struct {
 	name      string
@@ -110,8 +134,8 @@ func Get(x string) *Unit {
 	return nil
 }
 
-func init() {
-	unitLists := [][]baseUnit{
+func getUnitList() [][]baseUnit {
+	return [][]baseUnit{
 		lengthUnits,
 		temperatureUnits,
 		volumeUnits,
@@ -128,11 +152,39 @@ func init() {
 		forceUnits,
 		energyUnits,
 	}
-	for _, unitList := range unitLists {
+}
+
+func init() {
+	for _, unitList := range getUnitList() {
 		for _, bu := range unitList {
 			for key, val := range bu.Expand() {
 				db[key] = val
 			}
+		}
+	}
+}
+
+func Help() {
+	for i, unitList := range getUnitList() {
+		if i != 0 {
+			fmt.Println("")
+		}
+		fmt.Println("#", unitList[0].dimension)
+		for _, bu := range unitList {
+			names := make([]string, 0, 1 + len(bu.aliases) + len(bu.shortaliases))
+			names = append(names, bu.name)
+			for _, alias := range bu.shortaliases {
+				names = append(names, alias)
+			}
+			for _, alias := range bu.aliases {
+				names = append(names, alias)
+			}
+
+			var description string
+			if bu.description != "" {
+				description = " # " + bu.description
+			}
+			fmt.Printf("    %-16s%s\n", strings.Join(names, ", "), description)
 		}
 	}
 }
