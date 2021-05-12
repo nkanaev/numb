@@ -27,23 +27,23 @@ const (
 	ENERGY
 )
 
-var dimensionNames = map[Dimension]string {
-	LENGTH: "length",
-	TEMPERATURE: "temperature",
-	AREA: "area",
-	VOLUME: "volume",
-	MASS: "mass",
-	TIME: "time",
-	ANGLE: "angle",
-	DIGITAL: "digital",
-	CURRENCY: "currency",
-	FREQUENCY: "frequency",
-	ELECTRIC_CURRENT: "electric current",
-	LUMINOUS_INTENSITY: "luminous intensity",
+var dimensionNames = map[Dimension]string{
+	LENGTH:              "length",
+	TEMPERATURE:         "temperature",
+	AREA:                "area",
+	VOLUME:              "volume",
+	MASS:                "mass",
+	TIME:                "time",
+	ANGLE:               "angle",
+	DIGITAL:             "digital",
+	CURRENCY:            "currency",
+	FREQUENCY:           "frequency",
+	ELECTRIC_CURRENT:    "electric current",
+	LUMINOUS_INTENSITY:  "luminous intensity",
 	AMOUNT_OF_SUBSTANCE: "amount of substance",
-	POWER: "power",
-	FORCE: "force",
-	ENERGY: "energy",
+	POWER:               "power",
+	FORCE:               "force",
+	ENERGY:              "energy",
 }
 
 func (d Dimension) String() string {
@@ -171,7 +171,7 @@ func Help() {
 		}
 		fmt.Println("#", unitList[0].dimension)
 		for _, bu := range unitList {
-			names := make([]string, 0, 1 + len(bu.aliases) + len(bu.shortaliases))
+			names := make([]string, 0, 1+len(bu.aliases)+len(bu.shortaliases))
 			names = append(names, bu.name)
 			for _, alias := range bu.shortaliases {
 				names = append(names, alias)

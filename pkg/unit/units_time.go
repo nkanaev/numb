@@ -2,11 +2,11 @@ package unit
 
 var timeUnits = []baseUnit{
 	{
-		name:      "s",
-		aliases:   []string{"sec", "second"},
-		value:     f64(1),
-		dimension: TIME,
-		prefixes:  &metricPrefixes,
+		name:        "s",
+		aliases:     []string{"sec", "second"},
+		value:       f64(1),
+		dimension:   TIME,
+		prefixes:    &metricPrefixes,
 		description: "SI base unit",
 	},
 	{

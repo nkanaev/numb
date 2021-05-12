@@ -8,11 +8,11 @@ func f64(n float64) *big.Rat {
 
 var lengthUnits = []baseUnit{
 	{
-		name:      "m",
-		aliases:   []string{"meter", "metre"},
-		value:     f64(1),
-		dimension: LENGTH,
-		prefixes:  &metricPrefixes,
+		name:        "m",
+		aliases:     []string{"meter", "metre"},
+		value:       f64(1),
+		dimension:   LENGTH,
+		prefixes:    &metricPrefixes,
 		description: "SI base unit",
 	},
 	{

@@ -4,11 +4,11 @@ import "math/big"
 
 var temperatureUnits = []baseUnit{
 	{
-		name:      "K",
-		aliases:   []string{"kelvin"},
-		value:     f64(1),
-		dimension: TEMPERATURE,
-		prefixes:  &metricPrefixes,
+		name:        "K",
+		aliases:     []string{"kelvin"},
+		value:       f64(1),
+		dimension:   TEMPERATURE,
+		prefixes:    &metricPrefixes,
 		description: "SI base unit",
 	},
 	{
