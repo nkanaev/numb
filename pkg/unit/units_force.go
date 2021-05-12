@@ -2,11 +2,11 @@ package unit
 
 var forceUnits = []baseUnit{
 	{
-		name:      "N",
-		aliases:   []string{"newton"},
-		value:     f64(1),
-		dimension: FORCE,
-		prefixes:  &metricPrefixes,
+		name:        "N",
+		aliases:     []string{"newton"},
+		value:       f64(1),
+		dimension:   FORCE,
+		prefixes:    &metricPrefixes,
 		description: "SI derived unit",
 	},
 	{

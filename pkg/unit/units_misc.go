@@ -2,11 +2,11 @@ package unit
 
 var frequencyUnits = []baseUnit{
 	{
-		name:      "Hz",
-		aliases:   []string{"hertz"},
-		value:     f64(1),
-		dimension: FREQUENCY,
-		prefixes:  &metricPrefixes,
+		name:        "Hz",
+		aliases:     []string{"hertz"},
+		value:       f64(1),
+		dimension:   FREQUENCY,
+		prefixes:    &metricPrefixes,
 		description: "SI derived unit",
 	},
 }
@@ -124,12 +124,12 @@ var electricInductanceUnits = []baseUnit{
 
 var electricResistanceUnits = []baseUnit{
 	{
-		name:        "Ω",
+		name:         "Ω",
 		shortaliases: []string{"ohm"},
-		aliases:     []string{"ohm"},
-		value:       f64(1),
-		dimension:   ELECTRIC_RESISTANCE,
-		prefixes:    &metricPrefixes,
-		description: "SI derived unit",
+		aliases:      []string{"ohm"},
+		value:        f64(1),
+		dimension:    ELECTRIC_RESISTANCE,
+		prefixes:     &metricPrefixes,
+		description:  "SI derived unit",
 	},
 }

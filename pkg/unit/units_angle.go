@@ -41,7 +41,7 @@ var angleUnits = []baseUnit{
 	},
 	{
 		name:      "grad",
-		aliases: []string{"grade", "gradian"},
+		aliases:   []string{"grade", "gradian"},
 		value:     unitdiv(consts.PI, 200),
 		dimension: ANGLE,
 	},

@@ -2,11 +2,11 @@ package unit
 
 var powerUnits = []baseUnit{
 	{
-		name:      "W",
-		aliases:   []string{"watt"},
-		value:     f64(1),
-		dimension: POWER,
-		prefixes:  &metricPrefixes,
+		name:        "W",
+		aliases:     []string{"watt"},
+		value:       f64(1),
+		dimension:   POWER,
+		prefixes:    &metricPrefixes,
 		description: "SI derived unit",
 	},
 	{

@@ -30,11 +30,11 @@ var pressureUnits = []baseUnit{
 		dimension: PRESSURE,
 	},
 	{
-		name:        "bar",
-		aliases:     []string{"bar"},
-		value:       f64(100000),
-		dimension:   PRESSURE,
-		prefixes:    &metricPrefixes,
+		name:      "bar",
+		aliases:   []string{"bar"},
+		value:     f64(100000),
+		dimension: PRESSURE,
+		prefixes:  &metricPrefixes,
 	},
 	{
 		name:      "torr",

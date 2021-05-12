@@ -16,7 +16,7 @@ var volumeUnits = []baseUnit{
 		value:        f64(0.001),
 		dimension:    VOLUME,
 		prefixes:     &metricPrefixes,
-		description: "SI-accepted unit (1 l = 0.001 m³)",
+		description:  "SI-accepted unit (1 l = 0.001 m³)",
 	},
 	{
 		name:         "in³",
