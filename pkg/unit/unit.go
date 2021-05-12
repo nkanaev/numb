@@ -25,6 +25,13 @@ const (
 	POWER
 	FORCE
 	ENERGY
+	ELECTRIC_CHARGE
+	ELECTRIC_POTENTIAL
+	ELECTRIC_CAPACITANCE
+	ELECTRIC_CONDUCTANCE
+	MAGNETIC_FLUX
+	MAGNETIC_FLUX_DENSITY
+	ELECTRIC_INDUCTANCE
 )
 
 var dimensionNames = map[Dimension]string{
@@ -44,6 +51,13 @@ var dimensionNames = map[Dimension]string{
 	POWER:               "power",
 	FORCE:               "force",
 	ENERGY:              "energy",
+	ELECTRIC_CHARGE:     "electric charge",
+	ELECTRIC_POTENTIAL:  "electric potential",
+	ELECTRIC_CAPACITANCE:"electric capacitance",
+	ELECTRIC_CONDUCTANCE:"electric conductance",
+	MAGNETIC_FLUX:       "magnetic flux",
+	MAGNETIC_FLUX_DENSITY:"magnetic flux density",
+	ELECTRIC_INDUCTANCE: "electrric inductance",
 }
 
 func (d Dimension) String() string {
@@ -151,6 +165,13 @@ func getUnitList() [][]baseUnit {
 		powerUnits,
 		forceUnits,
 		energyUnits,
+		electricChargeUnits,
+		electricPotentialUnits,
+		electricCapaticanceUnits,
+		electricConductanceUnits,
+		magneticFluxUnits,
+		magneticFluxDensityUnits,
+		electricInductanceUnits,
 	}
 }
 
