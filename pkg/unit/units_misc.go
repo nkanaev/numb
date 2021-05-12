@@ -12,11 +12,13 @@ var frequencyUnits = []baseUnit{
 
 var electricCurrentUnits = []baseUnit{
 	{
-		name:      "a",
+		name:      "A",
+		shortaliases: []string{"amp"},
 		aliases:   []string{"ampere"},
 		value:     f64(1),
 		dimension: ELECTRIC_CURRENT,
 		prefixes:  &metricPrefixes,
+		description: "SI base unit",
 	},
 }
 
@@ -27,6 +29,7 @@ var luminousIntensityUnits = []baseUnit{
 		value:     f64(1),
 		dimension: LUMINOUS_INTENSITY,
 		prefixes:  &metricPrefixes,
+		description: "SI base unit",
 	},
 }
 
@@ -37,5 +40,6 @@ var amountOfSubstanceUnits = []baseUnit{
 		value:     f64(1),
 		dimension: AMOUNT_OF_SUBSTANCE,
 		prefixes:  &metricPrefixes,
+		description: "SI base unit",
 	},
 }

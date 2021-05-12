@@ -7,6 +7,7 @@ var timeUnits = []baseUnit{
 		value:     f64(1),
 		dimension: TIME,
 		prefixes:  &metricPrefixes,
+		description: "SI base unit",
 	},
 	{
 		name:      "min",

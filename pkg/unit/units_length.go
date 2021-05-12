@@ -13,6 +13,7 @@ var lengthUnits = []baseUnit{
 		value:     f64(1),
 		dimension: LENGTH,
 		prefixes:  &metricPrefixes,
+		description: "SI base unit",
 	},
 	{
 		name:      "in",

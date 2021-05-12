@@ -7,6 +7,7 @@ var massUnits = []baseUnit{
 		value:     f64(0.001),
 		dimension: MASS,
 		prefixes:  &metricPrefixes,
+		description: "(0.001 kg - SI base unit)",
 	},
 	{
 		name:      "t",

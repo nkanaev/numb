@@ -9,6 +9,7 @@ var temperatureUnits = []baseUnit{
 		value:     f64(1),
 		dimension: TEMPERATURE,
 		prefixes:  &metricPrefixes,
+		description: "SI base unit",
 	},
 	{
 		name:         "°C",
