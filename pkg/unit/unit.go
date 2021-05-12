@@ -83,6 +83,7 @@ type baseUnit struct {
 	prefixes     *[]prefix
 	prefixpow    int
 	description  string
+	// TODO: kohm/kiloohm, kbar/kilobar, kilohm (vower omitted) edge cases
 }
 
 func (bu baseUnit) Expand() map[string]*Unit {
