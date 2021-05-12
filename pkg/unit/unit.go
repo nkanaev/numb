@@ -61,6 +61,7 @@ var dimensionNames = map[Dimension]string{
 	MAGNETIC_FLUX_DENSITY: "magnetic flux density",
 	ELECTRIC_INDUCTANCE:   "electric inductance",
 	ELECTRIC_RESISTANCE:   "electric resistance",
+	PRESSURE:              "pressure",
 }
 
 func (d Dimension) String() string {
