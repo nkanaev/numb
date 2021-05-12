@@ -18,6 +18,7 @@ var temperatureUnits = []baseUnit{
 		value:        f64(1),
 		offset:       f64(273.15),
 		dimension:    TEMPERATURE,
+		description: "SI derived unit",
 	},
 	{
 		name:         "°F",

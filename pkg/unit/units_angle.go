@@ -18,6 +18,7 @@ var angleUnits = []baseUnit{
 		aliases:   []string{"radian"},
 		value:     f64(1),
 		dimension: ANGLE,
+		description: "SI derived unit",
 	},
 	{
 		name:      "deg",

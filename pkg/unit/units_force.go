@@ -7,6 +7,7 @@ var forceUnits = []baseUnit{
 		value:     f64(1),
 		dimension: FORCE,
 		prefixes:  &metricPrefixes,
+		description: "SI derived unit",
 	},
 	{
 		name:      "dyn",

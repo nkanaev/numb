@@ -7,6 +7,7 @@ var energyUnits = []baseUnit{
 		value:     f64(1),
 		dimension: ENERGY,
 		prefixes:  &metricPrefixes,
+		description: "SI derived unit",
 	},
 	{
 		name:      "Wh",

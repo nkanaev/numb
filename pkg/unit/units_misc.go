@@ -2,11 +2,12 @@ package unit
 
 var frequencyUnits = []baseUnit{
 	{
-		name:      "hz",
+		name:      "Hz",
 		aliases:   []string{"hertz"},
 		value:     f64(1),
 		dimension: FREQUENCY,
 		prefixes:  &metricPrefixes,
+		description: "SI derived unit",
 	},
 }
 

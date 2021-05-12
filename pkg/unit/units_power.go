@@ -7,6 +7,7 @@ var powerUnits = []baseUnit{
 		value:     f64(1),
 		dimension: POWER,
 		prefixes:  &metricPrefixes,
+		description: "SI derived unit",
 	},
 	{
 		name:        "hp",
