@@ -25,13 +25,13 @@ var massUnits = []baseUnit{
 		value:     f64(1000),
 		dimension: MASS,
 		prefixes:  &metricPrefixes,
-		description: "SI-mentioned unit (1 t = 1000 kg)",
+		description: "SI-accepted unit (1 t = 1000 kg)",
 	},
 	{
 		name: "Da",
-		shortaliases: []string{"u"},
 		aliases: []string{"dalton"},
 		value: parse("1.6605402e-27"),
 		dimension: MASS,
+		description: "SI-accepted unit",
 	},
 }

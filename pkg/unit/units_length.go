@@ -73,13 +73,13 @@ var lengthUnits = []baseUnit{
 		aliases:   []string{"astronomical-unit"},
 		value:     f64(149597870700),
 		dimension: LENGTH,
-		description: "SI-mentioned unit",
+		description: "SI-accepted unit",
 	},
 	{
 		name:      "ly",
 		aliases:   []string{"light-year"},
 		value:     f64(9460730472580800),
 		dimension: LENGTH,
-		description: "SI-mentioned unit",
+		description: "SI-accepted unit",
 	},
 }

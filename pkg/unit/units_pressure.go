@@ -35,7 +35,6 @@ var pressureUnits = []baseUnit{
 		value:       f64(100000),
 		dimension:   PRESSURE,
 		prefixes:    &metricPrefixes,
-		description: "SI-mentioned unit (1 bar = 100,000 Pa)",
 	},
 	{
 		name:      "torr",
