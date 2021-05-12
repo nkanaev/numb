@@ -12,13 +12,11 @@ numb
 examples:
 
     $ numb
-    enter `q` to quit
-    > 2 + 2
-      4
+    Enter `q` to quit
+    > 0b1001100110111 as hex
+      0x1337
     > 3 millilightsecond to mile
       558.85 mi
-    > (0b1000 - 1) xor 2 as hex
-      0x5
 
 operations:
 
