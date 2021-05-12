@@ -15,8 +15,8 @@ examples:
     enter `q` to quit
     > 2 + 2
       4
-    > 15 inches to centimetre
-      38.1 cm
+    > 3 millilightsecond to mile
+      558.85 mi
     > (0b1000 - 1) xor 2 as hex
       0x5
 
