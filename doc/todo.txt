@@ -1,3 +1,4 @@
+- verbose error messages
 - file/stdin support
 - us/imperial units disambugation
 - arithmetic functions
