@@ -22,6 +22,7 @@ var energyUnits = []baseUnit{
 		value:     f64(1.602176565e-19),
 		dimension: ENERGY,
 		prefixes:  &metricPrefixes,
+		description: "SI-mentioned unit",
 	},
 	{
 		name:      "erg",

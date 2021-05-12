@@ -54,8 +54,10 @@ var areaUnits = []baseUnit{
 		dimension: AREA,
 	},
 	{
-		name:      "hectare",
+		name:      "ha",
+		aliases: []string{"hectare"},
 		value:     f64(10000),
 		dimension: AREA,
+		description: "SI-mentioned unit (1 ha = 10,000 m²)",
 	},
 }

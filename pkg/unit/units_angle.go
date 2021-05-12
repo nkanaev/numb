@@ -21,9 +21,10 @@ var angleUnits = []baseUnit{
 		description: "SI derived unit",
 	},
 	{
-		name:      "deg",
-		aliases:   []string{"degree"},
+		name:      "°",
+		aliases:   []string{"deg", "degree"},
 		value:     unitdiv(consts.PI, 180),
 		dimension: ANGLE,
+		description: "SI-mentioned unit",
 	},
 }
