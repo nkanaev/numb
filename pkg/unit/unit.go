@@ -32,6 +32,7 @@ const (
 	MAGNETIC_FLUX
 	MAGNETIC_FLUX_DENSITY
 	ELECTRIC_INDUCTANCE
+	ELECTRIC_RESISTANCE
 )
 
 var dimensionNames = map[Dimension]string{
@@ -57,7 +58,8 @@ var dimensionNames = map[Dimension]string{
 	ELECTRIC_CONDUCTANCE:"electric conductance",
 	MAGNETIC_FLUX:       "magnetic flux",
 	MAGNETIC_FLUX_DENSITY:"magnetic flux density",
-	ELECTRIC_INDUCTANCE: "electrric inductance",
+	ELECTRIC_INDUCTANCE: "electric inductance",
+	ELECTRIC_RESISTANCE: "electric resistance",
 }
 
 func (d Dimension) String() string {
@@ -172,6 +174,7 @@ func getUnitList() [][]baseUnit {
 		magneticFluxUnits,
 		magneticFluxDensityUnits,
 		electricInductanceUnits,
+		electricResistanceUnits,
 	}
 }
 

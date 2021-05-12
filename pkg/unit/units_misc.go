@@ -121,3 +121,15 @@ var electricInductanceUnits = []baseUnit{
 		description: "SI derived unit",
 	},
 }
+
+var electricResistanceUnits = []baseUnit{
+	{
+		name:        "Ω",
+		shortaliases: []string{"ohm"},
+		aliases:     []string{"ohm"},
+		value:       f64(1),
+		dimension:   ELECTRIC_RESISTANCE,
+		prefixes:    &metricPrefixes,
+		description: "SI derived unit",
+	},
+}
