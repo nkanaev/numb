@@ -155,3 +155,14 @@ var ionizingRadiationUnits = []baseUnit{
 		description:  "SI derived unit",
 	},
 }
+
+var catalycticActivityUnits = []baseUnit{
+	{
+		name:         "kat",
+		aliases:      []string{"katal"},
+		value:        f64(1),
+		dimension:    CATALYCTIC_ACTIVITY,
+		prefixes:     &metricPrefixes,
+		description:  "SI derived unit",
+	},
+}
