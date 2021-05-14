@@ -84,10 +84,10 @@ var lengthUnits = []baseUnit{
 		description: "SI-accepted unit",
 	},
 	{
-		name:        "lightsecond",
-		aliases:     []string{"lightsecond", "light-second"},
-		value:       f64(299792458),
-		dimension:   LENGTH,
-		prefixes:    &metricPrefixes,
+		name:      "lightsecond",
+		aliases:   []string{"lightsecond", "light-second"},
+		value:     f64(299792458),
+		dimension: LENGTH,
+		prefixes:  &metricPrefixes,
 	},
 }

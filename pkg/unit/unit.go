@@ -69,13 +69,13 @@ var dimensionNames = map[Dimension]string{
 	ELECTRIC_INDUCTANCE:   "electric inductance",
 	ELECTRIC_RESISTANCE:   "electric resistance",
 	PRESSURE:              "pressure",
-	RADIOACTIVITY: "radiactivity",
-	SOLID_ANGLE: "solid angle",
-	IONIZING_RADIATION: "ionizing radiation",
-	CATALYCTIC_ACTIVITY: "catalyctic activity",
-	RADIATION_DOSE: "radiation dose",
-	LUMINOUS_FLUX: "luminous flux",
-	ILLUMINANCE: "illuminance",
+	RADIOACTIVITY:         "radiactivity",
+	SOLID_ANGLE:           "solid angle",
+	IONIZING_RADIATION:    "ionizing radiation",
+	CATALYCTIC_ACTIVITY:   "catalyctic activity",
+	RADIATION_DOSE:        "radiation dose",
+	LUMINOUS_FLUX:         "luminous flux",
+	ILLUMINANCE:           "illuminance",
 }
 
 func (d Dimension) String() string {

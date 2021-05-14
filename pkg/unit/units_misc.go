@@ -136,66 +136,66 @@ var electricResistanceUnits = []baseUnit{
 
 var solidAngleUnits = []baseUnit{
 	{
-		name:         "sr",
-		aliases:      []string{"steradian"},
-		value:        f64(1),
-		dimension:    SOLID_ANGLE,
-		prefixes:     &metricPrefixes,
-		description:  "SI derived unit",
+		name:        "sr",
+		aliases:     []string{"steradian"},
+		value:       f64(1),
+		dimension:   SOLID_ANGLE,
+		prefixes:    &metricPrefixes,
+		description: "SI derived unit",
 	},
 }
 
 var ionizingRadiationUnits = []baseUnit{
 	{
-		name:         "Sv",
-		aliases:      []string{"sievert"},
-		value:        f64(1),
-		dimension:    IONIZING_RADIATION,
-		prefixes:     &metricPrefixes,
-		description:  "SI derived unit",
+		name:        "Sv",
+		aliases:     []string{"sievert"},
+		value:       f64(1),
+		dimension:   IONIZING_RADIATION,
+		prefixes:    &metricPrefixes,
+		description: "SI derived unit",
 	},
 }
 
 var radiationDoseUnits = []baseUnit{
 	{
-		name:         "Gy",
-		aliases:      []string{"gray"},
-		value:        f64(1),
-		dimension:    RADIATION_DOSE,
-		prefixes:     &metricPrefixes,
-		description:  "SI derived unit",
+		name:        "Gy",
+		aliases:     []string{"gray"},
+		value:       f64(1),
+		dimension:   RADIATION_DOSE,
+		prefixes:    &metricPrefixes,
+		description: "SI derived unit",
 	},
 }
 
 var catalycticActivityUnits = []baseUnit{
 	{
-		name:         "kat",
-		aliases:      []string{"katal"},
-		value:        f64(1),
-		dimension:    CATALYCTIC_ACTIVITY,
-		prefixes:     &metricPrefixes,
-		description:  "SI derived unit",
+		name:        "kat",
+		aliases:     []string{"katal"},
+		value:       f64(1),
+		dimension:   CATALYCTIC_ACTIVITY,
+		prefixes:    &metricPrefixes,
+		description: "SI derived unit",
 	},
 }
 
 var luminousFluxUnits = []baseUnit{
 	{
-		name:         "lm",
-		aliases:      []string{"lumen"},
-		value:        f64(1),
-		dimension:    LUMINOUS_FLUX,
-		prefixes:     &metricPrefixes,
-		description:  "SI derived unit",
+		name:        "lm",
+		aliases:     []string{"lumen"},
+		value:       f64(1),
+		dimension:   LUMINOUS_FLUX,
+		prefixes:    &metricPrefixes,
+		description: "SI derived unit",
 	},
 }
 
 var illuminanceUnits = []baseUnit{
 	{
-		name:         "lx",
-		aliases:      []string{"lux"},
-		value:        f64(1),
-		dimension:    ILLUMINANCE,
-		prefixes:     &metricPrefixes,
-		description:  "SI derived unit",
+		name:        "lx",
+		aliases:     []string{"lux"},
+		value:       f64(1),
+		dimension:   ILLUMINANCE,
+		prefixes:    &metricPrefixes,
+		description: "SI derived unit",
 	},
 }
