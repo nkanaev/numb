@@ -133,3 +133,14 @@ var electricResistanceUnits = []baseUnit{
 		description:  "SI derived unit",
 	},
 }
+
+var solidAngleUnits = []baseUnit{
+	{
+		name:         "sr",
+		aliases:      []string{"steradian"},
+		value:        f64(1),
+		dimension:    SOLID_ANGLE,
+		prefixes:     &metricPrefixes,
+		description:  "SI derived unit",
+	},
+}
