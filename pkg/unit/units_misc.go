@@ -156,6 +156,17 @@ var ionizingRadiationUnits = []baseUnit{
 	},
 }
 
+var radiationDoseUnits = []baseUnit{
+	{
+		name:         "Gy",
+		aliases:      []string{"gray"},
+		value:        f64(1),
+		dimension:    RADIATION_DOSE,
+		prefixes:     &metricPrefixes,
+		description:  "SI derived unit",
+	},
+}
+
 var catalycticActivityUnits = []baseUnit{
 	{
 		name:         "kat",
