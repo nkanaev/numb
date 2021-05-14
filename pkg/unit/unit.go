@@ -36,6 +36,7 @@ const (
 	PRESSURE
 	RADIOACTIVITY
 	SOLID_ANGLE
+	IONIZING_RADIATION
 )
 
 var dimensionNames = map[Dimension]string{
@@ -183,6 +184,7 @@ func getUnitList() [][]baseUnit {
 		pressureUnits,
 		radioactivityUnits,
 		solidAngleUnits,
+		ionizingRadiationUnits,
 	}
 }
 

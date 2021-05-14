@@ -144,3 +144,14 @@ var solidAngleUnits = []baseUnit{
 		description:  "SI derived unit",
 	},
 }
+
+var ionizingRadiationUnits = []baseUnit{
+	{
+		name:         "Sv",
+		aliases:      []string{"sievert"},
+		value:        f64(1),
+		dimension:    IONIZING_RADIATION,
+		prefixes:     &metricPrefixes,
+		description:  "SI derived unit",
+	},
+}
