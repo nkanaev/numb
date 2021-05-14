@@ -188,3 +188,14 @@ var luminousFluxUnits = []baseUnit{
 		description:  "SI derived unit",
 	},
 }
+
+var illuminanceUnits = []baseUnit{
+	{
+		name:         "lx",
+		aliases:      []string{"lux"},
+		value:        f64(1),
+		dimension:    ILLUMINANCE,
+		prefixes:     &metricPrefixes,
+		description:  "SI derived unit",
+	},
+}

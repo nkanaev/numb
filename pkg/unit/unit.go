@@ -40,6 +40,7 @@ const (
 	CATALYCTIC_ACTIVITY
 	RADIATION_DOSE
 	LUMINOUS_FLUX
+	ILLUMINANCE
 )
 
 var dimensionNames = map[Dimension]string{
@@ -191,6 +192,7 @@ func getUnitList() [][]baseUnit {
 		catalycticActivityUnits,
 		radiationDoseUnits,
 		luminousFluxUnits,
+		illuminanceUnits,
 	}
 }
 
