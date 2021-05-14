@@ -5,6 +5,3 @@
 - more trigonometric functions
 - unit plural form & case sensitivity?
 - documentation
-
-bugs:
-- check `2 pow 20`
