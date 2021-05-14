@@ -64,6 +64,10 @@ func (s *Scanner) next() {
 				prefix = "0o"
 				accept = "01234567"
 				s.nextChar()
+			} else if !unicode.IsDigit(ch) {
+				s.Token = token.NUM
+				s.Value = "0"
+				return
 			}
 		}
 		acceptChars := accept + separators
