@@ -34,6 +34,7 @@ const (
 	ELECTRIC_INDUCTANCE
 	ELECTRIC_RESISTANCE
 	PRESSURE
+	RADIOACTIVITY
 )
 
 var dimensionNames = map[Dimension]string{
@@ -179,6 +180,7 @@ func getUnitList() [][]baseUnit {
 		electricInductanceUnits,
 		electricResistanceUnits,
 		pressureUnits,
+		radioactivityUnits,
 	}
 }
 
