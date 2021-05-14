@@ -177,3 +177,14 @@ var catalycticActivityUnits = []baseUnit{
 		description:  "SI derived unit",
 	},
 }
+
+var luminousFluxUnits = []baseUnit{
+	{
+		name:         "lm",
+		aliases:      []string{"lumen"},
+		value:        f64(1),
+		dimension:    LUMINOUS_FLUX,
+		prefixes:     &metricPrefixes,
+		description:  "SI derived unit",
+	},
+}
