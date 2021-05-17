@@ -90,11 +90,11 @@ type Unit struct {
 }
 
 type baseUnit struct {
+	d         Dimension
 	name      string
 	long      string
 	value     *big.Rat
 	offset    *big.Rat
-	dimension Dimension
 	prefixes  *[]prefix
 	prefixpow int
 	info      string
@@ -119,7 +119,7 @@ func (bu baseUnit) Expand() map[string]*Unit {
 		name:      name,
 		value:     bu.value,
 		offset:    bu.offset,
-		dimension: bu.dimension,
+		dimension: bu.d,
 	}
 
 	for _, alias := range shortforms {
@@ -143,7 +143,7 @@ func (bu baseUnit) Expand() map[string]*Unit {
 				name:      pr.abbr + name,
 				value:     prefixValue,
 				offset:    bu.offset,
-				dimension: bu.dimension,
+				dimension: bu.d,
 			}
 
 			for _, alias := range longforms {
@@ -227,7 +227,7 @@ func Help() {
 		if i != 0 {
 			fmt.Println("")
 		}
-		fmt.Println("#", unitList[0].dimension)
+		fmt.Println("#", unitList[0].d)
 		for _, bu := range unitList {
 			names := splitlist(bu.name)
 			names = append(names, splitlist(bu.long)...)
