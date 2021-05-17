@@ -1,8 +1,26 @@
 package unit
 
 import (
+	"math/big"
+
 	"github.com/nkanaev/numb/pkg/consts"
 )
+
+var one = big.NewRat(1, 1)
+
+func div(a *big.Rat, x int64) *big.Rat {
+	num := new(big.Rat).Set(a)
+	num.Quo(num, big.NewRat(x, 1))
+	return num
+}
+
+func num(x string) *big.Rat {
+	rat, ok := new(big.Rat).SetString(x)
+	if !ok {
+		panic("unable to parse: " + x)
+	}
+	return rat
+}
 
 var units = []baseUnit{
 	{d: LENGTH, name: "m", long: "meter, metre", value: one, prefixes: &metricPrefixes, info: "SI base unit"},
@@ -40,11 +58,11 @@ var units = []baseUnit{
 	{d: TEMPERATURE, name: "°F, degF", long: "fahrenheit", value: num("10/18"), offset: num("459.67")},
 
 	{d: ANGLE, name: "rad", long: "radian", value: one, info: "SI derived unit"},
-	{d: ANGLE, name: "°", long: "deg, degree", value: unitdiv(consts.PI, 180), info: "SI-accepted unit"},
-	{d: ANGLE, name: "arcsec", value: unitdiv(consts.PI, 648000), info: "SI-accepted unit (pi / 648000)"},
-	{d: ANGLE, name: "arcmin", value: unitdiv(consts.PI, 10800), info: "SI-accepted unit (pi / 10800)"},
-	{d: ANGLE, name: "grad", long: "grade, gradian", value: unitdiv(consts.PI, 200)},
-	{d: ANGLE, name: "cycle", value: unitdiv(consts.PI, 2)},
+	{d: ANGLE, name: "°", long: "deg, degree", value: div(consts.PI, 180), info: "SI-accepted unit"},
+	{d: ANGLE, name: "arcsec", value: div(consts.PI, 648000), info: "SI-accepted unit (pi / 648000)"},
+	{d: ANGLE, name: "arcmin", value: div(consts.PI, 10800), info: "SI-accepted unit (pi / 10800)"},
+	{d: ANGLE, name: "grad", long: "grade, gradian", value: div(consts.PI, 200)},
+	{d: ANGLE, name: "cycle", value: div(consts.PI, 2)},
 
 	{d: DIGITAL, name: "bit", long: "bit", value: one, prefixes: &digitalPrefixes},
 	{d: DIGITAL, name: "b", long: "byte", value: num("8"), prefixes: &digitalPrefixes},
@@ -55,13 +73,13 @@ var units = []baseUnit{
 	{d: AREA, name: "yd², sqyd", long: "sqyard", value: num("0.83612736")},
 	{d: AREA, name: "rd², rd2, sqrd", value: num("25.29295")},
 	{d: AREA, name: "ch², sqch", value: num("404.6873")},
-	{d: AREA, name: "mi², sqmil, sqmi", long: "sqmile", value: f64(6.4516e-10)},
+	{d: AREA, name: "mi², sqmil, sqmi", long: "sqmile", value: num("6.4516e-10")},
 	{d: AREA, name: "acre", value: num("4046.86")},
 	{d: AREA, name: "ha", long: "hectare", value: num("10000"), info: "SI-accepted unit (1 ha = 10,000 m²)"},
 
 	{d: VOLUME, name: "m³, m3", value: one, prefixes: &metricPrefixes, prefixpow: 3},
 	{d: VOLUME, name: "l, lt", long: "liter, litre", value: num("0.001"), prefixes: &metricPrefixes, info: "SI-accepted unit (1 l = 0.001 m³)"},
-	{d: VOLUME, name: "in³, in3, cuin", value: f64(1.6387064e-5)},
+	{d: VOLUME, name: "in³, in3, cuin", value: num("1.6387064e-5")},
 	{d: VOLUME, name: "ft³, ft3, cuft", value: num("0.028316846592")},
 	{d: VOLUME, name: "yd³, yd3, cuyd", value: num("0.764554857984")},
 	{d: VOLUME, name: "teaspoon", value: num("0.000005")},
@@ -69,7 +87,7 @@ var units = []baseUnit{
 
 	{d: ENERGY, name: "J", long: "joule", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{d: ENERGY, name: "Wh", long: "watt-hour", value: num("3600"), prefixes: &metricPrefixes},
-	{d: ENERGY, name: "eV", long: "electronvolt", value: f64(1.602176565e-19), prefixes: &metricPrefixes, info: "SI-accepted unit"},
+	{d: ENERGY, name: "eV", long: "electronvolt", value: num("1.602176565e-19"), prefixes: &metricPrefixes, info: "SI-accepted unit"},
 	{d: ENERGY, name: "erg", value: exp(10, -7)},
 
 	{d: FORCE, name: "N", long: "newton", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
@@ -92,7 +110,7 @@ var units = []baseUnit{
 	{d: POWER, name: "hp", long: "horsepower", value: num("745.69987158227"), info: "mechanical horsepower"},
 
 	{d: RADIOACTIVITY, name: "Bq", long: "becquierel", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
-	{d: RADIOACTIVITY, name: "Ci", long: "curie", value: f64(3.7e+10)},
+	{d: RADIOACTIVITY, name: "Ci", long: "curie", value: num("3.7e10")},
 	{d: RADIOACTIVITY, name: "Rd", long: "rutherford", value: exp(10, 6)},
 
 	{d: AMOUNT_OF_SUBSTANCE, name: "mol", long: "mole", value: one, prefixes: &metricPrefixes, info: "SI base unit"},
