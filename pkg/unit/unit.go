@@ -90,15 +90,15 @@ type Unit struct {
 }
 
 type baseUnit struct {
-	name        string
-	long        string
-	value       *big.Rat
-	offset      *big.Rat
-	dimension   Dimension
-	prefixes    *[]prefix
-	prefixpow   int
-	description string
-	// TODO: kohm/kiloohm, kbar/kilobar, kilohm (vower omitted) edge cases
+	name      string
+	long      string
+	value     *big.Rat
+	offset    *big.Rat
+	dimension Dimension
+	prefixes  *[]prefix
+	prefixpow int
+	info      string
+	// TODO: kohm/kiloohm, kbar/kilobar, kilohm (vowel omitted) edge cases
 }
 
 func splitlist(x string) []string {
@@ -233,8 +233,8 @@ func Help() {
 			names = append(names, splitlist(bu.long)...)
 
 			var description string
-			if bu.description != "" {
-				description = " # " + bu.description
+			if bu.info != "" {
+				description = " # " + bu.info
 			}
 			fmt.Printf("    %-16s%s\n", strings.Join(names, ", "), description)
 		}
