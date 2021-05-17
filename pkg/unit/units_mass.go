@@ -12,7 +12,7 @@ func parse(x string) *big.Rat {
 
 var massUnits = []baseUnit{
 	{
-		short:       "g",
+		name:        "g",
 		long:        "gram",
 		value:       f64(0.001),
 		dimension:   MASS,
@@ -20,7 +20,7 @@ var massUnits = []baseUnit{
 		description: "(0.001 kg - SI base unit)",
 	},
 	{
-		short:       "t",
+		name:        "t",
 		long:        "tonne, metric-ton",
 		value:       f64(1000),
 		dimension:   MASS,
@@ -28,7 +28,7 @@ var massUnits = []baseUnit{
 		description: "SI-accepted unit (1 t = 1000 kg)",
 	},
 	{
-		short:       "Da",
+		name:        "Da",
 		long:        "dalton",
 		value:       parse("1.6605402e-27"),
 		dimension:   MASS,

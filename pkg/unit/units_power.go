@@ -2,7 +2,7 @@ package unit
 
 var powerUnits = []baseUnit{
 	{
-		short:       "W",
+		name:        "W",
 		long:        "watt",
 		value:       f64(1),
 		dimension:   POWER,
@@ -10,7 +10,7 @@ var powerUnits = []baseUnit{
 		description: "SI derived unit",
 	},
 	{
-		short:       "hp",
+		name:        "hp",
 		long:        "horsepower",
 		value:       f64(745.69987158227),
 		dimension:   POWER,

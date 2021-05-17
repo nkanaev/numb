@@ -2,7 +2,7 @@ package unit
 
 var forceUnits = []baseUnit{
 	{
-		short:       "N",
+		name:        "N",
 		long:        "newton",
 		value:       f64(1),
 		dimension:   FORCE,
@@ -10,24 +10,24 @@ var forceUnits = []baseUnit{
 		description: "SI derived unit",
 	},
 	{
-		short:     "dyn",
+		name:      "dyn",
 		long:      "dyne",
 		value:     exp(10, -5),
 		dimension: FORCE,
 	},
 	{
-		short:     "lbf",
+		name:      "lbf",
 		long:      "poundforce",
 		value:     f64(4.4482216152605),
 		dimension: FORCE,
 	},
 	{
-		short:     "kip",
+		name:      "kip",
 		value:     f64(4448.2216),
 		dimension: FORCE,
 	},
 	{
-		short:     "pdl",
+		name:      "pdl",
 		long:      "poundal",
 		value:     f64(0.138254954376),
 		dimension: FORCE,

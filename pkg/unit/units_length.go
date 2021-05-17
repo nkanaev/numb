@@ -8,7 +8,7 @@ func f64(n float64) *big.Rat {
 
 var lengthUnits = []baseUnit{
 	{
-		short:       "m",
+		name:        "m",
 		long:        "meter, metre",
 		value:       f64(1),
 		dimension:   LENGTH,
@@ -16,67 +16,67 @@ var lengthUnits = []baseUnit{
 		description: "SI base unit",
 	},
 	{
-		short:     "in",
+		name:      "in",
 		long:      "inch",
 		value:     f64(0.0254),
 		dimension: LENGTH,
 	},
 	{
-		short:     "ft",
+		name:      "ft",
 		long:      "foot, feet",
 		value:     f64(0.3048),
 		dimension: LENGTH,
 	},
 	{
-		short:     "yd",
+		name:      "yd",
 		long:      "yard, yards",
 		value:     f64(0.9144),
 		dimension: LENGTH,
 	},
 	{
-		short:     "mi",
+		name:      "mi",
 		long:      "mile, miles",
 		value:     f64(1609.344),
 		dimension: LENGTH,
 	},
 
 	{
-		short:     "li",
+		name:      "li",
 		long:      "link",
 		value:     f64(0.201168),
 		dimension: LENGTH,
 	},
 	{
-		short:     "rd",
+		name:      "rd",
 		long:      "rod",
 		value:     f64(5.0292),
 		dimension: LENGTH,
 	},
 	{
-		short:     "ch",
+		name:      "ch",
 		long:      "chain",
 		value:     f64(20.1),
 		dimension: LENGTH,
 	},
 	{
-		short:     "angstrom",
+		name:      "angstrom",
 		value:     exp(10, -10),
 		dimension: LENGTH,
 	},
 	{
-		short:     "mil",
+		name:      "mil",
 		value:     f64(0.0000254),
 		dimension: LENGTH,
 	},
 	{
-		short:       "au",
+		name:        "au",
 		long:        "astronomical-unit",
 		value:       f64(149597870700),
 		dimension:   LENGTH,
 		description: "SI-accepted unit",
 	},
 	{
-		short:       "ly",
+		name:        "ly",
 		long:        "lightyeaar, light-year",
 		value:       f64(9460730472580800),
 		dimension:   LENGTH,
@@ -84,7 +84,7 @@ var lengthUnits = []baseUnit{
 		description: "SI-accepted unit",
 	},
 	{
-		short:     "lightsecond",
+		name:      "lightsecond",
 		long:      "lightsecond, light-second",
 		value:     f64(299792458),
 		dimension: LENGTH,

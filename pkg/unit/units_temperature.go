@@ -4,7 +4,7 @@ import "math/big"
 
 var temperatureUnits = []baseUnit{
 	{
-		short:       "K",
+		name:        "K",
 		long:        "kelvin",
 		value:       f64(1),
 		dimension:   TEMPERATURE,
@@ -12,7 +12,7 @@ var temperatureUnits = []baseUnit{
 		description: "SI base unit",
 	},
 	{
-		short:       "°C, degC",
+		name:        "°C, degC",
 		long:        "celsius",
 		value:       f64(1),
 		offset:      f64(273.15),
@@ -20,7 +20,7 @@ var temperatureUnits = []baseUnit{
 		description: "SI derived unit",
 	},
 	{
-		short:     "°F, degF",
+		name:      "°F, degF",
 		long:      "fahrenheit",
 		value:     big.NewRat(10, 18),
 		offset:    f64(459.67),

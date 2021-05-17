@@ -90,7 +90,7 @@ type Unit struct {
 }
 
 type baseUnit struct {
-	short       string
+	name        string
 	long        string
 	value       *big.Rat
 	offset      *big.Rat
@@ -110,7 +110,7 @@ func splitlist(x string) []string {
 }
 
 func (bu baseUnit) Expand() map[string]*Unit {
-	shortforms := splitlist(bu.short)
+	shortforms := splitlist(bu.name)
 	longforms := splitlist(bu.long)
 	name := shortforms[0]
 
@@ -229,7 +229,7 @@ func Help() {
 		}
 		fmt.Println("#", unitList[0].dimension)
 		for _, bu := range unitList {
-			names := splitlist(bu.short)
+			names := splitlist(bu.name)
 			names = append(names, splitlist(bu.long)...)
 
 			var description string

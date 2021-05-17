@@ -2,7 +2,7 @@ package unit
 
 var frequencyUnits = []baseUnit{
 	{
-		short:       "Hz",
+		name:        "Hz",
 		long:        "hertz",
 		value:       f64(1),
 		dimension:   FREQUENCY,
@@ -13,7 +13,7 @@ var frequencyUnits = []baseUnit{
 
 var electricCurrentUnits = []baseUnit{
 	{
-		short:       "A, amp",
+		name:        "A, amp",
 		long:        "ampere",
 		value:       f64(1),
 		dimension:   ELECTRIC_CURRENT,
@@ -24,7 +24,7 @@ var electricCurrentUnits = []baseUnit{
 
 var luminousIntensityUnits = []baseUnit{
 	{
-		short:       "cd",
+		name:        "cd",
 		long:        "candela",
 		value:       f64(1),
 		dimension:   LUMINOUS_INTENSITY,
@@ -35,7 +35,7 @@ var luminousIntensityUnits = []baseUnit{
 
 var amountOfSubstanceUnits = []baseUnit{
 	{
-		short:       "mol",
+		name:        "mol",
 		long:        "mole",
 		value:       f64(1),
 		dimension:   AMOUNT_OF_SUBSTANCE,
@@ -46,7 +46,7 @@ var amountOfSubstanceUnits = []baseUnit{
 
 var electricChargeUnits = []baseUnit{
 	{
-		short:       "C",
+		name:        "C",
 		long:        "coulomb",
 		value:       f64(1),
 		dimension:   ELECTRIC_CHARGE,
@@ -57,7 +57,7 @@ var electricChargeUnits = []baseUnit{
 
 var electricPotentialUnits = []baseUnit{
 	{
-		short:       "V",
+		name:        "V",
 		long:        "volt",
 		value:       f64(1),
 		dimension:   ELECTRIC_POTENTIAL,
@@ -68,7 +68,7 @@ var electricPotentialUnits = []baseUnit{
 
 var electricCapaticanceUnits = []baseUnit{
 	{
-		short:       "F",
+		name:        "F",
 		long:        "farad",
 		value:       f64(1),
 		dimension:   ELECTRIC_CAPACITANCE,
@@ -79,7 +79,7 @@ var electricCapaticanceUnits = []baseUnit{
 
 var electricConductanceUnits = []baseUnit{
 	{
-		short:       "S",
+		name:        "S",
 		long:        "siemens",
 		value:       f64(1),
 		dimension:   ELECTRIC_CONDUCTANCE,
@@ -90,7 +90,7 @@ var electricConductanceUnits = []baseUnit{
 
 var magneticFluxUnits = []baseUnit{
 	{
-		short:       "Wb",
+		name:        "Wb",
 		long:        "weber",
 		value:       f64(1),
 		dimension:   MAGNETIC_FLUX,
@@ -101,7 +101,7 @@ var magneticFluxUnits = []baseUnit{
 
 var magneticFluxDensityUnits = []baseUnit{
 	{
-		short:       "T",
+		name:        "T",
 		long:        "tesla",
 		value:       f64(1),
 		dimension:   MAGNETIC_FLUX_DENSITY,
@@ -112,7 +112,7 @@ var magneticFluxDensityUnits = []baseUnit{
 
 var electricInductanceUnits = []baseUnit{
 	{
-		short:       "H",
+		name:        "H",
 		long:        "henry",
 		value:       f64(1),
 		dimension:   ELECTRIC_INDUCTANCE,
@@ -123,7 +123,7 @@ var electricInductanceUnits = []baseUnit{
 
 var electricResistanceUnits = []baseUnit{
 	{
-		short:       "Ω, ohm",
+		name:        "Ω, ohm",
 		long:        "ohm",
 		value:       f64(1),
 		dimension:   ELECTRIC_RESISTANCE,
@@ -134,7 +134,7 @@ var electricResistanceUnits = []baseUnit{
 
 var solidAngleUnits = []baseUnit{
 	{
-		short:       "sr",
+		name:        "sr",
 		long:        "steradian",
 		value:       f64(1),
 		dimension:   SOLID_ANGLE,
@@ -145,7 +145,7 @@ var solidAngleUnits = []baseUnit{
 
 var ionizingRadiationUnits = []baseUnit{
 	{
-		short:       "Sv",
+		name:        "Sv",
 		long:        "sievert",
 		value:       f64(1),
 		dimension:   IONIZING_RADIATION,
@@ -156,7 +156,7 @@ var ionizingRadiationUnits = []baseUnit{
 
 var radiationDoseUnits = []baseUnit{
 	{
-		short:       "Gy",
+		name:        "Gy",
 		long:        "gray",
 		value:       f64(1),
 		dimension:   RADIATION_DOSE,
@@ -167,7 +167,7 @@ var radiationDoseUnits = []baseUnit{
 
 var catalycticActivityUnits = []baseUnit{
 	{
-		short:       "kat",
+		name:        "kat",
 		long:        "katal",
 		value:       f64(1),
 		dimension:   CATALYCTIC_ACTIVITY,
@@ -178,7 +178,7 @@ var catalycticActivityUnits = []baseUnit{
 
 var luminousFluxUnits = []baseUnit{
 	{
-		short:       "lm",
+		name:        "lm",
 		long:        "lumen",
 		value:       f64(1),
 		dimension:   LUMINOUS_FLUX,
@@ -189,7 +189,7 @@ var luminousFluxUnits = []baseUnit{
 
 var illuminanceUnits = []baseUnit{
 	{
-		short:       "lx",
+		name:        "lx",
 		long:        "lux",
 		value:       f64(1),
 		dimension:   ILLUMINANCE,
