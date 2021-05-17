@@ -1,15 +1,5 @@
 package unit
 
-import "math/big"
-
-func parse(x string) *big.Rat {
-	rat, ok := new(big.Rat).SetString(x)
-	if !ok {
-		panic("unable to parse: " + x)
-	}
-	return rat
-}
-
 var massUnits = []baseUnit{
 	{name: "g", long: "gram", value: f64(0.001), dimension: MASS, prefixes: &metricPrefixes, info: "(0.001 kg - SI base unit)"},
 	{name: "t", long: "tonne, metric-ton", value: f64(1000), dimension: MASS, prefixes: &metricPrefixes, info: "SI-accepted unit (1 t = 1000 kg)"},

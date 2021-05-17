@@ -1,16 +1,8 @@
 package unit
 
 import (
-	"math/big"
-
 	"github.com/nkanaev/numb/pkg/consts"
 )
-
-func unitdiv(a *big.Rat, x int64) *big.Rat {
-	num := new(big.Rat).Set(a)
-	num.Quo(num, big.NewRat(x, 1))
-	return num
-}
 
 var angleUnits = []baseUnit{
 	{name: "rad", long: "radian", value: f64(1), dimension: ANGLE, info: "SI derived unit"},

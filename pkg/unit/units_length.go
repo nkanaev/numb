@@ -1,11 +1,5 @@
 package unit
 
-import "math/big"
-
-func f64(n float64) *big.Rat {
-	return new(big.Rat).SetFloat64(n)
-}
-
 var lengthUnits = []baseUnit{
 	{name: "m", long: "meter, metre", value: f64(1), dimension: LENGTH, prefixes: &metricPrefixes, info: "SI base unit"},
 	{name: "in", long: "inch", value: f64(0.0254), dimension: LENGTH},
