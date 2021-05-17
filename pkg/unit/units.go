@@ -1,8 +1,6 @@
 package unit
 
 import (
-	"math/big"
-
 	"github.com/nkanaev/numb/pkg/consts"
 )
 
@@ -28,7 +26,7 @@ var units = []baseUnit{
 
 	{d: TEMPERATURE, name: "K", long: "kelvin", value: one, prefixes: &metricPrefixes, info: "SI base unit"},
 	{d: TEMPERATURE, name: "°C, degC", long: "celsius", value: one, offset: num("273.15"), info: "SI derived unit"},
-	{d: TEMPERATURE, name: "°F, degF", long: "fahrenheit", value: big.NewRat(10, 18), offset: num("459.67")},
+	{d: TEMPERATURE, name: "°F, degF", long: "fahrenheit", value: num("10/18"), offset: num("459.67")},
 
 	{d: ANGLE, name: "rad", long: "radian", value: one, info: "SI derived unit"},
 	{d: ANGLE, name: "°", long: "deg, degree", value: unitdiv(consts.PI, 180), info: "SI-accepted unit"},
@@ -74,7 +72,7 @@ var units = []baseUnit{
 	{d: PRESSURE, name: "at", long: "technical-atmosphere", value: num("98066.5")},
 	{d: PRESSURE, name: "atm", long: "atmosphere, standard-atmosphere", value: num("101325")},
 	{d: PRESSURE, name: "bar", long: "bar", value: num("100000"), prefixes: &metricPrefixes},
-	{d: PRESSURE, name: "torr", long: "Torr", value: big.NewRat(101325, 760)},
+	{d: PRESSURE, name: "torr", long: "Torr", value: num("101325/760")},
 	{d: PRESSURE, name: "mmHg", value: num("133.322387415")},
 	{d: PRESSURE, name: "mmH2O", value: num("9.80665")},
 	{d: PRESSURE, name: "cmH2O", value: num("98.0665")},
