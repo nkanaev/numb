@@ -2,30 +2,30 @@ package unit
 
 var energyUnits = []baseUnit{
 	{
-		name:        "J",
-		aliases:     []string{"joule"},
+		short:       "J",
+		long:        "joule",
 		value:       f64(1),
 		dimension:   ENERGY,
 		prefixes:    &metricPrefixes,
 		description: "SI derived unit",
 	},
 	{
-		name:      "Wh",
-		aliases:   []string{"watt-hour"},
+		short:     "Wh",
+		long:      "watt-hour",
 		value:     f64(3600),
 		dimension: ENERGY,
 		prefixes:  &metricPrefixes,
 	},
 	{
-		name:        "eV",
-		aliases:     []string{"electronvolt"},
+		short:       "eV",
+		long:        "electronvolt",
 		value:       f64(1.602176565e-19),
 		dimension:   ENERGY,
 		prefixes:    &metricPrefixes,
 		description: "SI-accepted unit",
 	},
 	{
-		name:      "erg",
+		short:     "erg",
 		value:     exp(10, -7),
 		dimension: ENERGY,
 	},

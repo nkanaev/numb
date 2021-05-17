@@ -90,32 +90,42 @@ type Unit struct {
 }
 
 type baseUnit struct {
-	name         string
-	value        *big.Rat
-	offset       *big.Rat
-	aliases      []string
-	shortaliases []string
-	dimension    Dimension
-	prefixes     *[]prefix
-	prefixpow    int
-	description  string
+	short       string
+	long        string
+	value       *big.Rat
+	offset      *big.Rat
+	dimension   Dimension
+	prefixes    *[]prefix
+	prefixpow   int
+	description string
 	// TODO: kohm/kiloohm, kbar/kilobar, kilohm (vower omitted) edge cases
 }
 
+func splitlist(x string) []string {
+	list := make([]string, 0)
+	for _, chunk := range strings.Split(x, ",") {
+		list = append(list, strings.TrimSpace(chunk))
+	}
+	return list
+}
+
 func (bu baseUnit) Expand() map[string]*Unit {
+	shortforms := splitlist(bu.short)
+	longforms := splitlist(bu.long)
+	name := shortforms[0]
+
 	result := make(map[string]*Unit, 0)
 	unit := &Unit{
-		name:      bu.name,
+		name:      name,
 		value:     bu.value,
 		offset:    bu.offset,
 		dimension: bu.dimension,
 	}
 
-	result[bu.name] = unit
-	for _, alias := range bu.aliases {
+	for _, alias := range shortforms {
 		result[alias] = unit
 	}
-	for _, alias := range bu.shortaliases {
+	for _, alias := range longforms {
 		result[alias] = unit
 	}
 
@@ -130,17 +140,16 @@ func (bu baseUnit) Expand() map[string]*Unit {
 				}
 			}
 			prefixUnit := &Unit{
-				name:      pr.abbr + bu.name,
+				name:      pr.abbr + name,
 				value:     prefixValue,
 				offset:    bu.offset,
 				dimension: bu.dimension,
 			}
 
-			result[pr.abbr+bu.name] = prefixUnit
-			for _, alias := range bu.aliases {
+			for _, alias := range longforms {
 				result[pr.name+alias] = prefixUnit
 			}
-			for _, alias := range bu.shortaliases {
+			for _, alias := range shortforms {
 				result[pr.abbr+alias] = prefixUnit
 			}
 		}
@@ -220,14 +229,8 @@ func Help() {
 		}
 		fmt.Println("#", unitList[0].dimension)
 		for _, bu := range unitList {
-			names := make([]string, 0, 1+len(bu.aliases)+len(bu.shortaliases))
-			names = append(names, bu.name)
-			for _, alias := range bu.shortaliases {
-				names = append(names, alias)
-			}
-			for _, alias := range bu.aliases {
-				names = append(names, alias)
-			}
+			names := splitlist(bu.short)
+			names = append(names, splitlist(bu.long)...)
 
 			var description string
 			if bu.description != "" {

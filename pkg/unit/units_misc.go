@@ -2,8 +2,8 @@ package unit
 
 var frequencyUnits = []baseUnit{
 	{
-		name:        "Hz",
-		aliases:     []string{"hertz"},
+		short:       "Hz",
+		long:        "hertz",
 		value:       f64(1),
 		dimension:   FREQUENCY,
 		prefixes:    &metricPrefixes,
@@ -13,20 +13,19 @@ var frequencyUnits = []baseUnit{
 
 var electricCurrentUnits = []baseUnit{
 	{
-		name:         "A",
-		shortaliases: []string{"amp"},
-		aliases:      []string{"ampere"},
-		value:        f64(1),
-		dimension:    ELECTRIC_CURRENT,
-		prefixes:     &metricPrefixes,
-		description:  "SI base unit",
+		short:       "A, amp",
+		long:        "ampere",
+		value:       f64(1),
+		dimension:   ELECTRIC_CURRENT,
+		prefixes:    &metricPrefixes,
+		description: "SI base unit",
 	},
 }
 
 var luminousIntensityUnits = []baseUnit{
 	{
-		name:        "cd",
-		aliases:     []string{"candela"},
+		short:       "cd",
+		long:        "candela",
 		value:       f64(1),
 		dimension:   LUMINOUS_INTENSITY,
 		prefixes:    &metricPrefixes,
@@ -36,8 +35,8 @@ var luminousIntensityUnits = []baseUnit{
 
 var amountOfSubstanceUnits = []baseUnit{
 	{
-		name:        "mol",
-		aliases:     []string{"mole"},
+		short:       "mol",
+		long:        "mole",
 		value:       f64(1),
 		dimension:   AMOUNT_OF_SUBSTANCE,
 		prefixes:    &metricPrefixes,
@@ -47,8 +46,8 @@ var amountOfSubstanceUnits = []baseUnit{
 
 var electricChargeUnits = []baseUnit{
 	{
-		name:        "C",
-		aliases:     []string{"coulomb"},
+		short:       "C",
+		long:        "coulomb",
 		value:       f64(1),
 		dimension:   ELECTRIC_CHARGE,
 		prefixes:    &metricPrefixes,
@@ -58,8 +57,8 @@ var electricChargeUnits = []baseUnit{
 
 var electricPotentialUnits = []baseUnit{
 	{
-		name:        "V",
-		aliases:     []string{"volt"},
+		short:       "V",
+		long:        "volt",
 		value:       f64(1),
 		dimension:   ELECTRIC_POTENTIAL,
 		prefixes:    &metricPrefixes,
@@ -69,8 +68,8 @@ var electricPotentialUnits = []baseUnit{
 
 var electricCapaticanceUnits = []baseUnit{
 	{
-		name:        "F",
-		aliases:     []string{"farad"},
+		short:       "F",
+		long:        "farad",
 		value:       f64(1),
 		dimension:   ELECTRIC_CAPACITANCE,
 		prefixes:    &metricPrefixes,
@@ -80,8 +79,8 @@ var electricCapaticanceUnits = []baseUnit{
 
 var electricConductanceUnits = []baseUnit{
 	{
-		name:        "S",
-		aliases:     []string{"siemens"},
+		short:       "S",
+		long:        "siemens",
 		value:       f64(1),
 		dimension:   ELECTRIC_CONDUCTANCE,
 		prefixes:    &metricPrefixes,
@@ -91,8 +90,8 @@ var electricConductanceUnits = []baseUnit{
 
 var magneticFluxUnits = []baseUnit{
 	{
-		name:        "Wb",
-		aliases:     []string{"weber"},
+		short:       "Wb",
+		long:        "weber",
 		value:       f64(1),
 		dimension:   MAGNETIC_FLUX,
 		prefixes:    &metricPrefixes,
@@ -102,8 +101,8 @@ var magneticFluxUnits = []baseUnit{
 
 var magneticFluxDensityUnits = []baseUnit{
 	{
-		name:        "T",
-		aliases:     []string{"tesla"},
+		short:       "T",
+		long:        "tesla",
 		value:       f64(1),
 		dimension:   MAGNETIC_FLUX_DENSITY,
 		prefixes:    &metricPrefixes,
@@ -113,8 +112,8 @@ var magneticFluxDensityUnits = []baseUnit{
 
 var electricInductanceUnits = []baseUnit{
 	{
-		name:        "H",
-		aliases:     []string{"henry"},
+		short:       "H",
+		long:        "henry",
 		value:       f64(1),
 		dimension:   ELECTRIC_INDUCTANCE,
 		prefixes:    &metricPrefixes,
@@ -124,20 +123,19 @@ var electricInductanceUnits = []baseUnit{
 
 var electricResistanceUnits = []baseUnit{
 	{
-		name:         "Ω",
-		shortaliases: []string{"ohm"},
-		aliases:      []string{"ohm"},
-		value:        f64(1),
-		dimension:    ELECTRIC_RESISTANCE,
-		prefixes:     &metricPrefixes,
-		description:  "SI derived unit",
+		short:       "Ω, ohm",
+		long:        "ohm",
+		value:       f64(1),
+		dimension:   ELECTRIC_RESISTANCE,
+		prefixes:    &metricPrefixes,
+		description: "SI derived unit",
 	},
 }
 
 var solidAngleUnits = []baseUnit{
 	{
-		name:        "sr",
-		aliases:     []string{"steradian"},
+		short:       "sr",
+		long:        "steradian",
 		value:       f64(1),
 		dimension:   SOLID_ANGLE,
 		prefixes:    &metricPrefixes,
@@ -147,8 +145,8 @@ var solidAngleUnits = []baseUnit{
 
 var ionizingRadiationUnits = []baseUnit{
 	{
-		name:        "Sv",
-		aliases:     []string{"sievert"},
+		short:       "Sv",
+		long:        "sievert",
 		value:       f64(1),
 		dimension:   IONIZING_RADIATION,
 		prefixes:    &metricPrefixes,
@@ -158,8 +156,8 @@ var ionizingRadiationUnits = []baseUnit{
 
 var radiationDoseUnits = []baseUnit{
 	{
-		name:        "Gy",
-		aliases:     []string{"gray"},
+		short:       "Gy",
+		long:        "gray",
 		value:       f64(1),
 		dimension:   RADIATION_DOSE,
 		prefixes:    &metricPrefixes,
@@ -169,8 +167,8 @@ var radiationDoseUnits = []baseUnit{
 
 var catalycticActivityUnits = []baseUnit{
 	{
-		name:        "kat",
-		aliases:     []string{"katal"},
+		short:       "kat",
+		long:        "katal",
 		value:       f64(1),
 		dimension:   CATALYCTIC_ACTIVITY,
 		prefixes:    &metricPrefixes,
@@ -180,8 +178,8 @@ var catalycticActivityUnits = []baseUnit{
 
 var luminousFluxUnits = []baseUnit{
 	{
-		name:        "lm",
-		aliases:     []string{"lumen"},
+		short:       "lm",
+		long:        "lumen",
 		value:       f64(1),
 		dimension:   LUMINOUS_FLUX,
 		prefixes:    &metricPrefixes,
@@ -191,8 +189,8 @@ var luminousFluxUnits = []baseUnit{
 
 var illuminanceUnits = []baseUnit{
 	{
-		name:        "lx",
-		aliases:     []string{"lux"},
+		short:       "lx",
+		long:        "lux",
 		value:       f64(1),
 		dimension:   ILLUMINANCE,
 		prefixes:    &metricPrefixes,
