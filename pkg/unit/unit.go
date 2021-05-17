@@ -176,68 +176,30 @@ func Get(x string) *Unit {
 	return nil
 }
 
-func getUnitList() [][]baseUnit {
-	return [][]baseUnit{
-		lengthUnits,
-		temperatureUnits,
-		volumeUnits,
-		areaUnits,
-		timeUnits,
-		digitalUnits,
-		angleUnits,
-		massUnits,
-		frequencyUnits,
-		electricCurrentUnits,
-		luminousIntensityUnits,
-		amountOfSubstanceUnits,
-		powerUnits,
-		forceUnits,
-		energyUnits,
-		electricChargeUnits,
-		electricPotentialUnits,
-		electricCapaticanceUnits,
-		electricConductanceUnits,
-		magneticFluxUnits,
-		magneticFluxDensityUnits,
-		electricInductanceUnits,
-		electricResistanceUnits,
-		pressureUnits,
-		radioactivityUnits,
-		solidAngleUnits,
-		ionizingRadiationUnits,
-		catalycticActivityUnits,
-		radiationDoseUnits,
-		luminousFluxUnits,
-		illuminanceUnits,
-	}
-}
-
 func init() {
-	for _, unitList := range getUnitList() {
-		for _, bu := range unitList {
-			for key, val := range bu.Expand() {
-				db[key] = val
-			}
+	for _, bu := range units {
+		for key, val := range bu.Expand() {
+			db[key] = val
 		}
 	}
 }
 
 func Help() {
-	for i, unitList := range getUnitList() {
-		if i != 0 {
+	prevd := ILLUMINANCE
+	for _, bu := range units {
+		if bu.d != prevd {
 			fmt.Println("")
+			fmt.Println("#", bu.d)
+			prevd = bu.d
 		}
-		fmt.Println("#", unitList[0].d)
-		for _, bu := range unitList {
-			names := splitlist(bu.name)
-			names = append(names, splitlist(bu.long)...)
+		names := splitlist(bu.name)
+		names = append(names, splitlist(bu.long)...)
 
-			var description string
-			if bu.info != "" {
-				description = " # " + bu.info
-			}
-			fmt.Printf("    %-16s%s\n", strings.Join(names, ", "), description)
+		var description string
+		if bu.info != "" {
+			description = " # " + bu.info
 		}
+		fmt.Printf("    %-16s%s\n", strings.Join(names, ", "), description)
 	}
 }
 
