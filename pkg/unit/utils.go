@@ -10,7 +10,7 @@ func unitdiv(a *big.Rat, x int64) *big.Rat {
 	return num
 }
 
-func parse(x string) *big.Rat {
+func num(x string) *big.Rat {
 	rat, ok := new(big.Rat).SetString(x)
 	if !ok {
 		panic("unable to parse: " + x)
