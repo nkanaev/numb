@@ -65,7 +65,7 @@ var units = []baseUnit{
 	{d: ANGLE, name: "cycle", value: div(consts.PI, 2)},
 
 	{d: DIGITAL, name: "bit", long: "bit", value: one, prefixes: &digitalPrefixes},
-	{d: DIGITAL, name: "b", long: "byte", value: num("8"), prefixes: &digitalPrefixes},
+	{d: DIGITAL, name: "B", long: "byte", value: num("8"), prefixes: &digitalPrefixes},
 
 	{d: AREA, name: "m², m2", value: one, prefixes: &metricPrefixes, prefixpow: 2},
 	{d: AREA, name: "in², in2, sqin", value: num("0.00064516")},
