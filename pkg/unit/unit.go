@@ -102,6 +102,9 @@ type baseUnit struct {
 }
 
 func splitlist(x string) []string {
+	if len(x) == 0 {
+		return nil
+	}
 	list := make([]string, 0)
 	for _, chunk := range strings.Split(x, ",") {
 		list = append(list, strings.TrimSpace(chunk))
@@ -189,17 +192,21 @@ func Help() {
 	for _, bu := range units {
 		if bu.d != prevd {
 			fmt.Println("")
-			fmt.Println("#", bu.d)
+			fmt.Println(bu.d)
 			prevd = bu.d
 		}
 		names := splitlist(bu.name)
-		names = append(names, splitlist(bu.long)...)
+
+		longforms := splitlist(bu.long)
+		if len(longforms) > 0 {
+			names = append(names, longforms...)
+		}
 
 		var description string
 		if bu.info != "" {
-			description = " # " + bu.info
+			description = " | " + bu.info
 		}
-		fmt.Printf("    %-16s%s\n", strings.Join(names, ", "), description)
+		fmt.Printf("    %-20s%s\n", strings.Join(names, ", "), description)
 	}
 }
 
