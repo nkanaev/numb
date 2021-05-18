@@ -64,6 +64,16 @@ func (s *Scanner) next() {
 				prefix = "0o"
 				accept = "01234567"
 				s.nextChar()
+			} else if ch == '.' {
+				digits = append(digits, '0')
+				digits = append(digits, '.')
+				s.nextChar()
+				for ; strings.ContainsRune(accept, s.char()); s.nextChar() {
+					digits = append(digits, s.char())
+				}
+				s.Token = token.NUM
+				s.Value = prefix + string(digits)
+				return
 			} else if !unicode.IsDigit(ch) {
 				s.Token = token.NUM
 				s.Value = "0"
