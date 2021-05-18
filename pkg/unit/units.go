@@ -156,7 +156,7 @@ var units = []baseUnit{
 	{d: ELECTRIC_CURRENT, name: "A, amp", long: "ampere", value: one, prefixes: &metricPrefixes, info: "SI base unit"},
 	{d: ELECTRIC_INDUCTANCE, name: "H", long: "henry", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{d: ELECTRIC_POTENTIAL, name: "V", long: "volt", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
-	{d: ELECTRIC_RESISTANCE, name: "Ω, ohm", long: "ohm", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
+	{d: ELECTRIC_RESISTANCE, name: "ohm", long: "ohm", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{d: FREQUENCY, name: "Hz", long: "hertz", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{d: ILLUMINANCE, name: "lx", long: "lux", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{d: IONIZING_RADIATION, name: "Sv", long: "sievert", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},

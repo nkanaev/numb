@@ -98,7 +98,6 @@ type baseUnit struct {
 	prefixes  *[]prefix
 	prefixpow int
 	info      string
-	// TODO: kohm/kiloohm, kbar/kilobar, kilohm (vowel omitted) edge cases
 }
 
 func splitlist(x string) []string {
@@ -199,7 +198,10 @@ func Help() {
 
 		longforms := splitlist(bu.long)
 		if len(longforms) > 0 {
-			names = append(names, longforms...)
+			// prevent long/short forms from appearing twice (ex.: bar, ohm)
+			if longforms[0] != names[0] {
+				names = append(names, longforms...)
+			}
 		}
 
 		var description string
