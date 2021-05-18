@@ -31,8 +31,12 @@ func mul(a *big.Rat, n int64) *big.Rat {
 var iyard = num("0.9144")
 var ipound = num("0.45359237")
 
+// Weights and Measures Act 1985
+var igallon = num("4.54609")
+
 // NOTE: planned to be phased out by the NIST by 2023
 var sfoot = big.NewRat(1200, 3937)
+
 
 var units = []baseUnit{
 	{d: LENGTH, name: "m", long: "meter, metre", value: one, prefixes: &metricPrefixes, info: "SI base unit"},
@@ -50,7 +54,7 @@ var units = []baseUnit{
 	{d: LENGTH, name: "li, link", value: div(mul(sfoot, 33), 50), info: "33/50 US survey ft."},
 	{d: LENGTH, name: "usfoot, surveyfoot", value: sfoot, info: "US survey ft."},
 	{d: LENGTH, name: "rd, rod", value: div(mul(sfoot, 33), 2), info: "16.5 survey ft."},
-	{d: LENGTH, name: "uschain, surveyorchain, gunterchain", mul(sfoot, 66), info: "66 survey ft."},
+	{d: LENGTH, name: "uschain, surveyorchain, gunterchain", value: mul(sfoot, 66), info: "66 survey ft."},
 	// lengths: misc
 	{d: LENGTH, name: "angstrom", value: exp(10, -10)},
 	{d: LENGTH, name: "au", long: "astronomical-unit", value: num("149597870700"), info: "accepted for use with the SI"},
@@ -103,6 +107,12 @@ var units = []baseUnit{
 	{d: VOLUME, name: "yd³, yd3, cuyd", value: num("0.764554857984")},
 	{d: VOLUME, name: "teaspoon", value: num("0.000005")},
 	{d: VOLUME, name: "tablespoon", value: num("0.000015")},
+	// volumes: Imperial
+	{d: VOLUME: name: "i:floz, imperialfluidounce", div(igallon, 160), info: "1/160 of Imperial Gallon"},
+	{d: VOLUME: name: "i:gi, imperialgill", div(igallon, 32), info: "1/32 of Imperial Gallon"},
+	{d: VOLUME: name: "i:pt, imperialpint", div(igallon, 8), info: "1/8 of Imperial Gallon"},
+	{d: VOLUME: name: "i:qt, imperialquart", div(igallon, 4), info: "1/8 of Imperial Gallon"},
+	{d: VOLUME: name: "i:gal, imperialgallon", value: igallon, info: "Imperial Gallon (Weights and Measures Act 1985)"},
 
 	{d: ENERGY, name: "J", long: "joule", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{d: ENERGY, name: "Wh", long: "watt-hour", value: num("3600"), prefixes: &metricPrefixes},
