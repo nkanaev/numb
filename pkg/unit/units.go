@@ -22,18 +22,37 @@ func num(x string) *big.Rat {
 	return rat
 }
 
+func mul(a *big.Rat, n int64) *big.Rat {
+	x := new(big.Rat).Set(a)
+	x.Mul(x, big.NewRat(n, 1))
+	return x
+}
+
+var iyard = num("0.9144")
+var ipound = num("0.45359237")
+
+// NOTE: planned to be phased out by the NIST by 2023
+var sfoot = big.NewRat(1200, 3937)
+
 var units = []baseUnit{
 	{d: LENGTH, name: "m", long: "meter, metre", value: one, prefixes: &metricPrefixes, info: "SI base unit"},
-	{d: LENGTH, name: "in", long: "inch", value: num("0.0254")},
-	{d: LENGTH, name: "ft", long: "foot, feet", value: num("0.3048")},
-	{d: LENGTH, name: "yd", long: "yard, yards", value: num("0.9144")},
-	{d: LENGTH, name: "mi", long: "mile, miles", value: num("1609.344")},
-
-	{d: LENGTH, name: "li", long: "link", value: num("0.201168")},
-	{d: LENGTH, name: "rd", long: "rod", value: num("5.0292")},
-	{d: LENGTH, name: "ch", long: "chain", value: num("20.1")},
+	// lengths: US & Imperial
+	{d: LENGTH, name: "mil", value: div(iyard, 3*12*1000), info: "1/1000 of inch"}, // North America
+	{d: LENGTH, name: "thou", value: div(iyard, 3*12*1000), info: "1/1000 of inch"}, // shortened for thousand
+	{d: LENGTH, name: "barleycorn", value: div(iyard, 3*12*3), info: "1/3 inch (Imperial)"},
+	{d: LENGTH, name: "in, inch", value: div(iyard, 3*12), info: "1/12 inch"},
+	{d: LENGTH, name: "ft, foot, feet", value: div(iyard, 3), info: "International yard"},  // 1959 agreement
+	{d: LENGTH, name: "yd, yard", value: iyard, info: "International Yard (3 feet)"},
+	{d: LENGTH, name: "ch, chain", value: mul(iyard, 22), info: "The UK statute chain, 22 yards"},  // Weights and Measures Act 1985
+	{d: LENGTH, name: "fur, furlong", value: mul(iyard, 22*10), info: "10 chains"},
+	{d: LENGTH, name: "mi, mile", value: mul(iyard, 22*10*8), info: "8 furlongs"},
+	// lengths: US customary
+	{d: LENGTH, name: "li, link", value: div(mul(sfoot, 33), 50), info: "33/50 US survey ft."},
+	{d: LENGTH, name: "usfoot, surveyfoot", value: sfoot, info: "US survey ft."},
+	{d: LENGTH, name: "rd, rod", value: div(mul(sfoot, 33), 2), info: "16.5 survey ft."},
+	{d: LENGTH, name: "uschain, surveyorchain, gunterchain", mul(sfoot, 66), info: "66 survey ft."},
+	// lengths: misc
 	{d: LENGTH, name: "angstrom", value: exp(10, -10)},
-	{d: LENGTH, name: "mil", value: num("0.0000254")},
 	{d: LENGTH, name: "au", long: "astronomical-unit", value: num("149597870700"), info: "accepted for use with the SI"},
 	{d: LENGTH, name: "ly", long: "lightyeaar, light-year", value: num("9460730472580800"), prefixes: &metricPrefixes, info: "accepted for use with the SI"},
 	{d: LENGTH, name: "lightsecond", long: "lightsecond, light-second", value: num("299792458"), prefixes: &metricPrefixes},
