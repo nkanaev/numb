@@ -108,11 +108,11 @@ var units = []baseUnit{
 	{d: VOLUME, name: "teaspoon", value: num("0.000005")},
 	{d: VOLUME, name: "tablespoon", value: num("0.000015")},
 	// volumes: Imperial
-	{d: VOLUME: name: "i:floz, imperialfluidounce", div(igallon, 160), info: "1/160 of Imperial Gallon"},
-	{d: VOLUME: name: "i:gi, imperialgill", div(igallon, 32), info: "1/32 of Imperial Gallon"},
-	{d: VOLUME: name: "i:pt, imperialpint", div(igallon, 8), info: "1/8 of Imperial Gallon"},
-	{d: VOLUME: name: "i:qt, imperialquart", div(igallon, 4), info: "1/8 of Imperial Gallon"},
-	{d: VOLUME: name: "i:gal, imperialgallon", value: igallon, info: "Imperial Gallon (Weights and Measures Act 1985)"},
+	{d: VOLUME, name: "i:floz, imperialfluidounce", value: div(igallon, 160), info: "1/160 of Imperial Gallon"},
+	{d: VOLUME, name: "i:gi, imperialgill", value: div(igallon, 32), info: "1/32 of Imperial Gallon"},
+	{d: VOLUME, name: "i:pt, imperialpint", value: div(igallon, 8), info: "1/8 of Imperial Gallon"},
+	{d: VOLUME, name: "i:qt, imperialquart", value: div(igallon, 4), info: "1/8 of Imperial Gallon"},
+	{d: VOLUME, name: "i:gal, imperialgallon", value: igallon, info: "Imperial Gallon (Weights and Measures Act 1985)"},
 
 	{d: ENERGY, name: "J", long: "joule", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{d: ENERGY, name: "Wh", long: "watt-hour", value: num("3600"), prefixes: &metricPrefixes},
