@@ -203,12 +203,7 @@ func Help() {
 				names = append(names, longforms...)
 			}
 		}
-
-		var description string
-		if bu.info != "" {
-			description = " | " + bu.info
-		}
-		fmt.Printf("    %-20s%s\n", strings.Join(names, ", "), description)
+		fmt.Printf("    %-20s\n", strings.Join(names, ", "))
 	}
 }
 
