@@ -17,6 +17,8 @@ examples:
       0x1337
     > 3 millilightsecond to mile
       558.85 mi
+    > 12 parsec to lightyear
+      39.14 ly
 
 operations:
 

@@ -14,6 +14,12 @@ func div(a *big.Rat, x int64) *big.Rat {
 	return num
 }
 
+func divr(a, x *big.Rat) *big.Rat {
+	num := new(big.Rat).Set(a)
+	num.Quo(num, x)
+	return num
+}
+
 func num(x string) *big.Rat {
 	rat, ok := new(big.Rat).SetString(x)
 	if !ok {
@@ -37,7 +43,6 @@ var igallon = num("4.54609")
 // NOTE: planned to be phased out by the NIST by 2023
 var sfoot = big.NewRat(1200, 3937)
 
-
 var units = []baseUnit{
 	{d: LENGTH, name: "m", long: "meter, metre", value: one, prefixes: &metricPrefixes, info: "SI base unit"},
 	// lengths: US & Imperial
@@ -58,7 +63,8 @@ var units = []baseUnit{
 	// lengths: misc
 	{d: LENGTH, name: "angstrom", value: exp(10, -10)},
 	{d: LENGTH, name: "au", long: "astronomical-unit", value: num("149597870700"), info: "accepted for use with the SI"},
-	{d: LENGTH, name: "ly", long: "lightyeaar, light-year", value: num("9460730472580800"), prefixes: &metricPrefixes, info: "accepted for use with the SI"},
+	{d: LENGTH, name: "pc, parsec", value: divr(mul(num("149597870700"), 648000), consts.PI), info: "648000/pi astronomical units"},
+	{d: LENGTH, name: "ly", long: "lightyear, light-year", value: num("9460730472580800"), prefixes: &metricPrefixes, info: "accepted for use with the SI"},
 	{d: LENGTH, name: "lightsecond", long: "lightsecond, light-second", value: num("299792458"), prefixes: &metricPrefixes},
 
 	{d: TIME, name: "s", long: "sec, second", value: num("1"), prefixes: &metricPrefixes, info: "SI base unit"},
