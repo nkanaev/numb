@@ -87,14 +87,14 @@ func repl() {
 	}
 }
 
-func read() {
+func read(r io.Reader) {
 	env := make(map[string]value.Value)
 
 	var qwidth, awidth int
 	qlines := make([]string, 0)
 	alines := make([]string, 0)
 
-	scanner := bufio.NewScanner(os.Stdin)
+	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		line := scanner.Text()
 		line = strings.SplitN(line, "|", 2)[0]
@@ -190,9 +190,21 @@ func main() {
 		loadCurrencies(rates)
 	}
 
+	if flag.NArg() == 1 {
+		path := flag.Arg(0)
+		file, err := os.Open(path)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		defer file.Close()
+		read(file)
+		return
+	}
+
 	if term.IsTerminal(0) {
 		repl()
 	} else {
-		read()
+		read(os.Stdin)
 	}
 }
