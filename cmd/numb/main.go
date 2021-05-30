@@ -105,8 +105,6 @@ func read() {
 		}
 	}
 
-	qwidth += 2
-
 	for _, line := range qlines {
 		val, err := eval(line, env)
 		if err == nil {
@@ -139,7 +137,7 @@ func read() {
 			apad = -apad - 1
 		}
 		if len(a) > 0 {
-			fmt.Printf("%s%s | %s%s\n",
+			fmt.Printf("%s%s    | %s%s\n",
 				q, strings.Repeat(" ", qwidth - len(q)),
 				strings.Repeat(" ", apad), a,
 			)

@@ -1,0 +1,9 @@
+buy = 20                            |      20
+sell = 219                          |     219
+gain = sell - buy                   |     199
+performance = gain / buy * 100      |     995
+
+amount = 500                        |     500
+capital_invested = amount * buy     |  10,000
+capital_returned = amount * sell    | 109,500
+capital_gain = amount * gain        |  99,500
