@@ -97,7 +97,7 @@ func read() {
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		line := scanner.Text()
-		line = strings.SplitN(line, "|", 1)[0]
+		line = strings.SplitN(line, "|", 2)[0]
 		line = strings.TrimRightFunc(line, unicode.IsSpace)
 		qlines = append(qlines, line)
 		if len(line) > qwidth {
