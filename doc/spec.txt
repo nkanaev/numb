@@ -27,4 +27,7 @@ grammar:
     oct  → `0o` [0-7]+
     bin  → `0b` [01]+
 
-    unit → ???
+    var  → word
+    unit → word
+
+    word → [^\S*/+-()=]+

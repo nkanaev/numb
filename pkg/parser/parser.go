@@ -30,9 +30,9 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		val := p.s.Value
 		p.s.Scan()
 		return value.Parse(val)
-	case token.VAR:
+	case token.WORD:
 		name := p.s.Value
-		p.expect(token.VAR)
+		p.expect(token.WORD)
 		if p.s.Token == token.ASSIGN {
 			p.expect(token.ASSIGN)
 			expr := p.parseExpr()
@@ -74,7 +74,7 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 	for {
 		tok := p.s.Token
 
-		if tok == token.VAR {
+		if tok == token.WORD {
 			u := unit.Get(p.s.Value)
 			if u == nil {
 				panic("unknown unit: " + p.s.Value)
@@ -105,7 +105,7 @@ func (p *parser) parseRoot() ast.Node {
 		tok := p.s.Token
 		if tok == token.AS {
 			p.expect(token.AS)
-			if p.s.Token != token.VAR {
+			if p.s.Token != token.WORD {
 				panic("expected format")
 			}
 			f, ok := value.StringToNumeral[p.s.Value]
@@ -113,12 +113,12 @@ func (p *parser) parseRoot() ast.Node {
 				panic("unknown format: " + p.s.Value)
 			}
 			lhs = &ast.Format{Expr: lhs, Fmt: f}
-			p.expect(token.VAR)
+			p.expect(token.WORD)
 			continue
 		}
 		if tok == token.TO {
 			p.expect(token.TO)
-			if p.s.Token != token.VAR {
+			if p.s.Token != token.WORD {
 				panic("expected unit")
 			}
 			u := unit.Get(p.s.Value)
@@ -126,7 +126,7 @@ func (p *parser) parseRoot() ast.Node {
 				panic("unknown unit: " + p.s.Value)
 			}
 			lhs = &ast.Convert{Expr: lhs, Unit: u}
-			p.expect(token.VAR)
+			p.expect(token.WORD)
 			continue
 		}
 		break

@@ -22,6 +22,10 @@ func New(line string) *Scanner {
 	}
 }
 
+func (s *Scanner) Pos() int {
+	return s.cur
+}
+
 func (s *Scanner) char() rune {
 	if s.cur >= len(s.src) {
 		return 0
@@ -128,9 +132,9 @@ func (s *Scanner) next() {
 		case '>':
 			s.Token = token.SHR
 		}
-	case unicode.IsLetter(ch):
+	default:
 		letters := make([]rune, 0)
-		for unicode.IsLetter(ch) || unicode.IsNumber(ch) {
+		for ch != 0 && !unicode.IsSpace(ch) && strings.Index("*/+-()=", string(ch)) == -1 {
 			letters = append(letters, ch)
 			s.nextChar()
 			ch = s.char()
@@ -143,12 +147,12 @@ func (s *Scanner) next() {
 			s.Token = token.AS
 		} else if word == "to" {
 			s.Token = token.TO
-		} else {
-			s.Token = token.VAR
+		} else if unicode.IsLetter(letters[0]) {
+			s.Token = token.WORD
 			s.Value = word
+		} else {
+			s.Token = token.Illegal
 		}
-	default:
-		s.Token = token.Illegal
 	}
 }
 

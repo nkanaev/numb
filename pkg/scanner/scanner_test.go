@@ -32,7 +32,7 @@ func TestParseToken(t *testing.T) {
 		token.LPAREN, token.RPAREN,
 		token.SHL, token.SHR,
 		token.AND, token.OR, token.XOR, token.REM, token.EXP,
-		token.VAR,
+		token.WORD,
 	}
 	have := make([]token.Token, 0)
 	text := `

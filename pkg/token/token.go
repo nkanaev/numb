@@ -28,7 +28,7 @@ const (
 	ASSIGN // =
 
 	NUM
-	VAR
+	WORD
 
 	AS
 	TO
@@ -58,7 +58,7 @@ var tokenToString = map[Token]string{
 	ASSIGN: "=",
 
 	NUM: "NUM",
-	VAR: "VAR",
+	WORD: "WORD",
 
 	AS: "as",
 	TO: "to",
