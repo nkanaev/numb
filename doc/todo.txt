@@ -1,5 +1,5 @@
 - verbose error messages
-- file/stdin support
+- file support
 - us/imperial units disambugation
 - arithmetic functions
 - more trigonometric functions

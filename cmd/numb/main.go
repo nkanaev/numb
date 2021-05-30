@@ -4,10 +4,12 @@ import (
 	"bufio"
 	"errors"
 	"flag"
+	"fmt"
 	"io"
 	"os"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"github.com/nkanaev/numb/pkg/parser"
 	"github.com/nkanaev/numb/pkg/unit"
@@ -85,6 +87,68 @@ func repl() {
 	}
 }
 
+func read() {
+	env := make(map[string]value.Value)
+
+	var qwidth, awidth int
+	qlines := make([]string, 0)
+	alines := make([]string, 0)
+
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		line := scanner.Text()
+		line = strings.SplitN(line, "|", 1)[0]
+		line = strings.TrimRightFunc(line, unicode.IsSpace)
+		qlines = append(qlines, line)
+		if len(line) > qwidth {
+			qwidth = len(line)
+		}
+	}
+
+	qwidth += 2
+
+	for _, line := range qlines {
+		val, err := eval(line, env)
+		if err == nil {
+			out := ""
+			if val.Fmt == value.DEC {
+				out = val.Format(sep, prec)
+			} else {
+				out = val.String()
+			}
+			alines = append(alines, out)
+
+			outwidth := len(out)
+			if val.Unit != nil {
+				outwidth -= len(val.Unit.String())
+			}
+
+			if outwidth > awidth {
+				awidth = outwidth
+			}
+		} else {
+			alines = append(alines, "")
+		}
+	}
+
+	for i := 0; i < len(qlines); i++ {
+		q, a := qlines[i], alines[i]
+
+		apad := awidth - len(a)
+		if apad < 0 {
+			apad = -apad - 1
+		}
+		if len(a) > 0 {
+			fmt.Printf("%s%s | %s%s\n",
+				q, strings.Repeat(" ", qwidth - len(q)),
+				strings.Repeat(" ", apad), a,
+			)
+		} else {
+			fmt.Println(q)
+		}
+	}
+}
+
 func loadCurrencies(filepath string) {
 	file, err := os.Open(filepath)
 	if err != nil {
@@ -128,5 +192,9 @@ func main() {
 		loadCurrencies(rates)
 	}
 
-	repl()
+	if term.IsTerminal(0) {
+		repl()
+	} else {
+		read()
+	}
 }
