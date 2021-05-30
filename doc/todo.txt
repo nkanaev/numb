@@ -1,5 +1,4 @@
 - verbose error messages
-- file support
 - us/imperial units disambugation
 - arithmetic functions
 - more trigonometric functions
