@@ -34,38 +34,33 @@ func mul(a *big.Rat, n int64) *big.Rat {
 	return x
 }
 
+// International Yard & Pound
+// US 1959 / AU 1964 / UK 1964
+// https://en.wikipedia.org/wiki/International_yard_and_pound
 var iyard = num("0.9144")
 var ipound = num("0.45359237")
-
-// Weights and Measures Act 1985
-var igallon = num("4.54609")
-
-// NOTE: planned to be phased out by the NIST by 2023
-var sfoot = big.NewRat(1200, 3937)
 
 var units = []baseUnit{
 	{d: LENGTH, name: "m", long: "meter, metre", value: one, prefixes: &metricPrefixes, info: "SI base unit"},
 	// lengths: US & Imperial
-	{d: LENGTH, name: "mil", value: div(iyard, 3*12*1000), info: "1/1000 of inch"}, // North America
-	{d: LENGTH, name: "thou", value: div(iyard, 3*12*1000), info: "1/1000 of inch"}, // shortened for thousand
-	{d: LENGTH, name: "barleycorn", value: div(iyard, 3*12*3), info: "1/3 inch (Imperial)"},
-	{d: LENGTH, name: "in, inch", value: div(iyard, 3*12), info: "1/12 inch"},
-	{d: LENGTH, name: "ft, foot, feet", value: div(iyard, 3), info: "International yard"},  // 1959 agreement
+	{d: LENGTH, name: "in, inch", value: div(iyard, 3*12), info: "1/12 feet"},
+	{d: LENGTH, name: "ft, foot, feet", value: div(iyard, 3), info: "1/3 yard"},
 	{d: LENGTH, name: "yd, yard", value: iyard, info: "International Yard (3 feet)"},
-	{d: LENGTH, name: "ch, chain", value: mul(iyard, 22), info: "The UK statute chain, 22 yards"},  // Weights and Measures Act 1985
-	{d: LENGTH, name: "fur, furlong", value: mul(iyard, 22*10), info: "10 chains"},
 	{d: LENGTH, name: "mi, mile", value: mul(iyard, 22*10*8), info: "8 furlongs"},
-	// lengths: US customary
-	{d: LENGTH, name: "li, link", value: div(mul(sfoot, 33), 50), info: "33/50 US survey ft."},
-	{d: LENGTH, name: "usfoot, surveyfoot", value: sfoot, info: "US survey ft."},
-	{d: LENGTH, name: "rd, rod", value: div(mul(sfoot, 33), 2), info: "16.5 survey ft."},
-	{d: LENGTH, name: "uschain, surveyorchain, gunterchain", value: mul(sfoot, 66), info: "66 survey ft."},
 	// lengths: misc
 	{d: LENGTH, name: "angstrom", value: exp(10, -10)},
 	{d: LENGTH, name: "au", long: "astronomical-unit", value: num("149597870700"), info: "accepted for use with the SI"},
 	{d: LENGTH, name: "pc, parsec", value: divr(mul(num("149597870700"), 648000), consts.PI), info: "648000/pi astronomical units"},
 	{d: LENGTH, name: "ly", long: "lightyear, light-year", value: num("9460730472580800"), prefixes: &metricPrefixes, info: "accepted for use with the SI"},
 	{d: LENGTH, name: "lightsecond", long: "lightsecond, light-second", value: num("299792458"), prefixes: &metricPrefixes},
+
+	{d: MASS, name: "g", long: "gram", value: num("0.001"), prefixes: &metricPrefixes, info: "(0.001 kg - SI base unit)"},
+	{d: MASS, name: "t", long: "tonne, metric-ton", value: num("1000"), prefixes: &metricPrefixes, info: "accepted for use with the SI (1 t = 1000 kg)"},
+	{d: MASS, name: "Da", long: "dalton", value: num("1.6605402e-27"), info: "accepted for use with the SI"},
+	// avoirdupois system
+	{d: MASS, name: "dr, dram", value: div(ipound, 256), info: "1/256 pound"},
+	{d: MASS, name: "oz, once, ounce", value: div(ipound, 16), info: "1/16 pound"},
+	{d: MASS, name: "lb, pound", value: ipound, info: "International pound"},
 
 	{d: TIME, name: "s", long: "sec, second", value: num("1"), prefixes: &metricPrefixes, info: "SI base unit"},
 	{d: TIME, name: "min", long: "minute", value: num("60"), info: "accepted for use with the SI (1 min = 60 s)"},
@@ -77,10 +72,6 @@ var units = []baseUnit{
 	{d: TIME, name: "decade", value: num("315576000"), info: "Julian decade"},
 	{d: TIME, name: "century", value: num("3155760000"), info: "Julian century"},
 	{d: TIME, name: "millenium", value: num("31557600000"), info: "Julian millenium"},
-
-	{d: MASS, name: "g", long: "gram", value: num("0.001"), prefixes: &metricPrefixes, info: "(0.001 kg - SI base unit)"},
-	{d: MASS, name: "t", long: "tonne, metric-ton", value: num("1000"), prefixes: &metricPrefixes, info: "accepted for use with the SI (1 t = 1000 kg)"},
-	{d: MASS, name: "Da", long: "dalton", value: num("1.6605402e-27"), info: "accepted for use with the SI"},
 
 	{d: TEMPERATURE, name: "K", long: "kelvin", value: one, prefixes: &metricPrefixes, info: "SI base unit"},
 	{d: TEMPERATURE, name: "°C, degC", long: "celsius", value: one, offset: num("273.15"), info: "SI derived unit"},
@@ -111,14 +102,9 @@ var units = []baseUnit{
 	{d: VOLUME, name: "in³, in3, cuin", value: num("1.6387064e-5")},
 	{d: VOLUME, name: "ft³, ft3, cuft", value: num("0.028316846592")},
 	{d: VOLUME, name: "yd³, yd3, cuyd", value: num("0.764554857984")},
+
 	{d: VOLUME, name: "teaspoon", value: num("0.000005")},
 	{d: VOLUME, name: "tablespoon", value: num("0.000015")},
-	// volumes: Imperial
-	{d: VOLUME, name: "i:floz, imperialfluidounce", value: div(igallon, 160), info: "1/160 of Imperial Gallon"},
-	{d: VOLUME, name: "i:gi, imperialgill", value: div(igallon, 32), info: "1/32 of Imperial Gallon"},
-	{d: VOLUME, name: "i:pt, imperialpint", value: div(igallon, 8), info: "1/8 of Imperial Gallon"},
-	{d: VOLUME, name: "i:qt, imperialquart", value: div(igallon, 4), info: "1/8 of Imperial Gallon"},
-	{d: VOLUME, name: "i:gal, imperialgallon", value: igallon, info: "Imperial Gallon (Weights and Measures Act 1985)"},
 
 	{d: ENERGY, name: "J", long: "joule", value: one, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{d: ENERGY, name: "Wh", long: "watt-hour", value: num("3600"), prefixes: &metricPrefixes},
