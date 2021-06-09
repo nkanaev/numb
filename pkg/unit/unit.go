@@ -169,10 +169,16 @@ func Get(x string) *Unit {
 	if u, ok := db[x]; ok {
 		return u
 	}
+	if u, ok := db[strings.ToUpper(x)]; ok {
+		return u
+	}
 	if u, ok := db[strings.ToLower(x)]; ok {
 		return u
 	}
-	if u, ok := db[strings.ToUpper(x)]; ok {
+	if u, ok := db[strings.TrimSuffix(x, "s")]; ok {
+		return u
+	}
+	if u, ok := db[strings.TrimSuffix(x, "es")]; ok {
 		return u
 	}
 	return nil
