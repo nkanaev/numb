@@ -164,7 +164,7 @@ func (a Value) String() string {
 		num = fmt.Sprintf("%#b", toInt(a.Num))
 	case RAT:
 		num = a.Num.String()
-	case EXP:
+	case SCI:
 		num = fmt.Sprintf("%e", new(big.Float).SetRat(a.Num))
 	case WAT:
 		suffixes := "KMGTPEZY"

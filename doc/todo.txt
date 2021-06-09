@@ -2,5 +2,5 @@
 - arithmetic functions
 - more trigonometric functions
 - unit plural form & case sensitivity?
-- format: wat for large number names, sci/exp ?
+- format: wat for large number names
 - documentation

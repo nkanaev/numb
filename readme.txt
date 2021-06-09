@@ -42,7 +42,7 @@ formats:
     oct   octal
     bin   binary
     rat   rational (x/y)
-    exp   scientific (-1.23e+45)
+    sci   scientific (-1.23e+45)
 
 install:
 
