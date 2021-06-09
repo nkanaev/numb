@@ -166,24 +166,6 @@ func (a Value) String() string {
 		num = a.Num.String()
 	case SCI:
 		num = fmt.Sprintf("%e", new(big.Float).SetRat(a.Num))
-	case WAT:
-		suffixes := "KMGTPEZY"
-		thousand := big.NewRat(1000, 1)
-
-		if a.Num.Cmp(thousand) < 0 {
-			return a.As(DEC).String()
-		}
-
-		x := new(big.Rat).Set(a.Num)
-		var i int
-		for ; i < len(suffixes) && x.Cmp(thousand) >= 0; i++ {
-			x.Quo(x, thousand)
-		}
-		if x.IsInt() {
-			num = x.RatString() + string(suffixes[i-1])
-		} else {
-			num = x.FloatString(1) + string(suffixes[i-1])
-		}
 	}
 	if a.Unit != nil {
 		num += " " + a.Unit.String()
