@@ -1,5 +1,4 @@
 - verbose error messages
 - arithmetic functions
 - more trigonometric functions
-- format: wat for large number names
 - documentation
