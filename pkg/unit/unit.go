@@ -6,91 +6,15 @@ import (
 	"strings"
 )
 
-type Dimension uint32
-
-const (
-	LENGTH Dimension = iota
-	TEMPERATURE
-	AREA
-	VOLUME
-	MASS
-	TIME
-	ANGLE
-	DIGITAL
-	CURRENCY
-	FREQUENCY
-	ELECTRIC_CURRENT
-	LUMINOUS_INTENSITY
-	AMOUNT_OF_SUBSTANCE
-	POWER
-	FORCE
-	ENERGY
-	ELECTRIC_CHARGE
-	ELECTRIC_POTENTIAL
-	ELECTRIC_CAPACITANCE
-	ELECTRIC_CONDUCTANCE
-	MAGNETIC_FLUX
-	MAGNETIC_FLUX_DENSITY
-	ELECTRIC_INDUCTANCE
-	ELECTRIC_RESISTANCE
-	PRESSURE
-	RADIOACTIVITY
-	SOLID_ANGLE
-	IONIZING_RADIATION
-	CATALYCTIC_ACTIVITY
-	RADIATION_DOSE
-	LUMINOUS_FLUX
-	ILLUMINANCE
-)
-
-var dimensionNames = map[Dimension]string{
-	LENGTH:                "length",
-	TEMPERATURE:           "temperature",
-	AREA:                  "area",
-	VOLUME:                "volume",
-	MASS:                  "mass",
-	TIME:                  "time",
-	ANGLE:                 "angle",
-	DIGITAL:               "digital",
-	CURRENCY:              "currency",
-	FREQUENCY:             "frequency",
-	ELECTRIC_CURRENT:      "electric current",
-	LUMINOUS_INTENSITY:    "luminous intensity",
-	AMOUNT_OF_SUBSTANCE:   "amount of substance",
-	POWER:                 "power",
-	FORCE:                 "force",
-	ENERGY:                "energy",
-	ELECTRIC_CHARGE:       "electric charge",
-	ELECTRIC_POTENTIAL:    "electric potential",
-	ELECTRIC_CAPACITANCE:  "electric capacitance",
-	ELECTRIC_CONDUCTANCE:  "electric conductance",
-	MAGNETIC_FLUX:         "magnetic flux",
-	MAGNETIC_FLUX_DENSITY: "magnetic flux density",
-	ELECTRIC_INDUCTANCE:   "electric inductance",
-	ELECTRIC_RESISTANCE:   "electric resistance",
-	PRESSURE:              "pressure",
-	RADIOACTIVITY:         "radiactivity",
-	SOLID_ANGLE:           "solid angle",
-	IONIZING_RADIATION:    "ionizing radiation",
-	CATALYCTIC_ACTIVITY:   "catalyctic activity",
-	RADIATION_DOSE:        "radiation dose",
-	LUMINOUS_FLUX:         "luminous flux",
-	ILLUMINANCE:           "illuminance",
-}
-
-func (d Dimension) String() string {
-	return dimensionNames[d]
-}
-
 type Unit struct {
 	name      string
 	value     *big.Rat
 	offset    *big.Rat
-	dimension Dimension
+	dimension BaseUnit
 }
 
-type baseUnit struct {
-	d         Dimension
+type unitDef struct {
+	u         BaseUnit
 	name      string
 	long      string
 	value     *big.Rat
@@ -111,7 +35,7 @@ func splitlist(x string) []string {
 	return list
 }
 
-func (bu baseUnit) Expand() map[string]*Unit {
+func (bu unitDef) Expand() map[string]*Unit {
 	shortforms := splitlist(bu.name)
 	longforms := splitlist(bu.long)
 	name := shortforms[0]
@@ -121,7 +45,7 @@ func (bu baseUnit) Expand() map[string]*Unit {
 		name:      name,
 		value:     bu.value,
 		offset:    bu.offset,
-		dimension: bu.d,
+		dimension: bu.u,
 	}
 
 	for _, alias := range shortforms {
@@ -145,7 +69,7 @@ func (bu baseUnit) Expand() map[string]*Unit {
 				name:      pr.abbr + name,
 				value:     prefixValue,
 				offset:    bu.offset,
-				dimension: bu.d,
+				dimension: bu.u,
 			}
 
 			for _, alias := range longforms {
@@ -195,10 +119,10 @@ func init() {
 func Help() {
 	prevd := ILLUMINANCE
 	for _, bu := range units {
-		if bu.d != prevd {
+		if bu.u != prevd {
 			fmt.Println("")
-			fmt.Println(bu.d)
-			prevd = bu.d
+			fmt.Println(bu.u)
+			prevd = bu.u
 		}
 		names := splitlist(bu.name)
 
