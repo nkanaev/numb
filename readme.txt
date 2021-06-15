@@ -19,6 +19,8 @@ examples:
       558.85 mi
     > 12 parsec to lightyear
       39.14 ly
+    > total_grains = 2 pow 64 - 1
+      18,446,744,073,709,551,615
 
 operations:
 
