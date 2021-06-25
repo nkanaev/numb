@@ -132,6 +132,21 @@ func (s *Scanner) next() {
 		case '>':
 			s.Token = token.SHR
 		}
+	case ch == '{':
+		letters := make([]rune, 0)
+		for {
+			if s.char() == 0 {
+				panic("unexpected end of word")
+			}
+			letters = append(letters, s.char())
+			if s.char() == '}' {
+				s.nextChar()
+				break
+			}
+			s.nextChar()
+		}
+		s.Token = token.WORD
+		s.Value = string(letters)
 	default:
 		letters := make([]rune, 0)
 		for ch != 0 && !unicode.IsSpace(ch) && strings.Index("*/+-()=", string(ch)) == -1 {

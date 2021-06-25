@@ -32,7 +32,6 @@ func TestParseToken(t *testing.T) {
 		token.LPAREN, token.RPAREN,
 		token.SHL, token.SHR,
 		token.AND, token.OR, token.XOR, token.REM, token.EXP,
-		token.WORD,
 	}
 	have := make([]token.Token, 0)
 	text := `
@@ -40,10 +39,10 @@ func TestParseToken(t *testing.T) {
 		( )
 		<< >>
 		and or xor mod pow
-		foobar
 	`
 	s := New(text)
-	for s.Scan() {
+	for i := 0; i < len(want); i++ {
+		s.Scan()
 		have = append(have, s.Token)
 	}
 
@@ -57,6 +56,30 @@ func TestParseToken(t *testing.T) {
 	}
 	if s.Token != token.END {
 		t.Fatal("expected end token")
+	}
+}
+
+func TestParseWord(t *testing.T) {
+	want := []string{"foobar", "{foo bar}"}
+	have := make([]string, 0)
+	text := ` foobar {foo bar} `
+	s := New(text)
+	for i := 0; i < len(want); i++ {
+		s.Scan()
+		if s.Token != token.WORD {
+			t.Fatalf("expected %s, got %s", token.WORD, s.Token)
+		}
+		have = append(have, s.Value)
+	}
+	if !reflect.DeepEqual(want, have) {
+		t.Fatalf("\nwant: %s\nhave: %s", want, have)
+	}
+	// final call
+	if s.Scan() {
+		t.Fatal("expected to return false")
+	}
+	if s.Token != token.END {
+		t.Fatalf("expected %v, got %v", token.END, s.Token)
 	}
 }
 

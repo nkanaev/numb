@@ -30,4 +30,4 @@ grammar:
     var  → word
     unit → word
 
-    word → [^\S*/+-()=]+
+    word → [^\s*/+-()=]+ | `{` [^}]+ `}`
