@@ -73,24 +73,25 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 	lhs := p.parseUnaryExpr()
 	for {
 		tok := p.s.Token
-
-		if tok == token.WORD {
-			u := unit.Get(p.s.Value)
-			if u == nil {
-				panic("unknown unit: " + p.s.Value)
-			}
-			p.s.Scan()
-			lhs = &ast.Unit{Expr: lhs, Unit: u}
-			continue
-		}
-
+		implicit := false
 		prec := tok.Precedence()
+
+		if tok != token.END && tok != token.Illegal && tok != token.LPAREN {
+			if prec == token.LowestPrec {
+				tok = token.MUL
+				implicit = true
+				prec = tok.Precedence()
+			}
+		}
 		if prec < prec1 {
 			break
 		}
-		p.s.Scan()
+
+		if !implicit {
+			p.s.Scan()
+		}
 		rhs := p.parseBinaryExpr(prec + 1)
-		lhs = &ast.BinOP{Lhs: lhs, Rhs: rhs, Op: tok}
+		lhs = &ast.BinOP{Lhs: lhs, Rhs: rhs, Op: tok, Implicit: implicit}
 	}
 	return lhs
 }

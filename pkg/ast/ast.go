@@ -18,9 +18,13 @@ type Node interface {
 type BinOP struct {
 	Lhs, Rhs Node
 	Op       token.Token
+	Implicit bool
 }
 
 func (n *BinOP) String() string {
+	if n.Implicit {
+		return fmt.Sprintf("%s %s", n.Lhs.String(), n.Rhs.String())
+	}
 	return fmt.Sprintf("%s %s %s", n.Lhs.String(), n.Op.String(), n.Rhs.String())
 }
 
@@ -105,6 +109,9 @@ type Var struct {
 func (n *Var) Eval(env map[string]value.Value) value.Value {
 	if val, ok := value.Consts[n.Name]; ok {
 		return val
+	}
+	if unit := unit.Get(n.Name); unit != nil {
+		return value.NewInt(1).WithUnit(unit)
 	}
 	val, ok := env[n.Name]
 	if !ok {
