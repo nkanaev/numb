@@ -4,7 +4,6 @@ import (
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/scanner"
 	"github.com/nkanaev/numb/pkg/token"
-	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
 )
 
@@ -76,13 +75,12 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 		implicit := false
 		prec := tok.Precedence()
 
-		if tok != token.END && tok != token.Illegal && tok != token.LPAREN {
-			if prec == token.LowestPrec {
-				tok = token.MUL
-				implicit = true
-				prec = tok.Precedence()
-			}
+		if tok == token.WORD {
+			tok = token.MUL
+			implicit = true
+			prec = tok.Precedence()
 		}
+
 		if prec < prec1 {
 			break
 		}
@@ -119,15 +117,8 @@ func (p *parser) parseRoot() ast.Node {
 		}
 		if tok == token.TO {
 			p.expect(token.TO)
-			if p.s.Token != token.WORD {
-				panic("expected unit")
-			}
-			u := unit.Get(p.s.Value)
-			if u == nil {
-				panic("unknown unit: " + p.s.Value)
-			}
+			u := p.parseExpr()
 			lhs = &ast.Convert{Expr: lhs, Unit: u}
-			p.expect(token.WORD)
 			continue
 		}
 		break

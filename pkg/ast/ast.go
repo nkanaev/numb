@@ -155,12 +155,15 @@ func (n *Unit) String() string {
 }
 
 type Convert struct {
-	Expr Node
-	Unit *unit.Unit
+	Expr, Unit Node
 }
 
 func (n *Convert) Eval(env map[string]value.Value) value.Value {
-	return n.Expr.Eval(env).To(n.Unit)
+	u := n.Unit.Eval(env)
+	if u.Num.IsInt() && u.Num.Num().Int64() != 1 {
+		panic("cannot convert to a unit with a value: " + n.Unit.String())
+	}
+	return n.Expr.Eval(env).To(u.Unit)
 }
 
 func (n *Convert) String() string {
