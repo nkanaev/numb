@@ -7,11 +7,11 @@ operator predecence (high to low):
 grammar:
 
     root → root `as` fmt
-    root → root `to` unit
+    root → root `to` expr
     root → expr
 
     expr → expr op expr
-    expr → expr unit
+    expr → expr var         ; implicit multiplication
     expr → `+` | `-` expr
     expr → `(` expr `)`
     expr → num
@@ -26,8 +26,4 @@ grammar:
     hex  → `0x` [0-f]+
     oct  → `0o` [0-7]+
     bin  → `0b` [01]+
-
-    var  → word
-    unit → word
-
-    word → [^\s*/+-()=]+ | `{` [^}]+ `}`
+    var  → [^\s*/+-()=]+ | `{` [^}]+ `}`
