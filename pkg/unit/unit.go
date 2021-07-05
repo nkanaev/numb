@@ -4,17 +4,18 @@ import (
 	"fmt"
 	"math/big"
 	"strings"
+	"github.com/nkanaev/numb/pkg/dimension"
 )
 
 type Unit struct {
 	name      string
 	value     *big.Rat
 	offset    *big.Rat
-	dimension BaseUnit
+	dimension dimension.Dimension
 }
 
 type unitDef struct {
-	u         BaseUnit
+	u         dimension.Dimension
 	name      string
 	long      string
 	value     *big.Rat
@@ -117,7 +118,7 @@ func init() {
 }
 
 func Help() {
-	prevd := ILLUMINANCE
+	prevd := dimension.ILLUMINANCE
 	for _, bu := range units {
 		if bu.u != prevd {
 			fmt.Println("")
@@ -148,7 +149,7 @@ func AddExchangeRates(currencies []Currency) {
 		u := &Unit{
 			name:      code,
 			value:     new(big.Rat).SetFloat64(1 / cur.Rate),
-			dimension: CURRENCY,
+			dimension: dimension.CURRENCY,
 		}
 		db[code] = u
 	}
