@@ -19,7 +19,7 @@ examples:
       558.85 mi
     > 10 mile/hour to metre/sec
       4.47 m/s
-    > total_grains = 2 pow 64 - 1
+    > total_grains = 2^64 - 1
       18,446,744,073,709,551,615
 
 operations:
@@ -29,7 +29,7 @@ operations:
     *     multiplication
     /     division
     mod   modulo
-    pow   exponent
+    ^     exponent
 
     <<    shift left
     >>    shift right
