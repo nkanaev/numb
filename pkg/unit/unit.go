@@ -7,33 +7,31 @@ import (
 	"github.com/nkanaev/numb/pkg/unit/dimension"
 )
 
-// TODO: rename to Unit
-type NamedUnit struct {
+type Unit struct {
 	name      string
 	value     *big.Rat
 	offset    *big.Rat
 	dimension dimension.Dimension
 }
 
-func (u NamedUnit) String() string {
+func (u Unit) String() string {
 	return u.name
 }
 
 type unitEntry struct {
-	Unit NamedUnit
+	Unit Unit
 	Exp  int
 }
 
-// TODO: rename to UnitList
-type Unit []unitEntry
+type UnitList []unitEntry
 
-func (u1 *Unit) Conforms(u2 *Unit) bool {
+func (u1 *UnitList) Conforms(u2 *UnitList) bool {
 	d1 := u1.Dimension()
 	d2 := u2.Dimension()
 	return d1.Equals(d2)
 }
 
-func (u *Unit) Dimension() dimension.Dimension {
+func (u *UnitList) Dimension() dimension.Dimension {
 	var d dimension.Dimension
 	for _, x := range *u {
 		// TODO: take exp into account
@@ -42,7 +40,7 @@ func (u *Unit) Dimension() dimension.Dimension {
 	return d
 }
 
-func (u Unit) String() string {
+func (u UnitList) String() string {
 	b := make([]string, 0, len(u))
 	for _, entry := range u {
 		if entry.Exp == 0 {
@@ -56,8 +54,8 @@ func (u Unit) String() string {
 	return strings.Join(b, " ")
 }
 
-func (this *Unit) Mul(other *Unit) *Unit {
-	c := Unit{}
+func (this *UnitList) Mul(other *UnitList) *UnitList {
+	c := UnitList{}
 	for _, u := range *this {
 		c = append(c, u)
 	}
@@ -67,8 +65,8 @@ func (this *Unit) Mul(other *Unit) *Unit {
 	return &c
 }
 
-func (this *Unit) Quo(other *Unit) *Unit {
-	c := Unit{}
+func (this *UnitList) Quo(other *UnitList) *UnitList {
+	c := UnitList{}
 	for _, u := range *this {
 		c = append(c, u)
 	}
@@ -103,13 +101,13 @@ func splitlist(x string) []string {
 	return list
 }
 
-func (bu unitDef) Expand() map[string]*NamedUnit {
+func (bu unitDef) Expand() map[string]*Unit {
 	shortforms := splitlist(bu.name)
 	longforms := splitlist(bu.long)
 	name := shortforms[0]
 
-	result := make(map[string]*NamedUnit)
-	unit := &NamedUnit{
+	result := make(map[string]*Unit)
+	unit := &Unit{
 		name:      name,
 		value:     bu.value,
 		offset:    bu.offset,
@@ -133,7 +131,7 @@ func (bu unitDef) Expand() map[string]*NamedUnit {
 					prefixValue.Mul(prefixValue, x)
 				}
 			}
-			prefixUnit := &NamedUnit{
+			prefixUnit := &Unit{
 				name:      pr.abbr + name,
 				value:     prefixValue,
 				offset:    bu.offset,
@@ -151,17 +149,17 @@ func (bu unitDef) Expand() map[string]*NamedUnit {
 	return result
 }
 
-var db = map[string]*NamedUnit{}
+var db = map[string]*Unit{}
 
-func Get(x string) *Unit {
+func Get(x string) *UnitList {
 	u := getNamedUnit(x)
 	if u == nil {
 		return nil
 	}
-	return &Unit{unitEntry{Unit: *u, Exp: 1}}
+	return &UnitList{unitEntry{Unit: *u, Exp: 1}}
 }
 
-func getNamedUnit(x string) *NamedUnit {
+func getNamedUnit(x string) *Unit {
 	if u, ok := db[x]; ok {
 		return u
 	}
@@ -217,7 +215,7 @@ type Currency struct {
 func AddExchangeRates(currencies []Currency) {
 	for _, cur := range currencies {
 		code := strings.ToUpper(cur.Code)
-		u := &NamedUnit{
+		u := &Unit{
 			name:      code,
 			value:     new(big.Rat).SetFloat64(1 / cur.Rate),
 			dimension: dimension.CURRENCY,

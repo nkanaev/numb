@@ -139,7 +139,7 @@ func (n *Format) String() string {
 
 type Unit struct {
 	Expr Node
-	Unit *unit.Unit
+	Unit *unit.UnitList
 }
 
 func (n *Unit) Eval(env map[string]value.Value) value.Value {

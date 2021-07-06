@@ -12,7 +12,7 @@ import (
 type Value struct {
 	Num  *big.Rat
 	Fmt  NumeralSystem
-	Unit *unit.Unit
+	Unit *unit.UnitList
 }
 
 var Consts = map[string]Value{
@@ -44,8 +44,8 @@ func Parse(x string) Value {
 	return Value{Num: num, Fmt: base}
 }
 
-func prepare(a, b Value) (Value, Value, *unit.Unit) {
-	var u *unit.Unit
+func prepare(a, b Value) (Value, Value, *unit.UnitList) {
+	var u *unit.UnitList
 	if a.Unit != nil {
 		u = a.Unit
 		if b.Unit != nil {
@@ -148,12 +148,12 @@ func (a Value) As(n NumeralSystem) Value {
 	return a
 }
 
-func (a Value) To(u *unit.Unit) Value {
+func (a Value) To(u *unit.UnitList) Value {
 	num := unit.Convert(a.Num, a.Unit, u)
 	return Value{Num: num, Fmt: a.Fmt, Unit: u}
 }
 
-func (a Value) WithUnit(u *unit.Unit) Value {
+func (a Value) WithUnit(u *unit.UnitList) Value {
 	a.Unit = u
 	return a
 }
