@@ -26,6 +26,7 @@ type unitEntry struct {
 
 type UnitList []unitEntry
 
+// TODO: refactor *UnitList to UnitList
 func (u1 *UnitList) Conforms(u2 *UnitList) bool {
 	d1 := u1.Dimension()
 	d2 := u2.Dimension()
