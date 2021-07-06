@@ -38,7 +38,7 @@ func TestParseToken(t *testing.T) {
 		+ - * /
 		( )
 		<< >>
-		and or xor mod pow
+		and or xor mod ^
 	`
 	s := New(text)
 	for i := 0; i < len(want); i++ {

@@ -18,7 +18,7 @@ const (
 	MUL // *
 	QUO // /
 	REM // mod
-	EXP // pow
+	EXP // ^
 	operator_end
 
 	LPAREN // (
@@ -49,7 +49,7 @@ var tokenToString = map[Token]string{
 	MUL: "*",
 	QUO: "/",
 	REM: "mod",
-	EXP: "pow",
+	EXP: "^",
 
 	LPAREN: "(",
 	RPAREN: ")",
@@ -97,7 +97,7 @@ var StringToOperator = map[string]Token{
 	"/":   QUO,
 	"mod": REM,
 
-	"pow": EXP,
+	"^": EXP,
 }
 
 func init() {

@@ -115,6 +115,9 @@ func (s *Scanner) next() {
 	case ch == ',':
 		s.Token = token.COMMA
 		s.nextChar()
+	case ch == '^':
+		s.Token = token.EXP
+		s.nextChar()
 	case ch == '*' || ch == '/' || ch == '+' || ch == '-':
 		s.Token = token.StringToOperator[string(ch)]
 		s.nextChar()
@@ -149,7 +152,7 @@ func (s *Scanner) next() {
 		s.Value = string(letters)
 	default:
 		letters := make([]rune, 0)
-		for ch != 0 && !unicode.IsSpace(ch) && strings.Index("*/+-()=", string(ch)) == -1 {
+		for ch != 0 && !unicode.IsSpace(ch) && strings.Index("^*/+-()=", string(ch)) == -1 {
 			letters = append(letters, ch)
 			s.nextChar()
 			ch = s.char()
