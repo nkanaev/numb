@@ -4,7 +4,7 @@ import (
 	"math/big"
 
 	"github.com/nkanaev/numb/pkg/consts"
-	d "github.com/nkanaev/numb/pkg/dimension"
+	d "github.com/nkanaev/numb/pkg/unit/dimension"
 )
 
 var one = big.NewRat(1, 1)

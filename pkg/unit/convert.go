@@ -5,7 +5,7 @@ import (
 	"math/big"
 )
 
-func normalize(n *big.Rat, u *Unit) *big.Rat {
+func normalize(n *big.Rat, u *NamedUnit) *big.Rat {
 	// (n + u.offset) * u.value
 	num := new(big.Rat).Set(n)
 	if u.offset != nil {
@@ -14,7 +14,7 @@ func normalize(n *big.Rat, u *Unit) *big.Rat {
 	return num.Mul(num, u.value)
 }
 
-func denormalize(n *big.Rat, u *Unit) *big.Rat {
+func denormalize(n *big.Rat, u *NamedUnit) *big.Rat {
 	// (n / u.value) - u.offset
 	num := new(big.Rat).Set(n)
 	num.Quo(num, u.value)

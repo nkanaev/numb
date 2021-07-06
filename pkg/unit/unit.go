@@ -4,14 +4,41 @@ import (
 	"fmt"
 	"math/big"
 	"strings"
-	"github.com/nkanaev/numb/pkg/dimension"
+	"github.com/nkanaev/numb/pkg/unit/dimension"
 )
 
-type Unit struct {
+// TODO: rename to Unit
+type NamedUnit struct {
 	name      string
 	value     *big.Rat
 	offset    *big.Rat
 	dimension dimension.Dimension
+}
+
+func (u NamedUnit) String() string {
+	return u.name
+}
+
+type unitEntry struct {
+	Unit NamedUnit
+	Exp  int
+}
+
+// TODO: rename to UnitList
+type Unit []unitEntry
+
+func (u Unit) String() string {
+	b := make([]string, 0, len(u))
+	for _, entry := range u {
+		if entry.Exp == 0 {
+			continue
+		} else if entry.Exp == 1 {
+			b = append(b, entry.Unit.String())
+		} else {
+			b = append(b, fmt.Sprintf("%s^%d", entry.Unit.String(), entry.Exp))
+		}
+	}
+	return strings.Join(b, " ")
 }
 
 type unitDef struct {
@@ -36,13 +63,13 @@ func splitlist(x string) []string {
 	return list
 }
 
-func (bu unitDef) Expand() map[string]*Unit {
+func (bu unitDef) Expand() map[string]*NamedUnit {
 	shortforms := splitlist(bu.name)
 	longforms := splitlist(bu.long)
 	name := shortforms[0]
 
-	result := make(map[string]*Unit, 0)
-	unit := &Unit{
+	result := make(map[string]*NamedUnit)
+	unit := &NamedUnit{
 		name:      name,
 		value:     bu.value,
 		offset:    bu.offset,
@@ -66,7 +93,7 @@ func (bu unitDef) Expand() map[string]*Unit {
 					prefixValue.Mul(prefixValue, x)
 				}
 			}
-			prefixUnit := &Unit{
+			prefixUnit := &NamedUnit{
 				name:      pr.abbr + name,
 				value:     prefixValue,
 				offset:    bu.offset,
@@ -84,13 +111,17 @@ func (bu unitDef) Expand() map[string]*Unit {
 	return result
 }
 
-func (u *Unit) String() string {
-	return u.name
-}
-
-var db = map[string]*Unit{}
+var db = map[string]*NamedUnit{}
 
 func Get(x string) *Unit {
+	u := getNamedUnit(x)
+	if u == nil {
+		return nil
+	}
+	return &Unit{unitEntry{Unit: *u, Exp: 1}}
+}
+
+func getNamedUnit(x string) *NamedUnit {
 	if u, ok := db[x]; ok {
 		return u
 	}
@@ -146,7 +177,7 @@ type Currency struct {
 func AddExchangeRates(currencies []Currency) {
 	for _, cur := range currencies {
 		code := strings.ToUpper(cur.Code)
-		u := &Unit{
+		u := &NamedUnit{
 			name:      code,
 			value:     new(big.Rat).SetFloat64(1 / cur.Rate),
 			dimension: dimension.CURRENCY,
