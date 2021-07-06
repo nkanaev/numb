@@ -78,10 +78,6 @@ func doShift(a, b Value, op func(*big.Int, uint) *big.Int) Value {
 	return Value{Num: num, Fmt: a.Fmt, Unit: u}
 }
 
-func (a Value) Mul(b Value) Value {
-	return do(a, b, new(big.Rat).Mul)
-}
-
 func (a Value) Add(b Value) Value {
 	return do(a, b, new(big.Rat).Add)
 }
@@ -90,8 +86,26 @@ func (a Value) Sub(b Value) Value {
 	return do(a, b, new(big.Rat).Sub)
 }
 
+func (a Value) Mul(b Value) Value {
+	u := a.Unit
+	if u == nil {
+		u = b.Unit
+	}
+	if a.Unit != nil && b.Unit != nil {
+		u = a.Unit.Mul(b.Unit)
+	}
+	return Value{Num: new(big.Rat).Mul(a.Num, b.Num), Fmt: a.Fmt, Unit: u}
+}
+
 func (a Value) Quo(b Value) Value {
-	return do(a, b, new(big.Rat).Quo)
+	u := a.Unit
+	if u == nil {
+		u = b.Unit
+	}
+	if a.Unit != nil && b.Unit != nil {
+		u = a.Unit.Quo(b.Unit)
+	}
+	return Value{Num: new(big.Rat).Quo(a.Num, b.Num), Fmt: a.Fmt, Unit: u}
 }
 
 func (a Value) Lsh(b Value) Value {

@@ -1,7 +1,7 @@
 package unit
 
 import (
-	"fmt"
+	//"fmt"
 	"math/big"
 )
 
@@ -25,6 +25,8 @@ func denormalize(n *big.Rat, u *NamedUnit) *big.Rat {
 }
 
 func Convert(n *big.Rat, from, to *Unit) *big.Rat {
+	return n
+	/*
 	if from.dimension != to.dimension {
 		panic(fmt.Sprintf("incompatible units: %s & %s", from, to))
 	}
@@ -33,4 +35,5 @@ func Convert(n *big.Rat, from, to *Unit) *big.Rat {
 	}
 	// normalize
 	return denormalize(normalize(n, from), to)
+	*/
 }

@@ -41,6 +41,31 @@ func (u Unit) String() string {
 	return strings.Join(b, " ")
 }
 
+func (this *Unit) Mul(other *Unit) *Unit {
+	c := Unit{}
+	for _, u := range *this {
+		c = append(c, u)
+	}
+	for _, u := range *other {
+		c = append(c, u)
+	}
+	return &c
+}
+
+func (this *Unit) Quo(other *Unit) *Unit {
+	c := Unit{}
+	for _, u := range *this {
+		c = append(c, u)
+	}
+	for _, u := range *other {
+		c = append(c, unitEntry{
+			Unit: u.Unit,
+			Exp:  -u.Exp,
+		})
+	}
+	return &c
+}
+
 type unitDef struct {
 	u         dimension.Dimension
 	name      string
