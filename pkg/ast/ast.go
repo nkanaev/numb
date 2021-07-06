@@ -110,7 +110,7 @@ func (n *Var) Eval(env map[string]value.Value) value.Value {
 	if val, ok := value.Consts[n.Name]; ok {
 		return val
 	}
-	if unit := unit.Get(n.Name); unit != nil {
+	if unit, ok := unit.Get(n.Name); ok {
 		return value.NewInt(1).WithUnit(unit)
 	}
 	val, ok := env[n.Name]
@@ -135,23 +135,6 @@ func (n *Format) Eval(env map[string]value.Value) value.Value {
 
 func (n *Format) String() string {
 	return n.Expr.String() + " as " + n.Fmt.String()
-}
-
-type Unit struct {
-	Expr Node
-	Unit *unit.UnitList
-}
-
-func (n *Unit) Eval(env map[string]value.Value) value.Value {
-	expr := n.Expr.Eval(env)
-	if expr.Unit != nil {
-		panic(fmt.Sprintf("cannot set unit `%s` to `%s`", n.Unit, n.Expr))
-	}
-	return expr.WithUnit(n.Unit)
-}
-
-func (n *Unit) String() string {
-	return n.Expr.String() + " " + n.Unit.String()
 }
 
 type Convert struct {

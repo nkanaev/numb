@@ -26,27 +26,26 @@ type unitEntry struct {
 
 type UnitList []unitEntry
 
-// TODO: refactor *UnitList to UnitList
-func (u1 *UnitList) Conforms(u2 *UnitList) bool {
+func (u1 UnitList) Conforms(u2 UnitList) bool {
 	d1 := u1.Dimension()
 	d2 := u2.Dimension()
 	return d1.Equals(d2)
 }
 
-func (u1 *UnitList) Exp(x int) *UnitList {
+func (u1 UnitList) Exp(x int) UnitList {
 	u2 := UnitList{}
-	for _, u := range *u1 {
+	for _, u := range u1 {
 		u2 = append(u2, unitEntry{
 			Unit: u.Unit,
 			Exp: u.Exp * x,
 		})
 	}
-	return &u2
+	return u2
 }
 
-func (u *UnitList) Dimension() dimension.Dimensions {
+func (u UnitList) Dimension() dimension.Dimensions {
 	var d dimension.Dimensions
-	for _, x := range *u {
+	for _, x := range u {
 		d = d.Add(x.Unit.dimension.Dims.Exp(x.Exp))
 	}
 	return d
@@ -70,29 +69,29 @@ func (u UnitList) String() string {
 	return strings.Join(b, " ")
 }
 
-func (this *UnitList) Mul(other *UnitList) *UnitList {
+func (this UnitList) Mul(other UnitList) UnitList {
 	c := UnitList{}
-	for _, u := range *this {
+	for _, u := range this {
 		c = append(c, u)
 	}
-	for _, u := range *other {
+	for _, u := range other {
 		c = append(c, u)
 	}
-	return &c
+	return c
 }
 
-func (this *UnitList) Quo(other *UnitList) *UnitList {
+func (this UnitList) Quo(other UnitList) UnitList {
 	c := UnitList{}
-	for _, u := range *this {
+	for _, u := range this {
 		c = append(c, u)
 	}
-	for _, u := range *other {
+	for _, u := range other {
 		c = append(c, unitEntry{
 			Unit: u.Unit,
 			Exp:  -u.Exp,
 		})
 	}
-	return &c
+	return c
 }
 
 type unitDef struct {
@@ -167,12 +166,20 @@ func (bu unitDef) Expand() map[string]*Unit {
 
 var db = map[string]*Unit{}
 
-func Get(x string) *UnitList {
+func Must(x string) UnitList {
+	u, ok := Get(x)
+	if !ok {
+		panic("invalid unit: " + x)
+	}
+	return u
+}
+
+func Get(x string) (UnitList, bool) {
 	u := getNamedUnit(x)
 	if u == nil {
-		return nil
+		return nil, false
 	}
-	return &UnitList{unitEntry{Unit: *u, Exp: 1}}
+	return UnitList{unitEntry{Unit: *u, Exp: 1}}, true
 }
 
 func getNamedUnit(x string) *Unit {

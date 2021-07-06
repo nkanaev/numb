@@ -60,12 +60,12 @@ func denormalize(n *big.Rat, units UnitList) *big.Rat {
 	return num
 }
 
-func Convert(n *big.Rat, from, to *UnitList) *big.Rat {
+func Convert(n *big.Rat, from, to UnitList) *big.Rat {
 	if !from.Conforms(to) {
 		panic(fmt.Sprintf("incompatible units: %s & %s", from, to))
 	}
 	if from.String() == to.String() {
 		return n
 	}
-	return denormalize(normalize(n, *from), *to)
+	return denormalize(normalize(n, from), to)
 }

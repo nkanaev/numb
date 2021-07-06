@@ -23,7 +23,7 @@ func trigOp1(name string, op mathOp, args ...value.Value) value.Value {
 		panic(name + ": expected rad or deg unit")
 	}
 	if u == "deg" {
-		arg = arg.To(unit.Get("rad"))
+		arg = arg.To(unit.Must("rad"))
 	}
 	f, exact := arg.Num.Float64()
 	if !exact && math.IsInf(f, 0) {
