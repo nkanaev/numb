@@ -27,6 +27,21 @@ type unitEntry struct {
 // TODO: rename to UnitList
 type Unit []unitEntry
 
+func (u1 *Unit) Conforms(u2 *Unit) bool {
+	d1 := u1.Dimension()
+	d2 := u2.Dimension()
+	return d1.Equals(d2)
+}
+
+func (u *Unit) Dimension() dimension.Dimension {
+	var d dimension.Dimension
+	for _, x := range *u {
+		// TODO: take exp into account
+		d = d.Add(x.Unit.dimension)
+	}
+	return d
+}
+
 func (u Unit) String() string {
 	b := make([]string, 0, len(u))
 	for _, entry := range u {

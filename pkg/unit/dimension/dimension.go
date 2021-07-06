@@ -14,11 +14,29 @@ const (
 	SolidAngle
 	Digital
 	Currency
+	end_dimensions
 )
 
+// TODO: Dimension & NamedDimension?
 type Dimension struct {
 	Name string
 	Dims [11]int
+}
+
+func (d Dimension) Add(d2 Dimension) Dimension {
+	for b := Mass; b < end_dimensions; b++ {
+		d.Dims[b] += d2.Dims[b]
+	}
+	return d
+}
+
+func (d1 Dimension) Equals(d2 Dimension) bool {
+	for b := Mass; b < end_dimensions; b++ {
+		if d1.Dims[b] != d2.Dims[b] {
+			return false
+		}
+	}
+	return true
 }
 
 func (d Dimension) String() string {
