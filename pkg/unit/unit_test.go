@@ -4,16 +4,21 @@ import (
 	"math/big"
 	"reflect"
 	"testing"
+
+	"github.com/nkanaev/numb/pkg/unit/dimension"
 )
 
 func TestUnitGet(t *testing.T) {
 	for _, text := range []string{"m", "meter", "metre"} {
 		have := Get(text)
-		want := &Unit{
-			name:      "m",
-			value:     big.NewRat(1, 1),
-			dimension: LENGTH,
-		}
+		want := &Unit{unitEntry{
+			Unit: NamedUnit{
+				name:      "m",
+				value:     big.NewRat(1, 1),
+				dimension: dimension.LENGTH,
+			},
+			Exp: 1,
+		}}
 		if !reflect.DeepEqual(want, have) {
 			t.Errorf("\ntext: %s\nwant: %s\nhave: %s", text, want, have)
 		}
@@ -23,11 +28,14 @@ func TestUnitGet(t *testing.T) {
 func TestUnitGetPrefixed(t *testing.T) {
 	for _, text := range []string{"km", "kilometer", "kilometre"} {
 		have := Get(text)
-		want := &Unit{
-			name:      "km",
-			value:     big.NewRat(1000, 1),
-			dimension: LENGTH,
-		}
+		want := &Unit{unitEntry{
+			Unit: NamedUnit{
+				name:      "km",
+				value:     big.NewRat(1000, 1),
+				dimension: dimension.LENGTH,
+			},
+			Exp: 1,
+		}}
 		if !reflect.DeepEqual(want, have) {
 			t.Errorf("\ntext: %s\nwant: %#v\nhave: %#v", text, want, have)
 		}
@@ -35,13 +43,16 @@ func TestUnitGetPrefixed(t *testing.T) {
 
 	for _, text := range []string{"cm", "centimeter", "centimetre"} {
 		have := Get(text)
-		want := &Unit{
-			name:      "cm",
-			value:     big.NewRat(1, 100),
-			dimension: LENGTH,
-		}
+		want := &Unit{unitEntry{
+			Unit: NamedUnit{
+				name:      "cm",
+				value:     big.NewRat(1, 100),
+				dimension: dimension.LENGTH,
+			},
+			Exp: 1,
+		}}
 		if !reflect.DeepEqual(want, have) {
-			t.Errorf("\ntext: %s\nwant: %#v (%s)\nhave: %#v (%s)", text, want, want.value, have, have.value)
+			t.Errorf("\ntext: %s\nwant: %#v (%s)\nhave: %#v (%s)", text, want, want, have, have)
 		}
 	}
 }

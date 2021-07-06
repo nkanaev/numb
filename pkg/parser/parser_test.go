@@ -6,7 +6,6 @@ import (
 
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/token"
-	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
 )
 
@@ -116,7 +115,14 @@ func TestParseFunCall(t *testing.T) {
 	have := Parse(expr)
 	want := &ast.FunCall{
 		Name: "sin",
-		Args: []ast.Node{&ast.Unit{Expr: value.NewInt(2), Unit: unit.Get("rad")}},
+		Args: []ast.Node{
+			&ast.BinOP{
+				Lhs: value.NewInt(2),
+				Rhs: &ast.Var{Name: "radian"},
+				Op: token.MUL,
+				Implicit: true,
+			},
+		},
 	}
 	if !reflect.DeepEqual(want, have) {
 		t.Errorf("\nexpr: %s\nwant: %#v\nhave: %#v", expr, want, have)
