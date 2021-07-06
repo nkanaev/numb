@@ -134,8 +134,12 @@ func (a Value) Rem(b Value) Value {
 
 func (a Value) Exp(b Value) Value {
 	a, b, u := prepare(a, b)
+	exp := toInt(b.Num)
 	num := big.NewRat(1, 1)
-	num.Num().Exp(toInt(a.Num), toInt(b.Num), nil)
+	num.Num().Exp(toInt(a.Num), exp, nil)
+	if u != nil {
+		u = u.Exp(int(exp.Int64()))
+	}
 	return Value{Num: num, Fmt: a.Fmt, Unit: u}
 }
 

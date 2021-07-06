@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/big"
 	"strings"
+
 	"github.com/nkanaev/numb/pkg/unit/dimension"
 )
 
@@ -11,7 +12,7 @@ type Unit struct {
 	name      string
 	value     *big.Rat
 	offset    *big.Rat
-	dimension dimension.Dimension
+	dimension dimension.NamedDimension
 }
 
 func (u Unit) String() string {
@@ -31,11 +32,21 @@ func (u1 *UnitList) Conforms(u2 *UnitList) bool {
 	return d1.Equals(d2)
 }
 
-func (u *UnitList) Dimension() dimension.Dimension {
-	var d dimension.Dimension
+func (u1 *UnitList) Exp(x int) *UnitList {
+	u2 := UnitList{}
+	for _, u := range *u1 {
+		u2 = append(u2, unitEntry{
+			Unit: u.Unit,
+			Exp: u.Exp * x,
+		})
+	}
+	return &u2
+}
+
+func (u *UnitList) Dimension() dimension.Dimensions {
+	var d dimension.Dimensions
 	for _, x := range *u {
-		// TODO: take exp into account
-		d = d.Add(x.Unit.dimension)
+		d = d.Add(x.Unit.dimension.Dims.Exp(x.Exp))
 	}
 	return d
 }
@@ -80,7 +91,7 @@ func (this *UnitList) Quo(other *UnitList) *UnitList {
 }
 
 type unitDef struct {
-	u         dimension.Dimension
+	u         dimension.NamedDimension
 	name      string
 	long      string
 	value     *big.Rat

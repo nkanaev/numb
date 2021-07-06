@@ -17,36 +17,44 @@ const (
 	end_dimensions
 )
 
-// TODO: Dimension & NamedDimension?
-type Dimension struct {
-	Name string
-	Dims [11]int
-}
+type Dimensions [11]int
 
-func (d Dimension) Add(d2 Dimension) Dimension {
+func (d1 Dimensions) Exp(x int) Dimensions {
 	for b := Mass; b < end_dimensions; b++ {
-		d.Dims[b] += d2.Dims[b]
+		d1[b] *= x
 	}
-	return d
+	return d1
 }
 
-func (d1 Dimension) Equals(d2 Dimension) bool {
+func (d1 Dimensions) Add(d2 Dimensions) Dimensions {
 	for b := Mass; b < end_dimensions; b++ {
-		if d1.Dims[b] != d2.Dims[b] {
+		d1[b] += d2[b]
+	}
+	return d1
+}
+
+func (d1 Dimensions) Equals(d2 Dimensions) bool {
+	for b := Mass; b < end_dimensions; b++ {
+		if d1[b] != d2[b] {
 			return false
 		}
 	}
 	return true
 }
 
-func (d Dimension) String() string {
+type NamedDimension struct {
+	Name string
+	Dims Dimensions
+}
+
+func (d NamedDimension) String() string {
 	return d.Name
 }
 
 type dim map[Basis]int
 
-func (d dim) Dim(name string) Dimension {
-	var r Dimension
+func (d dim) Dim(name string) NamedDimension {
+	var r NamedDimension
 	for basis, exp := range d {
 		r.Dims[basis] = exp
 	}
