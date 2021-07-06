@@ -52,6 +52,10 @@ func (u *UnitList) Dimension() dimension.Dimensions {
 }
 
 func (u UnitList) String() string {
+	if len(u) == 2 && u[0].Exp == 1 && u[1].Exp == -1 {
+		return u[0].Unit.String() + "/" + u[1].Unit.String()
+	}
+
 	b := make([]string, 0, len(u))
 	for _, entry := range u {
 		if entry.Exp == 0 {
