@@ -1,9 +1,3 @@
-operator predecence (high to low):
-
-    pow
-    *  /  <<  >>  and  mod
-    +  -  or  xor
-
 grammar:
 
     root → root `as` fmt
@@ -11,7 +5,7 @@ grammar:
     root → expr
 
     expr → expr op expr
-    expr → expr var         ; implicit multiplication
+    expr → expr var          ; implicit multiplication
     expr → `+` | `-` expr
     expr → `(` expr `)`
     expr → num
@@ -27,3 +21,33 @@ grammar:
     oct  → `0o` [0-7]+
     bin  → `0b` [01]+
     var  → [^\s*/+-()=^]+ | `{` [^}]+ `}`
+
+operators:
+
+    +     addition
+    -     subtraction
+    *     multiplication
+    /     division
+    mod   modulo
+    ^     exponent
+
+    <<    shift left
+    >>    shift right
+    and   bitwise and
+    or    bitwise or
+    xor   bitwise xor
+
+operator predecence (high to low):
+
+    ^
+    *  /  <<  >>  and  mod
+    +  -  or  xor
+
+formats:
+
+    dec   decimal
+    hex   hexadecimal
+    oct   octal
+    bin   binary
+    rat   rational (x/y)
+    sci   scientific (-1.23e+45)

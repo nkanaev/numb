@@ -22,30 +22,6 @@ examples:
     > total_grains = 2^64 - 1
       18,446,744,073,709,551,615
 
-operations:
-
-    +     addition
-    -     subtraction
-    *     multiplication
-    /     division
-    mod   modulo
-    ^     exponent
-
-    <<    shift left
-    >>    shift right
-    and   bitwise and
-    or    bitwise or
-    xor   bitwise xor
-
-formats:
-
-    dec   decimal
-    hex   hexadecimal
-    oct   octal
-    bin   binary
-    rat   rational (x/y)
-    sci   scientific (-1.23e+45)
-
 install:
 
     $ go get -u github.com/nkanaev/numb/cmd/numb
