@@ -138,7 +138,7 @@ func read(r io.Reader) {
 		}
 		if len(a) > 0 {
 			fmt.Printf("%s%s    | %s%s\n",
-				q, strings.Repeat(" ", qwidth - len(q)),
+				q, strings.Repeat(" ", qwidth-len(q)),
 				strings.Repeat(" ", apad), a,
 			)
 		} else {

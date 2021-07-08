@@ -117,9 +117,9 @@ func TestParseFunCall(t *testing.T) {
 		Name: "sin",
 		Args: []ast.Node{
 			&ast.BinOP{
-				Lhs: value.NewInt(2),
-				Rhs: &ast.Var{Name: "radian"},
-				Op: token.MUL,
+				Lhs:      value.NewInt(2),
+				Rhs:      &ast.Var{Name: "radian"},
+				Op:       token.MUL,
 				Implicit: true,
 			},
 		},

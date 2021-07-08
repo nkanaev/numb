@@ -94,7 +94,7 @@ func (u1 UnitList) Exp(x int) UnitList {
 	for _, u := range u1 {
 		u2 = append(u2, unitEntry{
 			Unit: u.Unit,
-			Exp: u.Exp * x,
+			Exp:  u.Exp * x,
 		})
 	}
 	return u2

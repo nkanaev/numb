@@ -57,7 +57,7 @@ var tokenToString = map[Token]string{
 
 	ASSIGN: "=",
 
-	NUM: "NUM",
+	NUM:  "NUM",
 	WORD: "WORD",
 
 	AS: "as",
