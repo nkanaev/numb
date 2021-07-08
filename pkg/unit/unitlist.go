@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/nkanaev/numb/pkg/unit/dimension"
+	r "github.com/nkanaev/numb/pkg/ratutils"
 )
 
 type unitEntry struct {
@@ -45,7 +46,7 @@ func (units UnitList) normalize(n *big.Rat) *big.Rat {
 		num = num.Mul(num, u.value)
 	} else {
 		for _, u := range units {
-			num.Mul(num, ratexp(u.Unit.value, u.Exp))
+			num.Mul(num, r.ExpInt(u.Unit.value, u.Exp))
 		}
 	}
 	return num
@@ -65,7 +66,7 @@ func (units UnitList) denormalize(n *big.Rat) *big.Rat {
 		}
 	} else {
 		for _, u := range units {
-			num.Quo(num, ratexp(u.Unit.value, u.Exp))
+			num.Quo(num, r.ExpInt(u.Unit.value, u.Exp))
 		}
 	}
 	return num
