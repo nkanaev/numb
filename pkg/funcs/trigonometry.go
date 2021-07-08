@@ -5,27 +5,28 @@ import (
 	"math/big"
 
 	"github.com/nkanaev/numb/pkg/unit"
+	"github.com/nkanaev/numb/pkg/unit/dimension"
 	"github.com/nkanaev/numb/pkg/value"
+	"github.com/nkanaev/numb/pkg/consts"
+	"github.com/nkanaev/numb/pkg/ratutils"
 )
 
 type mathOp func(float64) float64
+
+var radian = unit.Must("rad")
 
 func trigOp1(name string, op mathOp, args ...value.Value) value.Value {
 	if len(args) != 1 {
 		panic(name + ": expected 1 argument")
 	}
 	arg := args[0]
-	if arg.Unit == nil {
-		panic(name + ": provide rad or deg unit")
+	if arg.Unit == nil || !arg.Unit.Dimension().Equals(dimension.ANGLE.Dims) {
+		panic(name + ": expected angle unit")
 	}
-	u := arg.Unit.String()
-	if u != "deg" && u != "rad" {
-		panic(name + ": expected rad or deg unit")
-	}
-	if u == "deg" {
-		arg = arg.To(unit.Must("rad"))
-	}
-	f, exact := arg.Num.Float64()
+	arg = arg.To(radian)
+	// TODO: check for negative values
+	x := ratutils.ModRat(arg.Num, consts.PI)
+	f, exact := x.Float64()
 	if !exact && math.IsInf(f, 0) {
 		panic(name + ": value too large")
 	}
