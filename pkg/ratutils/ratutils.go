@@ -55,6 +55,18 @@ func DivInt(a *big.Rat, x int64) *big.Rat {
 	return num
 }
 
+func ModRat(a, n *big.Rat) *big.Rat {
+	// r = a - n * trunc(a / n)
+	return new(big.Rat).Sub(a, new(big.Rat).Mul(n, Trunc(new(big.Rat).Quo(a, n))))
+}
+
+func Trunc(x *big.Rat) *big.Rat {
+	i := new(big.Int).Div(x.Num(), x.Denom())
+	r := new(big.Rat)
+	r.Num().Set(i)
+	return r
+}
+
 func Num(x string) *big.Rat {
 	rat, ok := new(big.Rat).SetString(x)
 	if !ok {
