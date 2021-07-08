@@ -11,6 +11,27 @@ var db = map[string]Func{
 	"asin": Asin,
 	"acos": Acos,
 	"atan": Atan,
+
+	"cosh": nop,
+	"sinh": nop,
+	"tanh": nop,
+	"acosh": nop,
+	"asinh": nop,
+	"atanh": nop,
+
+	"ln": nop,
+	"log": nop,
+	"log2": nop,
+	"log10": nop,
+	"sqrt": nop,
+
+	"ceil": nop,
+	"floor": nop,
+	"abs": nop,
+	"trunc": nop,
+
+	"gcd": nop,
+	"lcd": nop,
 }
 
 func Get(x string) *Func {
@@ -18,4 +39,8 @@ func Get(x string) *Func {
 		return &fn
 	}
 	return nil
+}
+
+func nop(args ...value.Value) value.Value {
+	return value.NewInt(1)
 }
