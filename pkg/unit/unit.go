@@ -12,7 +12,7 @@ type Unit struct {
 	name      string
 	value     *big.Rat
 	offset    *big.Rat
-	dimension dimension.NamedDimension
+	dimension dimension.Measure
 }
 
 func (u Unit) String() string {
@@ -20,7 +20,7 @@ func (u Unit) String() string {
 }
 
 type unitDef struct {
-	u         dimension.NamedDimension
+	u         dimension.Measure
 	name      string
 	long      string
 	value     *big.Rat

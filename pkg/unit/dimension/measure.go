@@ -1,21 +1,9 @@
 package dimension
 
-type dim map[Basis]int
-
-func (d dim) Dim() Dimensions {
-	var dim Dimensions
-	for basis, exp := range d {
-		dim[basis] = exp
-	}
-	return dim
-}
-
-// TODO: rename?
-type NamedDimension uint
+type Measure uint
 
 const (
-	startNamedDimensions NamedDimension = iota
-	LENGTH
+	LENGTH Measure = iota
 	TEMPERATURE
 	AREA
 	VOLUME
@@ -47,10 +35,11 @@ const (
 	RADIATION_DOSE
 	LUMINOUS_FLUX
 	ILLUMINANCE
-	endNamedDimensions
+
+	end_measures
 )
 
-var namedDim = map[NamedDimension]Dimensions{
+var measureDimensions = map[Measure]Dimensions{
 	LENGTH:                dim{Length: 1}.Dim(),
 	TEMPERATURE:           dim{Temperature: 1}.Dim(),
 	AREA:                  dim{Length: 2}.Dim(),
@@ -85,7 +74,7 @@ var namedDim = map[NamedDimension]Dimensions{
 	ILLUMINANCE:           dim{LuminousIntensity: 1, SolidAngle: 1, Length: -1}.Dim(),
 }
 
-var namedDimName = map[NamedDimension]string{
+var measureNames = map[Measure]string{
 	LENGTH:                "LENGTH",
 	TEMPERATURE:           "TEMPERATURE",
 	AREA:                  "AREA",
@@ -120,10 +109,10 @@ var namedDimName = map[NamedDimension]string{
 	ILLUMINANCE:           "ILLUMINANCE",
 }
 
-func (d NamedDimension) Dim() Dimensions {
-	return namedDim[d]
+func (d Measure) Dim() Dimensions {
+	return measureDimensions[d]
 }
 
-func (d NamedDimension) String() string {
-	return namedDimName[d]
+func (d Measure) String() string {
+	return measureNames[d]
 }
