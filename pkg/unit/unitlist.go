@@ -27,7 +27,7 @@ func (u1 UnitList) IsSingle() bool {
 func (u UnitList) Dimension() dimension.Dimensions {
 	var d dimension.Dimensions
 	for _, x := range u {
-		d = d.Add(x.Unit.dimension.Dims.Exp(x.Exp))
+		d = d.Add(x.Unit.dimension.Dim().Exp(x.Exp))
 	}
 	return d
 }

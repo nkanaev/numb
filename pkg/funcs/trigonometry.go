@@ -20,7 +20,7 @@ func trigOp1(name string, op mathOp, args ...value.Value) value.Value {
 		panic(name + ": expected 1 argument")
 	}
 	arg := args[0]
-	if arg.Unit != nil && !arg.Unit.Dimension().Equals(dimension.ANGLE.Dims) {
+	if arg.Unit != nil && !arg.Unit.Dimension().Equals(dimension.ANGLE.Dim()) {
 		panic(name + ": can accept only dimensions of angle")
 	}
 	arg = arg.To(radian)
