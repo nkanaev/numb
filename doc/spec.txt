@@ -5,12 +5,15 @@ grammar:
     root → expr
 
     expr → expr op expr
-    expr → expr var          ; implicit multiplication
+    expr → expr <var expr>          ; implicit multiplication
     expr → `+` | `-` expr
     expr → `(` expr `)`
     expr → num
     expr → var
     expr → var `=` expr
+    expr → var `(` args `)`         ; function call
+
+    args → expr | args `,` expr
 
     op   → `+` | `-` | `*` ...
     fmt  → `dec` | `hex` | `oct` | `bin` | `rat` | `sci`
