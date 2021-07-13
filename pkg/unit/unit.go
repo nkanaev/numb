@@ -64,7 +64,6 @@ func (bu unitDef) Expand() map[string]*Unit {
 	if bu.prefixes != nil {
 		for _, pr := range *bu.prefixes {
 			prefixValue := big.NewRat(1, 1).Set(pr.value)
-			prefixValue.Mul(prefixValue, bu.value)
 			if bu.prefixpow > 0 {
 				x := new(big.Rat).Set(prefixValue)
 				for i := 1; i < bu.prefixpow; i++ {

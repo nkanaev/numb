@@ -19,3 +19,14 @@ func TestRatMod(t *testing.T) {
 		}
 	}	
 }
+
+func TestExp(t *testing.T) {
+	pos := Exp(10, 3).String()
+	if pos != "1000/1" {
+		t.Errorf("10 ^ 3 = 1000 (got %s)", pos)
+	}
+	neg := Exp(10, -3).String()
+	if neg != "1/1000" {
+		t.Errorf("10 ^ -3 = 1/1000 (got %s)", neg)
+	}
+}

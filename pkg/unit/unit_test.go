@@ -10,8 +10,8 @@ import (
 
 func TestUnitGet(t *testing.T) {
 	for _, text := range []string{"m", "meter", "metre"} {
-		have := Get(text)
-		want := &UnitList{unitEntry{
+		have := Must(text)
+		want := UnitList{unitEntry{
 			Unit: Unit{
 				name:      "m",
 				value:     big.NewRat(1, 1),
@@ -27,8 +27,8 @@ func TestUnitGet(t *testing.T) {
 
 func TestUnitGetPrefixed(t *testing.T) {
 	for _, text := range []string{"km", "kilometer", "kilometre"} {
-		have := Get(text)
-		want := &UnitList{unitEntry{
+		have := Must(text)
+		want := UnitList{unitEntry{
 			Unit: Unit{
 				name:      "km",
 				value:     big.NewRat(1000, 1),
@@ -42,8 +42,8 @@ func TestUnitGetPrefixed(t *testing.T) {
 	}
 
 	for _, text := range []string{"cm", "centimeter", "centimetre"} {
-		have := Get(text)
-		want := &UnitList{unitEntry{
+		have := Must(text)
+		want := UnitList{unitEntry{
 			Unit: Unit{
 				name:      "cm",
 				value:     big.NewRat(1, 100),

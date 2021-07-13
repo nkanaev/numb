@@ -27,12 +27,11 @@ func Exp(b, n int64) *big.Rat {
 		return ONE
 	}
 	int := big.NewInt(b)
-	int.Exp(int, big.NewInt(n), nil)
 	rat := big.NewRat(1, 1)
 	if n > 0 {
-		rat.Num().Set(int)
+		rat.Num().Set(int.Exp(int, big.NewInt(n), nil))
 	} else {
-		rat.Denom().Set(int)
+		rat.Denom().Set(int.Exp(int, big.NewInt(-n), nil))
 	}
 	return rat
 }
