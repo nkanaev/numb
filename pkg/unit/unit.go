@@ -12,6 +12,7 @@ type Unit struct {
 	name      string
 	value     *big.Rat
 	offset    *big.Rat
+	// TODO: rename to measure
 	dimension dimension.Measure
 }
 

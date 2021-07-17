@@ -24,6 +24,28 @@ func (u1 UnitList) IsSingle() bool {
 	return len(u1) == 1 && u1[0].Exp == 1
 }
 
+func (ul UnitList) Simplify() UnitList {
+	exps := make(map[dimension.Measure]int)
+	candidates := make([]Unit, 0)
+
+	for _, u := range ul {
+		if _, seen := exps[u.Unit.dimension]; seen {
+			exps[u.Unit.dimension] += u.Exp
+		} else {
+			exps[u.Unit.dimension] += u.Exp
+			candidates = append(candidates, u.Unit)
+		}
+	}
+
+	out := make(UnitList, 0)
+	for _, candidate := range candidates {
+		if exp := exps[candidate.dimension]; exp != 0 {
+			out = append(out, unitEntry{Unit: candidate, Exp: exp})
+		}
+	}
+	return out
+}
+
 func (u UnitList) Dimension() dimension.Dimensions {
 	var d dimension.Dimensions
 	for _, x := range u {

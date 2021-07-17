@@ -87,25 +87,35 @@ func (a Value) Sub(b Value) Value {
 }
 
 func (a Value) Mul(b Value) Value {
+	n := new(big.Rat).Mul(a.Num, b.Num)
+
 	u := a.Unit
 	if u == nil {
 		u = b.Unit
 	}
 	if a.Unit != nil && b.Unit != nil {
-		u = a.Unit.Mul(b.Unit)
+		utmp := a.Unit.Mul(b.Unit)
+		u = utmp.Simplify()
+		n = unit.Convert(n, utmp, u)
 	}
-	return Value{Num: new(big.Rat).Mul(a.Num, b.Num), Fmt: a.Fmt, Unit: u}
+
+	return Value{Num: n, Fmt: a.Fmt, Unit: u}
 }
 
 func (a Value) Quo(b Value) Value {
+	n := new(big.Rat).Quo(a.Num, b.Num)
+
 	u := a.Unit
 	if u == nil {
 		u = b.Unit
 	}
 	if a.Unit != nil && b.Unit != nil {
-		u = a.Unit.Quo(b.Unit)
+		utmp := a.Unit.Quo(b.Unit)
+		u = utmp.Simplify()
+		n = unit.Convert(n, utmp, u)
 	}
-	return Value{Num: new(big.Rat).Quo(a.Num, b.Num), Fmt: a.Fmt, Unit: u}
+
+	return Value{Num: n, Fmt: a.Fmt, Unit: u}
 }
 
 func (a Value) Lsh(b Value) Value {
