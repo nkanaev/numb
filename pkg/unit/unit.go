@@ -70,6 +70,7 @@ func (bu unitDef) Expand() map[string]*Unit {
 					prefixValue.Mul(prefixValue, x)
 				}
 			}
+			prefixValue.Mul(prefixValue, bu.value)
 			prefixUnit := &Unit{
 				name:    pr.abbr + name,
 				value:   prefixValue,
