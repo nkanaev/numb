@@ -15,7 +15,7 @@ func TestUnitGet(t *testing.T) {
 			Unit: Unit{
 				name:      "m",
 				value:     big.NewRat(1, 1),
-				dimension: dimension.LENGTH,
+				measure: dimension.LENGTH,
 			},
 			Exp: 1,
 		}}
@@ -32,7 +32,7 @@ func TestUnitGetPrefixed(t *testing.T) {
 			Unit: Unit{
 				name:      "km",
 				value:     big.NewRat(1000, 1),
-				dimension: dimension.LENGTH,
+				measure: dimension.LENGTH,
 			},
 			Exp: 1,
 		}}
@@ -47,7 +47,7 @@ func TestUnitGetPrefixed(t *testing.T) {
 			Unit: Unit{
 				name:      "cm",
 				value:     big.NewRat(1, 100),
-				dimension: dimension.LENGTH,
+				measure: dimension.LENGTH,
 			},
 			Exp: 1,
 		}}

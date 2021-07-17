@@ -29,17 +29,17 @@ func (ul UnitList) Simplify() UnitList {
 	candidates := make([]Unit, 0)
 
 	for _, u := range ul {
-		if _, seen := exps[u.Unit.dimension]; seen {
-			exps[u.Unit.dimension] += u.Exp
+		if _, seen := exps[u.Unit.measure]; seen {
+			exps[u.Unit.measure] += u.Exp
 		} else {
-			exps[u.Unit.dimension] += u.Exp
+			exps[u.Unit.measure] += u.Exp
 			candidates = append(candidates, u.Unit)
 		}
 	}
 
 	out := make(UnitList, 0)
 	for _, candidate := range candidates {
-		if exp := exps[candidate.dimension]; exp != 0 {
+		if exp := exps[candidate.measure]; exp != 0 {
 			out = append(out, unitEntry{Unit: candidate, Exp: exp})
 		}
 	}
@@ -49,7 +49,7 @@ func (ul UnitList) Simplify() UnitList {
 func (u UnitList) Dimension() dimension.Dimensions {
 	var d dimension.Dimensions
 	for _, x := range u {
-		d = d.Add(x.Unit.dimension.Dim().Exp(x.Exp))
+		d = d.Add(x.Unit.measure.Dim().Exp(x.Exp))
 	}
 	return d
 }

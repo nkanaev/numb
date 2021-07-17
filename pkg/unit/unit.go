@@ -9,11 +9,10 @@ import (
 )
 
 type Unit struct {
-	name      string
-	value     *big.Rat
-	offset    *big.Rat
-	// TODO: rename to measure
-	dimension dimension.Measure
+	name    string
+	value   *big.Rat
+	offset  *big.Rat
+	measure dimension.Measure
 }
 
 func (u Unit) String() string {
@@ -49,10 +48,10 @@ func (bu unitDef) Expand() map[string]*Unit {
 
 	result := make(map[string]*Unit)
 	unit := &Unit{
-		name:      name,
-		value:     bu.value,
-		offset:    bu.offset,
-		dimension: bu.u,
+		name:    name,
+		value:   bu.value,
+		offset:  bu.offset,
+		measure: bu.u,
 	}
 
 	for _, alias := range shortforms {
@@ -72,10 +71,10 @@ func (bu unitDef) Expand() map[string]*Unit {
 				}
 			}
 			prefixUnit := &Unit{
-				name:      pr.abbr + name,
-				value:     prefixValue,
-				offset:    bu.offset,
-				dimension: bu.u,
+				name:    pr.abbr + name,
+				value:   prefixValue,
+				offset:  bu.offset,
+				measure: bu.u,
 			}
 
 			for _, alias := range longforms {
@@ -164,9 +163,9 @@ func AddExchangeRates(currencies []Currency) {
 	for _, cur := range currencies {
 		code := strings.ToUpper(cur.Code)
 		u := &Unit{
-			name:      code,
-			value:     new(big.Rat).SetFloat64(1 / cur.Rate),
-			dimension: dimension.CURRENCY,
+			name:    code,
+			value:   new(big.Rat).SetFloat64(1 / cur.Rate),
+			measure: dimension.CURRENCY,
 		}
 		db[code] = u
 	}
