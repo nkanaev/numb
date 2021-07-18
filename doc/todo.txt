@@ -1,4 +1,5 @@
 - verbose error messages
-- arithmetic functions
-- more trigonometric functions
+- change config in repl
+- implement nop functions, fix existing
+- `to` & `as` as operators?
 - documentation
