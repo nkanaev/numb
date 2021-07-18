@@ -21,6 +21,8 @@ examples:
       4.47 m/s
     > total_grains = 2^64 - 1
       18,446,744,073,709,551,615
+    > 10 GB / (15 MB/s) to minute
+      11.11 min
 
 install:
 
