@@ -42,13 +42,3 @@ func (d1 Dimensions) Equals(d2 Dimensions) bool {
 	}
 	return true
 }
-
-type dim map[Basis]int
-
-func (d dim) Dim() Dimensions {
-	var dim Dimensions
-	for basis, exp := range d {
-		dim[basis] = exp
-	}
-	return dim
-}
