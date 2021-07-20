@@ -27,7 +27,7 @@ var units = []unitDef{
 	{u: d.LENGTH, name: "lightsecond", long: "lightsecond, light-second", value: r.Num("299792458"), prefixes: &metricPrefixes},
 
 	{u: d.MASS, name: "g", long: "gram", value: r.Num("0.001"), prefixes: &metricPrefixes, info: "(0.001 kg - SI base unit)"},
-	{u: d.MASS, name: "t", long: "tonne, metric-ton", value: r.Num("1000"), prefixes: &metricPrefixes, info: "accepted for use with the SI (1 t = 1000 kg)"},
+	{u: d.MASS, name: "t", long: "tonne, metric-ton", value: r.Num("1000"), prefixes: &metricPrefixesTonne, info: "accepted for use with the SI (1 t = 1000 kg)"},
 	{u: d.MASS, name: "Da", long: "dalton", value: r.Num("1.6605402e-27"), info: "accepted for use with the SI"},
 	// avoirdupois system
 	{u: d.MASS, name: "dr, dram", value: r.DivInt(ipound, 256), info: "1/256 pound"},
