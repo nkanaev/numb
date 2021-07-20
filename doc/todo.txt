@@ -1,6 +1,5 @@
 - verbose error messages
 - change config in repl
 - implement nop functions, fix existing
-- `to` & `as` as operators?
 - ability to read units.def file?
 - documentation

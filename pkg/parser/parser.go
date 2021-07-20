@@ -13,7 +13,7 @@ type parser struct {
 
 func (p *parser) expect(t token.Token) {
 	if p.s.Token != t {
-		panic("expected " + t.String())
+		panic("expected " + t.String() + ", got " + p.s.Token.String())
 	}
 	p.s.Scan()
 }
@@ -88,22 +88,8 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 		if !implicit {
 			p.s.Scan()
 		}
-		rhs := p.parseBinaryExpr(prec + 1)
-		lhs = &ast.BinOP{Lhs: lhs, Rhs: rhs, Op: tok, Implicit: implicit}
-	}
-	return lhs
-}
 
-func (p *parser) parseExpr() ast.Node {
-	return p.parseBinaryExpr(token.LowestPrec + 1)
-}
-
-func (p *parser) parseRoot() ast.Node {
-	lhs := p.parseExpr()
-	for {
-		tok := p.s.Token
 		if tok == token.AS {
-			p.expect(token.AS)
 			if p.s.Token != token.WORD {
 				panic("expected format")
 			}
@@ -113,24 +99,26 @@ func (p *parser) parseRoot() ast.Node {
 			}
 			lhs = &ast.Format{Expr: lhs, Fmt: f}
 			p.expect(token.WORD)
-			continue
+		} else if tok == token.TO {
+			rhs := p.parseBinaryExpr(prec + 1)
+			lhs = &ast.Convert{Expr: lhs, Unit: rhs}
+		} else {
+			rhs := p.parseBinaryExpr(prec + 1)
+			lhs = &ast.BinOP{Lhs: lhs, Rhs: rhs, Op: tok, Implicit: implicit}
 		}
-		if tok == token.TO {
-			p.expect(token.TO)
-			u := p.parseExpr()
-			lhs = &ast.Convert{Expr: lhs, Unit: u}
-			continue
-		}
-		break
 	}
 	return lhs
+}
+
+func (p *parser) parseExpr() ast.Node {
+	return p.parseBinaryExpr(token.LowestPrec + 1)
 }
 
 func Parse(line string) ast.Node {
 	s := scanner.New(line)
 	p := &parser{s: s}
 	s.Scan()
-	root := p.parseRoot()
+	root := p.parseExpr()
 	if s.Token != token.END {
 		panic("trailing stuff")
 	}
