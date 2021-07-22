@@ -5,6 +5,7 @@ import (
 	"math/big"
 )
 
+var ZEROINT = big.NewInt(0)
 var ONE = big.NewRat(1, 1)
 var TEN = big.NewRat(10, 1)
 
@@ -64,6 +65,14 @@ func Trunc(x *big.Rat) *big.Rat {
 	r := new(big.Rat)
 	r.Num().Set(i)
 	return r
+}
+
+func ToInt(x *big.Rat) (*big.Int, bool) {
+	// TODO: quorem vs. divmod
+	quo := new(big.Int)
+	rem := new(big.Int)
+	quo.QuoRem(x.Num(), x.Denom(), rem)
+	return quo, rem.Cmp(ZEROINT) == 0
 }
 
 func Num(x string) *big.Rat {

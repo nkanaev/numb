@@ -30,7 +30,7 @@ var db = map[string]Func{
 	"abs": nop,
 	"trunc": nop,
 
-	"gcd": nop,
+	"gcd": GCD,
 	"lcd": nop,
 }
 
