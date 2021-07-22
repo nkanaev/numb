@@ -58,3 +58,14 @@ func LCM(args ...value.Value) value.Value {
 	num.Num().Set(ret)
 	return value.Value{Num: num}
 }
+
+func Abs(args ...value.Value) value.Value {
+	if len(args) != 1 {
+		panic("abs: expected one argument")
+	}
+	num := new(big.Rat).Set(args[0].Num)
+	if num.Cmp(ratutils.ZERO) == -1 {
+		num.Neg(num)
+	}
+	return value.Value{Num: num}
+}
