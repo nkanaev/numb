@@ -67,12 +67,19 @@ func Trunc(x *big.Rat) *big.Rat {
 	return r
 }
 
-func ToInt(x *big.Rat) (*big.Int, bool) {
+func ToInt(x *big.Rat) *big.Int {
+	if IsInt(x) {
+		return x.Num()
+	}
 	// TODO: quorem vs. divmod
 	quo := new(big.Int)
 	rem := new(big.Int)
 	quo.QuoRem(x.Num(), x.Denom(), rem)
-	return quo, rem.Cmp(ZEROINT) == 0
+	return quo
+}
+
+func IsInt(x *big.Rat) bool {
+	return x.Denom().Cmp(ONE.Num()) == 0
 }
 
 func Num(x string) *big.Rat {

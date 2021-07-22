@@ -31,7 +31,7 @@ var db = map[string]Func{
 	"trunc": nop,
 
 	"gcd": GCD,
-	"lcd": nop,
+	"lcm": LCM,
 }
 
 func Get(x string) *Func {
