@@ -1,6 +1,8 @@
 package unit
 
 import (
+	"math/big"
+
 	"github.com/nkanaev/numb/pkg/consts"
 	r "github.com/nkanaev/numb/pkg/ratutils"
 	d "github.com/nkanaev/numb/pkg/unit/dimension"
@@ -124,4 +126,15 @@ var units = []unitDef{
 	{u: d.MAGNETIC_FLUX_DENSITY, name: "T", long: "tesla", value: r.ONE, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{u: d.RADIATION_DOSE, name: "Gy", long: "gray", value: r.ONE, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{u: d.SOLID_ANGLE, name: "sr", long: "steradian", value: r.ONE, prefixes: &metricPrefixes, info: "SI derived unit"},
+
+	// speed: base is meter/sec
+	{u: d.SPEED, name: "kmph", value: big.NewRat(5, 18)},
+	{u: d.SPEED, name: "mph", value: big.NewRat(1397, 3125)},
+	{u: d.SPEED, name: "kn, knot", value: big.NewRat(463, 900)},
+
+	// data-rate: base is bit/sec
+	{u: d.DATA_RATE, name: "kbps", value: r.Exp(10, 3)},
+	{u: d.DATA_RATE, name: "Mbps", value: r.Exp(10, 6)},
+	{u: d.DATA_RATE, name: "Gbps", value: r.Exp(10, 9)},
+	{u: d.DATA_RATE, name: "Tbps", value: r.Exp(10, 12)},
 }

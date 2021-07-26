@@ -35,6 +35,8 @@ const (
 	RADIATION_DOSE
 	LUMINOUS_FLUX
 	ILLUMINANCE
+	SPEED
+	DATA_RATE
 
 	end_measures
 )
@@ -72,6 +74,8 @@ var measureDimensions = map[Measure]Dimensions{
 	RADIATION_DOSE:        Dimensions{Length: 2, Time: -2},
 	LUMINOUS_FLUX:         Dimensions{LuminousIntensity: 1, SolidAngle: 1},
 	ILLUMINANCE:           Dimensions{LuminousIntensity: 1, SolidAngle: 1, Length: -1},
+	SPEED:                 Dimensions{Length: 1, Time: -1},
+	DATA_RATE:             Dimensions{Digital: 1, Time: -1},
 }
 
 var measureNames = map[Measure]string{
