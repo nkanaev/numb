@@ -23,6 +23,8 @@ examples:
       18,446,744,073,709,551,615
     > 10 GB / (15 MB/s) to minute
       11.11 min
+    > 10 Kbit/sec * 30 days to megabyte
+      3,240 MB
 
 install:
 
