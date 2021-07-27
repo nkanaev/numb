@@ -5,8 +5,8 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/nkanaev/numb/pkg/unit/dimension"
 	r "github.com/nkanaev/numb/pkg/ratutils"
+	"github.com/nkanaev/numb/pkg/unit/dimension"
 )
 
 type unitEntry struct {

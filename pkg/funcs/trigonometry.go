@@ -4,11 +4,11 @@ import (
 	"math"
 	"math/big"
 
+	"github.com/nkanaev/numb/pkg/consts"
+	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/unit/dimension"
 	"github.com/nkanaev/numb/pkg/value"
-	"github.com/nkanaev/numb/pkg/consts"
-	"github.com/nkanaev/numb/pkg/ratutils"
 )
 
 type mathOp func(float64) float64

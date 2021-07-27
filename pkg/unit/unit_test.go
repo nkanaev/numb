@@ -13,8 +13,8 @@ func TestUnitGet(t *testing.T) {
 		have := Must(text)
 		want := UnitList{unitEntry{
 			Unit: Unit{
-				name:      "m",
-				value:     big.NewRat(1, 1),
+				name:    "m",
+				value:   big.NewRat(1, 1),
 				measure: dimension.LENGTH,
 			},
 			Exp: 1,
@@ -30,8 +30,8 @@ func TestUnitGetPrefixed(t *testing.T) {
 		have := Must(text)
 		want := UnitList{unitEntry{
 			Unit: Unit{
-				name:      "km",
-				value:     big.NewRat(1000, 1),
+				name:    "km",
+				value:   big.NewRat(1000, 1),
 				measure: dimension.LENGTH,
 			},
 			Exp: 1,
@@ -45,8 +45,8 @@ func TestUnitGetPrefixed(t *testing.T) {
 		have := Must(text)
 		want := UnitList{unitEntry{
 			Unit: Unit{
-				name:      "cm",
-				value:     big.NewRat(1, 100),
+				name:    "cm",
+				value:   big.NewRat(1, 100),
 				measure: dimension.LENGTH,
 			},
 			Exp: 1,

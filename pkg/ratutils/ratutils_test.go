@@ -3,7 +3,7 @@ package ratutils
 import "testing"
 
 func TestRatMod(t *testing.T) {
-	tcases := []struct{
+	tcases := []struct {
 		a, n, want string
 	}{
 		{"10", "2.4", "0.4"},
@@ -17,7 +17,7 @@ func TestRatMod(t *testing.T) {
 		if want.Cmp(have) != 0 {
 			t.Errorf("%s %% %s != %s (must be %s)", tcase.a, tcase.n, have, want)
 		}
-	}	
+	}
 }
 
 func TestExp(t *testing.T) {
