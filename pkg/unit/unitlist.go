@@ -125,20 +125,14 @@ func (u1 UnitList) Exp(x int) UnitList {
 
 func (this UnitList) Mul(other UnitList) UnitList {
 	c := UnitList{}
-	for _, u := range this {
-		c = append(c, u)
-	}
-	for _, u := range other {
-		c = append(c, u)
-	}
+	c = append(c, this...)
+	c = append(c, other...)
 	return c
 }
 
 func (this UnitList) Quo(other UnitList) UnitList {
 	c := UnitList{}
-	for _, u := range this {
-		c = append(c, u)
-	}
+	c = append(c, this...)
 	for _, u := range other {
 		c = append(c, unitEntry{
 			Unit: u.Unit,

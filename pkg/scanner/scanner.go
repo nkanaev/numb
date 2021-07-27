@@ -152,7 +152,7 @@ func (s *Scanner) next() {
 		s.Value = string(letters)
 	default:
 		letters := make([]rune, 0)
-		for ch != 0 && !unicode.IsSpace(ch) && strings.Index("^*/+-()=", string(ch)) == -1 {
+		for ch != 0 && !unicode.IsSpace(ch) && !strings.Contains("^*/+-()=", string(ch)) {
 			letters = append(letters, ch)
 			s.nextChar()
 			ch = s.char()

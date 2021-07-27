@@ -214,12 +214,12 @@ func (a Value) Format(sep string, prec int) string {
 	s := ""
 	if l[0] == '-' {
 		s = "-"
-		l = l[1:len(l)]
+		l = l[1:]
 	}
 
 	x := ""
 	for len(l) > 3 {
-		x = sep + l[len(l)-3:len(l)] + x
+		x = sep + l[len(l)-3:] + x
 		l = l[0 : len(l)-3]
 	}
 	l = s + l + x
