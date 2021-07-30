@@ -1,9 +1,7 @@
 grammar:
 
-    root → root `as` fmt
-    root → root `to` expr
-    root → expr
-
+    expr → expr `as` fmt
+    expr → expr `to` expr
     expr → expr op expr
     expr → expr <var expr>          ; implicit multiplication
     expr → `+` | `-` expr
