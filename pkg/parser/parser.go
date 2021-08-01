@@ -1,6 +1,8 @@
 package parser
 
 import (
+	"errors"
+
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/scanner"
 	"github.com/nkanaev/numb/pkg/token"
@@ -123,4 +125,21 @@ func Parse(line string) ast.Node {
 		panic("trailing stuff")
 	}
 	return root
+}
+
+func Eval(expr string, env map[string]value.Value) (val value.Value, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			switch x := r.(type) {
+			case string:
+				err = errors.New(x)
+			case error:
+				err = x
+			default:
+				err = errors.New("unknown error")
+			}
+		}
+	}()
+	val = Parse(expr).Eval(env)
+	return
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -23,23 +22,6 @@ var prefix = "  "
 var rates = ""
 var sep = ","
 var prec = 2
-
-func eval(expr string, env map[string]value.Value) (val value.Value, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			switch x := r.(type) {
-			case string:
-				err = errors.New(x)
-			case error:
-				err = x
-			default:
-				err = errors.New("unknown error")
-			}
-		}
-	}()
-	val = parser.Parse(expr).Eval(env)
-	return
-}
 
 func repl() {
 	env := make(map[string]value.Value)
@@ -72,7 +54,7 @@ func repl() {
 		if line == "" {
 			continue
 		}
-		val, err := eval(line, env)
+		val, err := parser.Eval(line, env)
 		out := ""
 		if err != nil {
 			out = err.Error()
@@ -106,7 +88,7 @@ func read(r io.Reader) {
 	}
 
 	for _, line := range qlines {
-		val, err := eval(line, env)
+		val, err := parser.Eval(line, env)
 		if err == nil {
 			out := ""
 			if val.Fmt == value.DEC {

@@ -1,0 +1,7 @@
+# abs
+abs(-1)  | 1
+
+# sin
+sin(1)      | ! angle
+sin(1 rad)  | 0.84
+sin(90 deg) | 1
