@@ -90,8 +90,14 @@ func TestSpecs(t *testing.T) {
 					continue
 				}
 				if want[0] == '!' {
-					if err == nil || !strings.Contains(err.Error(), want[2:]) {
-						t.Fatalf("expected error\nexpr: %s\n err: %s", expr, err)
+					want = want[1:]
+					if err == nil {
+						t.Fatalf("expected error\nexpr: %s\nwant: !%s", expr, want)
+					}
+					if !strings.Contains(err.Error(), want) {
+						t.Fatalf(
+							"invalid error\nexpr: %s\nwant: !%s\nhave: !%s",
+							expr, want, err.Error())
 					}
 				} else {
 					have := have.Format(",", 2)
