@@ -111,6 +111,8 @@ var measureNames = map[Measure]string{
 	RADIATION_DOSE:        "RADIATION_DOSE",
 	LUMINOUS_FLUX:         "LUMINOUS_FLUX",
 	ILLUMINANCE:           "ILLUMINANCE",
+	SPEED:                 "SPEED",
+	DATA_RATE:             "DATA_RANGE",
 }
 
 func (d Measure) Dim() Dimensions {

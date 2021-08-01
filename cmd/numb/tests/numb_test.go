@@ -84,7 +84,9 @@ func TestSpecs(t *testing.T) {
 				have, err := parser.Eval(expr, env)
 
 				if err != nil && (len(want) == 0 || want[0] != '!') {
-					t.Fatalf("unexpected error\nexpr: %s\n err: %s", expr, err.Error())
+					t.Fatalf(
+						"unexpected error\nexpr: %s\nwant: %s\n err: %s",
+						expr, want, err.Error())
 				}
 				if len(want) == 0 {
 					continue
@@ -102,7 +104,6 @@ func TestSpecs(t *testing.T) {
 				} else {
 					have := have.Format(",", 2)
 					if have != want {
-						t.Logf("%+v", spec)
 						t.Fatalf("wrong answer\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
 					}
 				}

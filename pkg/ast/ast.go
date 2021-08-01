@@ -142,14 +142,18 @@ type Convert struct {
 }
 
 func (n *Convert) Eval(env map[string]value.Value) value.Value {
+	l := n.Expr.Eval(env)
 	u := n.Unit.Eval(env)
-	if u.Unit == nil {
+	if len(l.Unit) == 0 {
+		panic(l.String() + " is a unitless value")
+	}
+	if len(u.Unit) == 0 {
 		panic(n.Unit.String() + " is not a unit")
 	}
 	if u.Num.IsInt() && u.Num.Num().Int64() != 1 {
 		panic("cannot convert to a unit with a value: " + n.Unit.String())
 	}
-	return n.Expr.Eval(env).To(u.Unit)
+	return l.To(u.Unit)
 }
 
 func (n *Convert) String() string {

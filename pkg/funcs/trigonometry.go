@@ -20,7 +20,7 @@ func trigOp1(name string, op mathOp, args ...value.Value) value.Value {
 		panic(name + ": expected 1 argument")
 	}
 	arg := args[0]
-	if arg.Unit != nil && !arg.Unit.Dimension().Equals(dimension.ANGLE.Dim()) {
+	if len(arg.Unit) == 0 || !arg.Unit.Dimension().Equals(dimension.ANGLE.Dim()) {
 		panic(name + ": can accept only dimensions of angle")
 	}
 	arg = arg.To(radian)
@@ -31,7 +31,7 @@ func trigOp1(name string, op mathOp, args ...value.Value) value.Value {
 		panic(name + ": value too large")
 	}
 	num := new(big.Rat).SetFloat64(op(f))
-	return value.Value{Num: num, Unit: arg.Unit}
+	return value.Value{Num: num}
 }
 
 func Sin(args ...value.Value) value.Value {
