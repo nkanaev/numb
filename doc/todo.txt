@@ -3,3 +3,4 @@
 - implement nop functions, fix existing
 - ability to read units.def file?
 - documentation
+- get rid of sep

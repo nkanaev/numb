@@ -55,7 +55,6 @@ func listSpecs() []Spec {
 			} else {
 				chunks := strings.Split(line, "|")
 				var expr, want string
-				log.Println("$$", chunks)
 				if len(chunks) == 2 {
 					expr = strings.TrimSpace(chunks[0])
 					want = strings.TrimSpace(chunks[1])
