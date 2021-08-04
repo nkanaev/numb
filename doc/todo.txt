@@ -1,7 +1,6 @@
 - verbose error messages
 - change config in repl
 - implement nop functions, fix existing
-- ability to read units.def file?
 - documentation
 - get rid of sep
 - make `|` part of the parser
