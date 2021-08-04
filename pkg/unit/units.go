@@ -16,25 +16,7 @@ var ipound = r.Num("0.45359237")
 
 var units = []unitDef{
 	{u: d.LENGTH, name: "m", long: "meter, metre", value: r.ONE, prefixes: &metricPrefixes, info: "SI base unit"},
-	// lengths: US & Imperial
-	{u: d.LENGTH, name: "in, inch", value: r.DivInt(iyard, 3*12), info: "1/12 feet"},
-	{u: d.LENGTH, name: "ft, foot, feet", value: r.DivInt(iyard, 3), info: "1/3 yard"},
-	{u: d.LENGTH, name: "yd, yard", value: iyard, info: "International Yard (3 feet)"},
-	{u: d.LENGTH, name: "mi, mile", value: r.MulInt(iyard, 22*10*8), info: "8 furlongs"},
-	// lengths: misc
-	{u: d.LENGTH, name: "angstrom", value: r.Exp(10, -10)},
-	{u: d.LENGTH, name: "au", long: "astronomical-unit", value: r.Num("149597870700"), info: "accepted for use with the SI"},
-	{u: d.LENGTH, name: "pc, parsec", value: r.DivRat(r.MulInt(r.Num("149597870700"), 648000), consts.PI), info: "648000/pi astronomical units"},
-	{u: d.LENGTH, name: "ly", long: "lightyear, light-year", value: r.Num("9460730472580800"), prefixes: &metricPrefixes, info: "accepted for use with the SI"},
-	{u: d.LENGTH, name: "lightsecond", long: "lightsecond, light-second", value: r.Num("299792458"), prefixes: &metricPrefixes},
-
 	{u: d.MASS, name: "g", long: "gram", value: r.Num("0.001"), prefixes: &metricPrefixes, info: "(0.001 kg - SI base unit)"},
-	{u: d.MASS, name: "t", long: "tonne, metric-ton", value: r.Num("1000"), prefixes: &metricPrefixesTonne, info: "accepted for use with the SI (1 t = 1000 kg)"},
-	{u: d.MASS, name: "Da", long: "dalton", value: r.Num("1.6605402e-27"), info: "accepted for use with the SI"},
-	// avoirdupois system
-	{u: d.MASS, name: "dr, dram", value: r.DivInt(ipound, 256), info: "1/256 pound"},
-	{u: d.MASS, name: "oz, once, ounce", value: r.DivInt(ipound, 16), info: "1/16 pound"},
-	{u: d.MASS, name: "lb, pound", value: ipound, info: "International pound"},
 
 	{u: d.TIME, name: "s", long: "sec, second", value: r.Num("1"), prefixes: &metricPrefixes, info: "SI base unit"},
 	{u: d.TIME, name: "min", long: "minute", value: r.Num("60"), info: "accepted for use with the SI (1 min = 60 s)"},
