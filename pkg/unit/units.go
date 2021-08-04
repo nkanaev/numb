@@ -3,7 +3,6 @@ package unit
 import (
 	"math/big"
 
-	"github.com/nkanaev/numb/pkg/consts"
 	r "github.com/nkanaev/numb/pkg/ratutils"
 	d "github.com/nkanaev/numb/pkg/unit/dimension"
 )
@@ -17,50 +16,21 @@ var ipound = r.Num("0.45359237")
 var units = []unitDef{
 	{u: d.LENGTH, name: "m", long: "meter, metre", value: r.ONE, prefixes: &metricPrefixes, info: "SI base unit"},
 	{u: d.MASS, name: "g", long: "gram", value: r.Num("0.001"), prefixes: &metricPrefixes, info: "(0.001 kg - SI base unit)"},
-
 	{u: d.TIME, name: "s", long: "sec, second", value: r.Num("1"), prefixes: &metricPrefixes, info: "SI base unit"},
-	{u: d.TIME, name: "min", long: "minute", value: r.Num("60"), info: "accepted for use with the SI (1 min = 60 s)"},
-	{u: d.TIME, name: "h", long: "hr, hour", value: r.Num("3600"), info: "accepted for use with the SI (1 h = 60 min)"},
-	{u: d.TIME, name: "d", long: "day", value: r.Num("86400"), info: "accepted for use with the SI (1 day = 24 h)"},
-	{u: d.TIME, name: "week", value: r.Num("604800")},
-	{u: d.TIME, name: "month", value: r.Num("2629800"), info: "1/12th of Julian Year"},
-	{u: d.TIME, name: "year", value: r.Num("31557600"), info: "Julian Year (365.25 days)"},
-	{u: d.TIME, name: "decade", value: r.Num("315576000"), info: "Julian decade"},
-	{u: d.TIME, name: "century", value: r.Num("3155760000"), info: "Julian century"},
-	{u: d.TIME, name: "millenium", value: r.Num("31557600000"), info: "Julian millenium"},
 
 	{u: d.TEMPERATURE, name: "K", long: "kelvin", value: r.ONE, prefixes: &metricPrefixes, info: "SI base unit"},
 	{u: d.TEMPERATURE, name: "°C, degC", long: "celsius", value: r.ONE, offset: r.Num("273.15"), info: "SI derived unit"},
 	{u: d.TEMPERATURE, name: "°F, degF", long: "fahrenheit", value: r.Num("10/18"), offset: r.Num("459.67")},
 
 	{u: d.ANGLE, name: "rad", long: "radian", value: r.ONE, info: "SI derived unit"},
-	{u: d.ANGLE, name: "°", long: "deg, degree", value: r.DivInt(consts.PI, 180), info: "accepted for use with the SI"},
-	{u: d.ANGLE, name: "arcsec", value: r.DivInt(consts.PI, 648000), info: "accepted for use with the SI (pi / 648000)"},
-	{u: d.ANGLE, name: "arcmin", value: r.DivInt(consts.PI, 10800), info: "accepted for use with the SI (pi / 10800)"},
-	{u: d.ANGLE, name: "grad", long: "grade, gradian", value: r.DivInt(consts.PI, 200)},
-	{u: d.ANGLE, name: "cycle", value: r.DivInt(consts.PI, 2)},
 
 	{u: d.DIGITAL, name: "bit", long: "bit", value: r.ONE, prefixes: &digitalPrefixes},
 	{u: d.DIGITAL, name: "B", long: "byte", value: r.Num("8"), prefixes: &digitalPrefixes},
 
-	{u: d.AREA, name: "m², m2", value: r.ONE, prefixes: &metricPrefixes, prefixpow: 2},
-	{u: d.AREA, name: "in², in2, sqin", value: r.Num("0.00064516")},
-	{u: d.AREA, name: "ft², ft2, sqft", long: "sqfeet", value: r.Num("0.09290304")},
-	{u: d.AREA, name: "yd², sqyd", long: "sqyard", value: r.Num("0.83612736")},
-	{u: d.AREA, name: "rd², rd2, sqrd", value: r.Num("25.29295")},
-	{u: d.AREA, name: "ch², sqch", value: r.Num("404.6873")},
-	{u: d.AREA, name: "mi², sqmil, sqmi", long: "sqmile", value: r.Num("6.4516e-10")},
-	{u: d.AREA, name: "acre", value: r.Num("4046.86")},
-	{u: d.AREA, name: "ha", long: "hectare", value: r.Num("10000"), info: "accepted for use with the SI (1 ha = 10,000 m²)"},
+	{u: d.AREA, name: "m2", value: r.ONE, prefixes: &metricPrefixes, prefixpow: 2},
 
 	{u: d.VOLUME, name: "m³, m3", value: r.ONE, prefixes: &metricPrefixes, prefixpow: 3},
 	{u: d.VOLUME, name: "l, lt", long: "liter, litre", value: r.Num("0.001"), prefixes: &metricPrefixes, info: "accepted for use with the SI (1 l = 0.001 m³)"},
-	{u: d.VOLUME, name: "in³, in3, cuin", value: r.Num("1.6387064e-5")},
-	{u: d.VOLUME, name: "ft³, ft3, cuft", value: r.Num("0.028316846592")},
-	{u: d.VOLUME, name: "yd³, yd3, cuyd", value: r.Num("0.764554857984")},
-
-	{u: d.VOLUME, name: "teaspoon", value: r.Num("0.000005")},
-	{u: d.VOLUME, name: "tablespoon", value: r.Num("0.000015")},
 
 	{u: d.ENERGY, name: "J", long: "joule", value: r.ONE, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{u: d.ENERGY, name: "Wh", long: "watt-hour", value: r.Num("3600"), prefixes: &metricPrefixes},

@@ -20,6 +20,7 @@ astronomicalunit = au
 parsec = pc
 lightyear = ly
 
+
 | mass
 lb: 0.45359237 kg
 pound = lb
@@ -35,3 +36,47 @@ dram = dr
 oz : 1/16 pound
 once = ounce = oz
 
+
+| time
+min : 60 s
+minute = min
+h : 60 min
+hour = h
+d : 24 h
+day = d
+week : 7 d
+
+year : 365.25 d
+month : 1/12 year
+decade : 10 year
+century : 100 year
+millenium : 1000 year
+
+
+| angle
+deg : pi/180 rad
+degree = deg
+arcsec : pi/648000 rad
+arcmin : pi/10800 rad
+grad : pi/200 rad
+cycle : pi/2 rad
+
+
+| area
+in2 : sqin : in^2
+ft2 : sqft : ft^2
+yd2 : sqyd : yd^2
+mi2 : sqmi : mi^2
+
+acre : 4046.86 m2
+ha : 10,000 m2
+hectare = ha
+
+
+| volume
+in3 : cuin : in^3
+ft3 : cuft : ft^3
+yd3 : cuyd : yd^3
+
+teaspoon : 5 mL
+tablespoon : 15 mL
