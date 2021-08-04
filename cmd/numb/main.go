@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 	"os"
-	"strconv"
 	"strings"
 	"unicode"
 
@@ -19,13 +19,11 @@ import (
 var prompt = "> "
 var prefix = "  "
 
-var rates = ""
+var load = ""
 var sep = ","
 var prec = 2
 
-func repl() {
-	env := make(map[string]value.Value)
-
+func repl(env map[string]value.Value) {
 	state, err := term.MakeRaw(int(os.Stdin.Fd()))
 	if err != nil {
 		panic(err)
@@ -69,12 +67,11 @@ func repl() {
 	}
 }
 
-func read(r io.Reader) {
-	env := make(map[string]value.Value)
-
+func read(env map[string]value.Value, r io.Reader, output bool) {
 	var qwidth, awidth int
 	qlines := make([]string, 0)
 	alines := make([]string, 0)
+	// TODO: do not accumulate answers if `output=false`
 
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
@@ -111,6 +108,10 @@ func read(r io.Reader) {
 		}
 	}
 
+	if !output {
+		return
+	}
+
 	for i := 0; i < len(qlines); i++ {
 		q, a := qlines[i], alines[i]
 
@@ -129,37 +130,11 @@ func read(r io.Reader) {
 	}
 }
 
-func loadCurrencies(filepath string) {
-	file, err := os.Open(filepath)
-	if err != nil {
-		os.Stderr.WriteString(err.Error() + "\n")
-		os.Exit(1)
-	}
-	defer file.Close()
-
-	currencies := make([]unit.Currency, 0)
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.ReplaceAll(scanner.Text(), "\t", " ")
-		parts := strings.Split(line, " ")
-		if len(parts) != 2 {
-			continue
-		}
-		code := parts[0]
-		rate, err := strconv.ParseFloat(parts[1], 64)
-		if err != nil {
-			continue
-		}
-		currencies = append(currencies, unit.Currency{code, rate})
-	}
-	unit.AddExchangeRates(currencies)
-}
-
 func main() {
 	var showUnits bool
 	flag.IntVar(&prec, "prec", prec, "decimal precision")
 	flag.StringVar(&sep, "sep", sep, "thousand separator")
-	flag.StringVar(&rates, "rates", os.Getenv("NUMB_RATES"), "path to exchange rates file")
+	flag.StringVar(&load, "load", os.Getenv("NUMB_LOAD"), "semicolon (;) separated files to preload")
 	flag.BoolVar(&showUnits, "units", false, "show available units and exit")
 	flag.Parse()
 
@@ -168,8 +143,17 @@ func main() {
 		return
 	}
 
-	if rates != "" {
-		loadCurrencies(rates)
+	env := make(map[string]value.Value)
+
+	if load != "" {
+		for _, path := range strings.Split(load, ";") {
+			file, err := os.Open(path)
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer file.Close()
+			read(env, file, false)
+		}
 	}
 
 	if flag.NArg() == 1 {
@@ -180,13 +164,13 @@ func main() {
 			os.Exit(1)
 		}
 		defer file.Close()
-		read(file)
+		read(env, file, true)
 		return
 	}
 
 	if term.IsTerminal(0) {
-		repl()
+		repl(env)
 	} else {
-		read(os.Stdin)
+		read(env, os.Stdin, true)
 	}
 }
