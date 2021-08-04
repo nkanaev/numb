@@ -9,6 +9,7 @@ grammar:
     expr → num
     expr → var
     expr → var `=` expr
+    expr → var `:` expr
     expr → var `(` args `)`         ; function call
 
     args → expr | args `,` expr
@@ -21,7 +22,7 @@ grammar:
     hex  → `0x` [0-f]+
     oct  → `0o` [0-7]+
     bin  → `0b` [01]+
-    var  → [^\s*/+-()=^]+ | `{` [^}]+ `}`
+    var  → [^\s*/+-()=^:]+ | `{` [^}]+ `}`
 
 operators:
 

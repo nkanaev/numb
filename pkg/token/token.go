@@ -24,8 +24,8 @@ const (
 	LPAREN // (
 	RPAREN // )
 	COMMA  // ,
-
 	ASSIGN // =
+	COLON  // :
 
 	NUM
 	WORD
@@ -54,7 +54,7 @@ var tokenToString = map[Token]string{
 	LPAREN: "(",
 	RPAREN: ")",
 	COMMA:  ",",
-
+	COLON: ":",
 	ASSIGN: "=",
 
 	NUM:  "NUM",

@@ -1,8 +1,9 @@
 package dimension
 
-type Measure uint
+type Measure int
 
 const (
+	UNKNOWN Measure = -1
 	LENGTH Measure = iota
 	TEMPERATURE
 	AREA

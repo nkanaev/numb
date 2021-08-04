@@ -38,6 +38,10 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 			p.expect(token.ASSIGN)
 			expr := p.parseExpr()
 			return &ast.Assign{Name: name, Expr: expr}
+		} else if p.s.Token == token.COLON {
+			p.expect(token.COLON)
+			expr := p.parseExpr()
+			return &ast.Assign{Name: name, Expr: expr, Unit: true}
 		}
 		if p.s.Token == token.LPAREN {
 			args := make([]ast.Node, 0)

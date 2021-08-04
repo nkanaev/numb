@@ -42,3 +42,17 @@ func (d1 Dimensions) Equals(d2 Dimensions) bool {
 	}
 	return true
 }
+
+func (d1 Dimensions) IsZero() bool {
+	var nodim Dimensions
+	return d1.Equals(nodim)
+}
+
+func (d1 Dimensions) Measure() Measure {
+	for measure := MASS; measure < end_measures; measure++ {
+		if measure.Dim().Equals(d1) {
+			return measure
+		}
+	}
+	return UNKNOWN
+}

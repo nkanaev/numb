@@ -160,6 +160,18 @@ type Currency struct {
 	Rate float64
 }
 
+func Add(name string, num *big.Rat, unit UnitList) {
+	measure := unit.Dimension().Measure()
+	if measure == dimension.UNKNOWN {
+		panic("cannot create unit of unknown measure: " + unit.String())
+	}
+	db[name] = &Unit{
+		name: name,
+		value: num,
+		measure: measure,
+	}
+}
+
 func AddExchangeRates(currencies []Currency) {
 	for _, cur := range currencies {
 		code := strings.ToUpper(cur.Code)

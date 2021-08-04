@@ -87,6 +87,7 @@ func (n *Unary) String() string {
 type Assign struct {
 	Name string
 	Expr Node
+	Unit bool
 }
 
 func (n *Assign) Eval(env map[string]value.Value) value.Value {
@@ -94,11 +95,20 @@ func (n *Assign) Eval(env map[string]value.Value) value.Value {
 		panic("cannot assign to const " + n.Name)
 	}
 	val := n.Expr.Eval(env)
+	if n.Unit {
+		if val.Unit.Dimension().IsZero() {
+			panic("cannot create dimensionless unit")
+		}
+		unit.Add(n.Name, val.Num, val.Unit)
+	}
 	env[n.Name] = val
 	return val
 }
 
 func (n *Assign) String() string {
+	if n.Unit {
+		return n.Name + " : " + n.Expr.String()
+	}
 	return n.Name + " = " + n.Expr.String()
 }
 
