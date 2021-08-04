@@ -123,6 +123,7 @@ func getNamedUnit(x string) *Unit {
 	if u, ok := db[strings.TrimSuffix(x, "es")]; ok {
 		return u
 	}
+	// TODO: guess with prefixes
 	return nil
 }
 
@@ -162,7 +163,7 @@ func Add(name string, num *big.Rat, unit UnitList) {
 	}
 	db[name] = &Unit{
 		name:    name,
-		value:   num,
+		value:   unit.normalize(num),
 		measure: measure,
 	}
 }

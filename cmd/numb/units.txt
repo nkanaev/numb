@@ -1,3 +1,19 @@
+| time
+min : 60 s
+minute = min
+h : 60 min
+hour = h
+d : 24 h
+day = d
+week : 7 d
+
+year : 365.25 d
+month : 1/12 year
+decade : 10 year
+century : 100 year
+millenium : 1000 year
+
+
 | length
 yd : 0.9144 m  | International Yard
 ft : 1/3 yd
@@ -13,8 +29,8 @@ mile = mi
 angstrom : 10^-10 m
 au : 149597870700 m
 pc : 648000 / pi au
-ly : 9460730472580800 m
 lightsecond : 299792458 m
+ly : lightsecond * (year / s)
 
 astronomicalunit = au
 parsec = pc
@@ -35,22 +51,6 @@ dr : 1/256 pound
 dram = dr
 oz : 1/16 pound
 once = ounce = oz
-
-
-| time
-min : 60 s
-minute = min
-h : 60 min
-hour = h
-d : 24 h
-day = d
-week : 7 d
-
-year : 365.25 d
-month : 1/12 year
-decade : 10 year
-century : 100 year
-millenium : 1000 year
 
 
 | angle
