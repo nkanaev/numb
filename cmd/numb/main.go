@@ -11,6 +11,7 @@ import (
 
 	"github.com/nkanaev/numb/pkg/parser"
 	"github.com/nkanaev/numb/pkg/value"
+	"github.com/nkanaev/numb/pkg/runtime"
 	"golang.org/x/term"
 	_ "embed"
 )
@@ -37,6 +38,8 @@ func repl(env map[string]value.Value) {
 	}{os.Stdin, os.Stdout}
 	terminal := term.NewTerminal(screen, prompt)
 	terminal.Write([]byte("enter `q` to quit\n"))
+
+	runtime := runtime.NewRuntime()
 	for {
 		line, err := terminal.ReadLine()
 		if err != nil {
@@ -50,20 +53,7 @@ func repl(env map[string]value.Value) {
 		if line == "q" {
 			break
 		}
-		if line == "" {
-			continue
-		}
-		val, err := parser.Eval(line, env)
-		out := ""
-		if err != nil {
-			out = err.Error()
-		} else {
-			if val.Fmt == value.DEC {
-				out = val.Format(",", prec)
-			} else {
-				out = val.String()
-			}
-		}
+		out := runtime.Eval(line)
 		terminal.Write([]byte(prefix + out + "\n"))
 	}
 }

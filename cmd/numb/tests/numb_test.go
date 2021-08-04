@@ -8,8 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nkanaev/numb/pkg/parser"
-	"github.com/nkanaev/numb/pkg/value"
+	"github.com/nkanaev/numb/pkg/runtime"
 )
 
 type Spec struct {
@@ -76,37 +75,23 @@ func TestSpecs(t *testing.T) {
 	for _, spec := range listSpecs() {
 		spec := spec
 		t.Run(spec.Name, func(t *testing.T) {
-			env := make(map[string]value.Value)
+			runtime := runtime.NewRuntime()
 			for i := 0; i < len(spec.Exprs); i++ {
 				expr := spec.Exprs[i]
 				want := spec.Wants[i]
-				have, err := parser.Eval(expr, env)
+				have := runtime.Eval(expr)
 
-				if err != nil && (len(want) == 0 || want[0] != '!') {
-					t.Fatalf(
-						"unexpected error\nexpr: %s\nwant: %s\n err: %s",
-						expr, want, err.Error())
-				}
 				if len(want) == 0 {
 					continue
 				}
 				if want[0] == '!' {
 					want = want[1:]
-					if err == nil {
-						t.Fatalf("expected error\nexpr: %s\nwant: !%s", expr, want)
-					}
-					if !strings.Contains(err.Error(), want) {
-						t.Fatalf(
-							"invalid error\nexpr: %s\nwant: !%s\nhave: !%s",
-							expr, want, err.Error())
+					if !strings.Contains(have, want) {
+						t.Fatalf("invalid error\nexpr: %s\nwant: !%s\nhave: !%s", expr, want, have)
 					}
 				} else {
-					havestr := have.Format(",", 2)
-					if have.Fmt != value.DEC {
-						havestr = have.String()
-					}
-					if havestr != want {
-						t.Fatalf("wrong answer\nexpr: %s\nwant: %s\nhave: %s", expr, want, havestr)
+					if have != want {
+						t.Fatalf("wrong answer\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
 					}
 				}
 			}
