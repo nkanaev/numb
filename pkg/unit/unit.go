@@ -155,11 +155,6 @@ func Help() {
 	}
 }
 
-type Currency struct {
-	Code string
-	Rate float64
-}
-
 func Add(name string, num *big.Rat, unit UnitList) {
 	measure := unit.Dimension().Measure()
 	if measure == dimension.UNKNOWN {
@@ -169,17 +164,5 @@ func Add(name string, num *big.Rat, unit UnitList) {
 		name:    name,
 		value:   num,
 		measure: measure,
-	}
-}
-
-func AddExchangeRates(currencies []Currency) {
-	for _, cur := range currencies {
-		code := strings.ToUpper(cur.Code)
-		u := &Unit{
-			name:    code,
-			value:   new(big.Rat).SetFloat64(1 / cur.Rate),
-			measure: dimension.CURRENCY,
-		}
-		db[code] = u
 	}
 }
