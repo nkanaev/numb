@@ -9,11 +9,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/nkanaev/numb/pkg/parser"
 	"github.com/nkanaev/numb/pkg/value"
 	"github.com/nkanaev/numb/pkg/runtime"
 	"golang.org/x/term"
-	_ "embed"
 )
 
 var prompt = "> "
@@ -22,10 +20,7 @@ var prefix = "  "
 var loadfiles = ""
 var prec = 2
 
-//go:embed builtin.txt
-var builtin string
-
-func repl(env map[string]value.Value) {
+func repl(rt *runtime.Runtime) {
 	state, err := term.MakeRaw(int(os.Stdin.Fd()))
 	if err != nil {
 		panic(err)
@@ -39,7 +34,6 @@ func repl(env map[string]value.Value) {
 	terminal := term.NewTerminal(screen, prompt)
 	terminal.Write([]byte("enter `q` to quit\n"))
 
-	runtime := runtime.NewRuntime()
 	for {
 		line, err := terminal.ReadLine()
 		if err != nil {
@@ -53,79 +47,63 @@ func repl(env map[string]value.Value) {
 		if line == "q" {
 			break
 		}
-		out := runtime.Eval(line)
+		out, err := rt.Eval(line)
+		if err != nil {
+			out = err.Error()
+		}
 		terminal.Write([]byte(prefix + out + "\n"))
 	}
 }
 
 func load(env map[string]value.Value, r io.Reader, name string) {
-	scanner := bufio.NewScanner(r)
-	linenum := 0
-	for scanner.Scan() {
-		linenum += 1
-		line := scanner.Text()
-		line = strings.SplitN(line, "|", 2)[0]
-		line = strings.TrimSpace(line)
-		if line == "" {
-			continue
-		}
-		_, err := parser.Eval(line, env)
-		if err != nil {
-			log.Fatalf("load %s (line %d): %s", name, linenum, err)
-		}
-	}
 }
 
-func read(env map[string]value.Value, r io.Reader) {
-	var qwidth, awidth int
+func read(rt *runtime.Runtime, r io.Reader) {
+	var maxqwidth, maxawidth int
 	qlines := make([]string, 0)
 	alines := make([]string, 0)
 
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
-		line := scanner.Text()
-		line = strings.SplitN(line, "|", 2)[0]
-		line = strings.TrimSpace(line)
-		qlines = append(qlines, line)
-		if len(line) > qwidth {
-			qwidth = len(line)
+		qline := runtime.Clean(scanner.Text())
+		qlines = append(qlines, qline)
+		if len(qline) > maxqwidth {
+			maxqwidth = len(qline)
 		}
-	}
 
-	for _, line := range qlines {
-		val, err := parser.Eval(line, env)
-		if err == nil {
-			out := ""
-			if val.Fmt == value.DEC {
-				out = val.Format(",", prec)
-			} else {
-				out = val.String()
-			}
-			alines = append(alines, out)
+		aline, err := rt.Eval(qline)
+		if err != nil {
+			alines = append(alines, "! " + err.Error())
+			continue
+		}
+		alines = append(alines, aline)
 
-			outwidth := len(out)
-			if val.Unit != nil {
-				outwidth -= len(val.Unit.String())
-			}
+		
+		awidth := len(aline)
+		spaceidx := strings.Index(aline, " ")
+		if spaceidx != -1 {
+			awidth = spaceidx
+		}
 
-			if outwidth > awidth {
-				awidth = outwidth
-			}
-		} else {
-			alines = append(alines, "")
+		if awidth > maxawidth {
+			maxawidth = awidth
 		}
 	}
 
 	for i := 0; i < len(qlines); i++ {
 		q, a := qlines[i], alines[i]
 
-		apad := awidth - len(a)
-		if apad < 0 {
-			apad = -apad - 1
+		var apad int
+		if len(a) > 0 && a[0] != '!' {
+			apad = maxawidth - len(a)
+			spaceidx := strings.Index(a, " ")
+			if spaceidx != -1 {
+				apad = maxawidth - spaceidx
+			}
 		}
 		if len(a) > 0 {
 			fmt.Printf("%s%s    | %s%s\n",
-				q, strings.Repeat(" ", qwidth-len(q)),
+				q, strings.Repeat(" ", maxqwidth-len(q)),
 				strings.Repeat(" ", apad), a,
 			)
 		} else {
@@ -138,9 +116,8 @@ func main() {
 	flag.StringVar(&loadfiles, "load", os.Getenv("NUMB_LOAD"), "list of files to preload")
 	flag.Parse()
 
-	env := make(map[string]value.Value)
-
-	load(env, strings.NewReader(builtin), "<builtin>")
+	rt := runtime.NewRuntime()
+	rt.LoadBuiltins()
 
 	if loadfiles != "" {
 		for _, path := range strings.Split(loadfiles, ";") {
@@ -149,7 +126,7 @@ func main() {
 				log.Fatal(err)
 			}
 			defer file.Close()
-			load(env, file, path)
+			rt.Load(file, path)
 		}
 	}
 
@@ -161,13 +138,13 @@ func main() {
 			os.Exit(1)
 		}
 		defer file.Close()
-		read(env, file)
+		read(rt, file)
 		return
 	}
 
 	if term.IsTerminal(0) {
-		repl(env)
+		repl(rt)
 	} else {
-		read(env, os.Stdin)
+		read(rt, os.Stdin)
 	}
 }
