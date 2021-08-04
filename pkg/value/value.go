@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/nkanaev/numb/pkg/consts"
+	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/unit"
 )
 
@@ -144,11 +145,10 @@ func (a Value) Rem(b Value) Value {
 
 func (a Value) Exp(b Value) Value {
 	a, b, u := prepare(a, b)
-	exp := toInt(b.Num)
-	num := big.NewRat(1, 1)
-	num.Num().Exp(toInt(a.Num), exp, nil)
+	exp := int(toInt(b.Num).Int64())
+	num := ratutils.ExpInt(a.Num, exp)
 	if u != nil {
-		u = u.Exp(int(exp.Int64()))
+		u = u.Exp(exp)
 	}
 	return Value{Num: num, Fmt: a.Fmt, Unit: u}
 }

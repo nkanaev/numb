@@ -15,7 +15,11 @@ func ExpInt(x *big.Rat, n int) *big.Rat {
 		return ONE
 	}
 	r := new(big.Rat).Set(x)
-	for i := 1; i < n; i++ {
+	absn := n
+	if n < 0 {
+		absn = -absn
+	}
+	for i := 1; i < absn; i++ {
 		r.Mul(r, x)
 	}
 	if n < 0 {

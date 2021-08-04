@@ -49,7 +49,7 @@ func (d1 Dimensions) IsZero() bool {
 }
 
 func (d1 Dimensions) Measure() Measure {
-	for measure := MASS; measure < end_measures; measure++ {
+	for measure := UNKNOWN + 1; measure < end_measures; measure++ {
 		if measure.Dim().Equals(d1) {
 			return measure
 		}

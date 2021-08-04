@@ -27,7 +27,7 @@ pound = lb
 
 t : 1000 kg
 tonne = metricton = t
-Da : 1.660,539,066,60 * 10^−27 kg
+Da : 1.660,539,066,60 * 10^-27 kg
 u : Da
 dalton = Da
 
@@ -113,7 +113,7 @@ horsepower : hp
 
 
 | radioactivity
-Ci : 3.7e10 Bq
+Ci : 3.7 * 10^10 Bq
 curie = Ci
 Rd : 10^6 Bq
 rutherford = Rd
@@ -127,6 +127,6 @@ kn : knot : 1.852 kmph
 
 | data rate
 kbps : kbit / s
-Mbps : mbit / s
+Mbps : Mbit / s
 Gbps : Gbit / s
 Tbps : Tbit / s
