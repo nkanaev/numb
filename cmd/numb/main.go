@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	"github.com/nkanaev/numb/pkg/parser"
-	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
 	"golang.org/x/term"
 	_ "embed"
@@ -23,8 +22,8 @@ var loadfiles = ""
 var sep = ","
 var prec = 2
 
-//go:embed units.txt
-var units string
+//go:embed builtin.txt
+var builtin string
 
 func repl(env map[string]value.Value) {
 	state, err := term.MakeRaw(int(os.Stdin.Fd()))
@@ -147,21 +146,14 @@ func read(env map[string]value.Value, r io.Reader) {
 }
 
 func main() {
-	var showUnits bool
 	flag.IntVar(&prec, "prec", prec, "decimal precision")
 	flag.StringVar(&sep, "sep", sep, "thousand separator")
-	flag.StringVar(&loadfiles, "load", os.Getenv("NUMB_LOAD"), "semicolon (;) separated files to preload")
-	flag.BoolVar(&showUnits, "units", false, "show available units and exit")
+	flag.StringVar(&loadfiles, "load", os.Getenv("NUMB_LOAD"), "list of files to preload")
 	flag.Parse()
-
-	if showUnits {
-		unit.Help()
-		return
-	}
 
 	env := make(map[string]value.Value)
 
-	load(env, strings.NewReader(units), "<builtin>")
+	load(env, strings.NewReader(builtin), "<builtin>")
 
 	if loadfiles != "" {
 		for _, path := range strings.Split(loadfiles, ";") {

@@ -1,7 +1,6 @@
 package unit
 
 import (
-	"fmt"
 	"math/big"
 	"strings"
 
@@ -132,27 +131,6 @@ func init() {
 		for key, val := range bu.Expand() {
 			db[key] = val
 		}
-	}
-}
-
-func Help() {
-	prevd := dimension.ILLUMINANCE
-	for _, bu := range units {
-		if bu.u != prevd {
-			fmt.Println("")
-			fmt.Println(bu.u)
-			prevd = bu.u
-		}
-		names := splitlist(bu.name)
-
-		longforms := splitlist(bu.long)
-		if len(longforms) > 0 {
-			// prevent long/short forms from appearing twice (ex.: bar, ohm)
-			if longforms[0] != names[0] {
-				names = append(names, longforms...)
-			}
-		}
-		fmt.Printf("    %-20s\n", strings.Join(names, ", "))
 	}
 }
 
