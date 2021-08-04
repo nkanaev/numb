@@ -48,11 +48,11 @@ func (d1 Dimensions) IsZero() bool {
 	return d1.Equals(nodim)
 }
 
-func (d1 Dimensions) Measure() Measure {
-	for measure := UNKNOWN + 1; measure < end_measures; measure++ {
+func (d1 Dimensions) Measure() (Measure, bool) {
+	for measure := start_measures + 1; measure < end_measures; measure++ {
 		if measure.Dim().Equals(d1) {
-			return measure
+			return measure, true
 		}
 	}
-	return UNKNOWN
+	return 0, false
 }

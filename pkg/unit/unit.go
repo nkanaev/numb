@@ -135,8 +135,8 @@ func init() {
 }
 
 func Add(name string, num *big.Rat, unit UnitList) {
-	measure := unit.Dimension().Measure()
-	if measure == dimension.UNKNOWN {
+	measure, found := unit.Dimension().Measure()
+	if !found {
 		panic("cannot create unit of unknown measure: " + unit.String())
 	}
 	db[name] = &Unit{

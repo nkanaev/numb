@@ -3,8 +3,8 @@ package dimension
 type Measure int
 
 const (
-	UNKNOWN Measure = -1
-	LENGTH  Measure = iota
+	start_measures Measure = iota
+	LENGTH
 	TEMPERATURE
 	AREA
 	VOLUME

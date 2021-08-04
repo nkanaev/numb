@@ -3,7 +3,7 @@ package dimension
 import "testing"
 
 func TestMeasures(t *testing.T) {
-	for m := Measure(0); m < end_measures; m += 1 {
+	for m := start_measures + 1; m < end_measures; m += 1 {
 		if m.String() == "" {
 			t.Errorf("measure #%d is missing name", uint(m))
 		}
