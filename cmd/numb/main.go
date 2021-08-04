@@ -8,20 +8,23 @@ import (
 	"log"
 	"os"
 	"strings"
-	"unicode"
 
 	"github.com/nkanaev/numb/pkg/parser"
 	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
 	"golang.org/x/term"
+	_ "embed"
 )
 
 var prompt = "> "
 var prefix = "  "
 
-var load = ""
+var loadfiles = ""
 var sep = ","
 var prec = 2
+
+//go:embed units.txt
+var units string
 
 func repl(env map[string]value.Value) {
 	state, err := term.MakeRaw(int(os.Stdin.Fd()))
@@ -67,17 +70,34 @@ func repl(env map[string]value.Value) {
 	}
 }
 
-func read(env map[string]value.Value, r io.Reader, output bool) {
+func load(env map[string]value.Value, r io.Reader, name string) {
+	scanner := bufio.NewScanner(r)
+	linenum := 0
+	for scanner.Scan() {
+		linenum += 1
+		line := scanner.Text()
+		line = strings.SplitN(line, "|", 2)[0]
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+		_, err := parser.Eval(line, env)
+		if err != nil {
+			log.Fatalf("load %s (line %d): %s", name, linenum, err)
+		}
+	}
+}
+
+func read(env map[string]value.Value, r io.Reader) {
 	var qwidth, awidth int
 	qlines := make([]string, 0)
 	alines := make([]string, 0)
-	// TODO: do not accumulate answers if `output=false`
 
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		line := scanner.Text()
 		line = strings.SplitN(line, "|", 2)[0]
-		line = strings.TrimRightFunc(line, unicode.IsSpace)
+		line = strings.TrimSpace(line)
 		qlines = append(qlines, line)
 		if len(line) > qwidth {
 			qwidth = len(line)
@@ -108,10 +128,6 @@ func read(env map[string]value.Value, r io.Reader, output bool) {
 		}
 	}
 
-	if !output {
-		return
-	}
-
 	for i := 0; i < len(qlines); i++ {
 		q, a := qlines[i], alines[i]
 
@@ -134,7 +150,7 @@ func main() {
 	var showUnits bool
 	flag.IntVar(&prec, "prec", prec, "decimal precision")
 	flag.StringVar(&sep, "sep", sep, "thousand separator")
-	flag.StringVar(&load, "load", os.Getenv("NUMB_LOAD"), "semicolon (;) separated files to preload")
+	flag.StringVar(&loadfiles, "load", os.Getenv("NUMB_LOAD"), "semicolon (;) separated files to preload")
 	flag.BoolVar(&showUnits, "units", false, "show available units and exit")
 	flag.Parse()
 
@@ -145,14 +161,16 @@ func main() {
 
 	env := make(map[string]value.Value)
 
-	if load != "" {
-		for _, path := range strings.Split(load, ";") {
+	load(env, strings.NewReader(units), "<builtin>")
+
+	if loadfiles != "" {
+		for _, path := range strings.Split(loadfiles, ";") {
 			file, err := os.Open(path)
 			if err != nil {
 				log.Fatal(err)
 			}
 			defer file.Close()
-			read(env, file, false)
+			load(env, file, path)
 		}
 	}
 
@@ -164,13 +182,13 @@ func main() {
 			os.Exit(1)
 		}
 		defer file.Close()
-		read(env, file, true)
+		read(env, file)
 		return
 	}
 
 	if term.IsTerminal(0) {
 		repl(env)
 	} else {
-		read(env, os.Stdin, true)
+		read(env, os.Stdin)
 	}
 }

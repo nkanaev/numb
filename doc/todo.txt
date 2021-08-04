@@ -4,3 +4,4 @@
 - ability to read units.def file?
 - documentation
 - get rid of sep
+- make `|` part of the parser
