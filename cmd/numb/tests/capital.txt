@@ -1,3 +1,5 @@
+# capital
+
 buy = 20                            |      20
 sell = 219                          |     219
 gain = sell - buy                   |     199
