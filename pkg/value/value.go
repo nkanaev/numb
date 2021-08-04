@@ -179,6 +179,7 @@ func (a Value) dec(prec int) string {
 	return a.Num.FloatString(prec)
 }
 
+// TODO: remove, use Format instead
 func (a Value) String() string {
 	num := ""
 	switch a.Fmt {
