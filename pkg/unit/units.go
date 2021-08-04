@@ -137,4 +137,6 @@ var units = []unitDef{
 	{u: d.DATA_RATE, name: "Mbps", value: r.Exp(10, 6)},
 	{u: d.DATA_RATE, name: "Gbps", value: r.Exp(10, 9)},
 	{u: d.DATA_RATE, name: "Tbps", value: r.Exp(10, 12)},
+
+	{u: d.CURRENCY, name: "CURRENCY", value: r.ONE},
 }
