@@ -5,6 +5,8 @@ import (
 	_ "embed"
 	"io"
 	"log"
+	"os"
+	"strconv"
 	"strings"
 
 	"github.com/nkanaev/numb/pkg/parser"
@@ -16,14 +18,14 @@ var builtin string
 
 type Runtime struct {
 	Prec int
-	Sep string
+	Tsep string
 	Env map[string]value.Value
 }
 
 func NewRuntime() *Runtime {
 	return &Runtime{
 		Prec: 2,
-		Sep: ",",
+		Tsep: ",",
 		Env: make(map[string]value.Value),
 	}
 }
@@ -37,6 +39,10 @@ func (r *Runtime) Eval(line string) (string, error) {
 	if line == "" {
 		return "", nil
 	}
+
+	if line[0] == '.' {
+		return r.EvalConfig(line[1:])
+	}
 	
 	val, err := parser.Eval(Clean(line), r.Env)
 	out := ""
@@ -44,7 +50,7 @@ func (r *Runtime) Eval(line string) (string, error) {
 		return "", err	
 	} else {
 		if val.Fmt == value.DEC {
-			out = val.Format(r.Sep, r.Prec)
+			out = val.Format(r.Tsep, r.Prec)
 		} else {
 			out = val.String()
 		}
@@ -52,8 +58,42 @@ func (r *Runtime) Eval(line string) (string, error) {
 	return out, nil
 }
 
+func (r *Runtime) EvalConfig(line string) (string, error) {
+	parts := strings.SplitN(line, " ", 2)
+	cmd := parts[0]
+	switch cmd {
+	case "load":
+		for _, path := range parts[1:] {
+			r.LoadFile(path)
+		}
+	case "prec":
+		if len(parts) != 2 {
+			return strconv.Itoa(r.Prec), nil
+		}
+		prec, err := strconv.Atoi(parts[1])
+		if err != nil {
+			return "", err
+		}
+		r.Prec = prec
+	case "dsep":
+		r.Tsep = ","
+	case "nodsep":
+		r.Tsep = ""
+	}
+	return "", nil
+}
+
 func (r *Runtime) LoadBuiltins() {
 	r.Load(strings.NewReader(builtin), "<builtin>")
+}
+
+func (r *Runtime) LoadFile(path string) {
+	file, err := os.Open(path)
+	if err != nil {
+		log.Fatalf("loadfile: %s", err.Error())
+	}
+	defer file.Close()
+	r.Load(file, path)
 }
 
 func (r *Runtime) Load(reader io.Reader, filename string) {

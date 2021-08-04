@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"strings"
 
@@ -51,7 +50,9 @@ func repl(rt *runtime.Runtime) {
 		if err != nil {
 			out = err.Error()
 		}
-		terminal.Write([]byte(prefix + out + "\n"))
+		if out != "" {
+			terminal.Write([]byte(prefix + out + "\n"))
+		}
 	}
 }
 
@@ -121,12 +122,7 @@ func main() {
 
 	if loadfiles != "" {
 		for _, path := range strings.Split(loadfiles, ";") {
-			file, err := os.Open(path)
-			if err != nil {
-				log.Fatal(err)
-			}
-			defer file.Close()
-			rt.Load(file, path)
+			rt.LoadFile(path)
 		}
 	}
 

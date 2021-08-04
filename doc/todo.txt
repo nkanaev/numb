@@ -1,4 +1,3 @@
 - verbose error messages
-- change config in repl
 - implement nop functions, fix existing
 - documentation
