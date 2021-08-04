@@ -80,3 +80,53 @@ yd3 : cuyd : yd^3
 
 teaspoon : 5 mL
 tablespoon : 15 mL
+
+
+| energy
+erg : 10^-7 J
+
+
+| force
+dyn : dyne : 10^-5 N
+lbf : 4.4482216152605 N
+poundforce : lbf
+kip : 4448.2216 N
+pdl : 0.138254954376 N
+poundal : pdl
+
+
+| pressure
+psi : 6894.757 Pa
+at : 98066.5 Pa
+technicalatmosphere = at
+atm : 101325 Pa
+atmosphere = atm
+torr : 101325/760 Pa
+mmHg : 133.322387415 Pa
+mmH2O : 9.80665 Pa
+cmH20 : 98.0665 Pa
+
+
+| power
+hp : 745.69987158227 W
+horsepower : hp
+
+
+| radioactivity
+Ci : 3.7e10 Bq
+curie = Ci
+Rd : 10^6 Bq
+rutherford = Rd
+
+
+| speed
+kmph : km / h
+mph : mi / h
+kn : knot : 1.852 kmph
+
+
+| data rate
+kbps : kbit / s
+Mbps : mbit / s
+Gbps : Gbit / s
+Tbps : Tbit / s
