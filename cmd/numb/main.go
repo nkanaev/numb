@@ -19,7 +19,6 @@ var prompt = "> "
 var prefix = "  "
 
 var loadfiles = ""
-var sep = ","
 var prec = 2
 
 //go:embed builtin.txt
@@ -60,7 +59,7 @@ func repl(env map[string]value.Value) {
 			out = err.Error()
 		} else {
 			if val.Fmt == value.DEC {
-				out = val.Format(sep, prec)
+				out = val.Format(",", prec)
 			} else {
 				out = val.String()
 			}
@@ -108,7 +107,7 @@ func read(env map[string]value.Value, r io.Reader) {
 		if err == nil {
 			out := ""
 			if val.Fmt == value.DEC {
-				out = val.Format(sep, prec)
+				out = val.Format(",", prec)
 			} else {
 				out = val.String()
 			}
@@ -146,8 +145,6 @@ func read(env map[string]value.Value, r io.Reader) {
 }
 
 func main() {
-	flag.IntVar(&prec, "prec", prec, "decimal precision")
-	flag.StringVar(&sep, "sep", sep, "thousand separator")
 	flag.StringVar(&loadfiles, "load", os.Getenv("NUMB_LOAD"), "list of files to preload")
 	flag.Parse()
 
