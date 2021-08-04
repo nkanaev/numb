@@ -101,9 +101,12 @@ func TestSpecs(t *testing.T) {
 							expr, want, err.Error())
 					}
 				} else {
-					have := have.Format(",", 2)
-					if have != want {
-						t.Fatalf("wrong answer\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
+					havestr := have.Format(",", 2)
+					if have.Fmt != value.DEC {
+						havestr = have.String()
+					}
+					if havestr != want {
+						t.Fatalf("wrong answer\nexpr: %s\nwant: %s\nhave: %s", expr, want, havestr)
 					}
 				}
 			}
