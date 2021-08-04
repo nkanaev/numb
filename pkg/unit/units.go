@@ -14,23 +14,18 @@ var iyard = r.Num("0.9144")
 var ipound = r.Num("0.45359237")
 
 var units = []unitDef{
-	{u: d.LENGTH, name: "m", long: "meter, metre", value: r.ONE, prefixes: &metricPrefixes, info: "SI base unit"},
-	{u: d.MASS, name: "g", long: "gram", value: r.Num("0.001"), prefixes: &metricPrefixes, info: "(0.001 kg - SI base unit)"},
-	{u: d.TIME, name: "s", long: "sec, second", value: r.Num("1"), prefixes: &metricPrefixes, info: "SI base unit"},
-
-	{u: d.TEMPERATURE, name: "K", long: "kelvin", value: r.ONE, prefixes: &metricPrefixes, info: "SI base unit"},
-	{u: d.TEMPERATURE, name: "°C, degC", long: "celsius", value: r.ONE, offset: r.Num("273.15"), info: "SI derived unit"},
+	{u: d.LENGTH, name: "m", long: "meter, metre", value: r.ONE, prefixes: &metricPrefixes},
+	{u: d.MASS, name: "g", long: "gram", value: r.Num("0.001"), prefixes: &metricPrefixes},
+	{u: d.TIME, name: "s", long: "sec, second", value: r.ONE, prefixes: &metricPrefixes},
+	{u: d.TEMPERATURE, name: "K", long: "kelvin", value: r.ONE, prefixes: &metricPrefixes},
+	{u: d.TEMPERATURE, name: "°C, degC", long: "celsius", value: r.ONE, offset: r.Num("273.15")},
 	{u: d.TEMPERATURE, name: "°F, degF", long: "fahrenheit", value: r.Num("10/18"), offset: r.Num("459.67")},
-
-	{u: d.ANGLE, name: "rad", long: "radian", value: r.ONE, info: "SI derived unit"},
-
+	{u: d.ANGLE, name: "rad", long: "radian", value: r.ONE},
 	{u: d.DIGITAL, name: "bit", long: "bit", value: r.ONE, prefixes: &digitalPrefixes},
 	{u: d.DIGITAL, name: "B", long: "byte", value: r.Num("8"), prefixes: &digitalPrefixes},
-
 	{u: d.AREA, name: "m2", value: r.ONE, prefixes: &metricPrefixes, prefixpow: 2},
-
-	{u: d.VOLUME, name: "m³, m3", value: r.ONE, prefixes: &metricPrefixes, prefixpow: 3},
-	{u: d.VOLUME, name: "l, lt", long: "liter, litre", value: r.Num("0.001"), prefixes: &metricPrefixes, info: "accepted for use with the SI (1 l = 0.001 m³)"},
+	{u: d.VOLUME, name: "m3", value: r.ONE, prefixes: &metricPrefixes, prefixpow: 3},
+	{u: d.VOLUME, name: "l, lt", long: "liter, litre", value: r.Num("0.001"), prefixes: &metricPrefixes},
 
 	{u: d.ENERGY, name: "J", long: "joule", value: r.ONE, prefixes: &metricPrefixes, info: "SI derived unit"},
 	{u: d.ENERGY, name: "Wh", long: "watt-hour", value: r.Num("3600"), prefixes: &metricPrefixes},
