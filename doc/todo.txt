@@ -2,4 +2,3 @@
 - change config in repl
 - implement nop functions, fix existing
 - documentation
-- make `|` part of the parser
