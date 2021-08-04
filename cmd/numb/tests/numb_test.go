@@ -66,7 +66,7 @@ func listSpecs() []Spec {
 				spec.Exprs = append(spec.Exprs, expr)
 				spec.Wants = append(spec.Wants, want)
 			}
-		}	
+		}
 	}
 	specs = append(specs, spec)
 	return specs

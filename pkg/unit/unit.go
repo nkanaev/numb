@@ -166,8 +166,8 @@ func Add(name string, num *big.Rat, unit UnitList) {
 		panic("cannot create unit of unknown measure: " + unit.String())
 	}
 	db[name] = &Unit{
-		name: name,
-		value: num,
+		name:    name,
+		value:   num,
 		measure: measure,
 	}
 }

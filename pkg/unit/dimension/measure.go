@@ -4,7 +4,7 @@ type Measure int
 
 const (
 	UNKNOWN Measure = -1
-	LENGTH Measure = iota
+	LENGTH  Measure = iota
 	TEMPERATURE
 	AREA
 	VOLUME

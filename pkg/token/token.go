@@ -54,7 +54,7 @@ var tokenToString = map[Token]string{
 	LPAREN: "(",
 	RPAREN: ")",
 	COMMA:  ",",
-	COLON: ":",
+	COLON:  ":",
 	ASSIGN: "=",
 
 	NUM:  "NUM",
