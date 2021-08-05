@@ -1,5 +1,8 @@
 # abs
-abs(-1)  | 1
+abs(-1)     | 1
+abs(-1.2)   | 1.2
+abs(1)      | 1
+abs(1.2)    | 1.2
 
 # sin
 deg : pi / 180 rad
