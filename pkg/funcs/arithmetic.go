@@ -69,3 +69,38 @@ func Abs(args ...value.Value) value.Value {
 	}
 	return value.Value{Num: num}
 }
+
+func Ceil(args ...value.Value) value.Value {
+	if len(args) != 1 {
+		panic("ceil: expected one argument")
+	}
+	arg := args[0]
+	if arg.Num.IsInt() {
+		return value.Value{Num: arg.Num}
+	}
+	int := ratutils.ToInt(arg.Num)
+	if arg.Num.Cmp(ratutils.ZERO) > 0 {
+		int.Add(int, ratutils.ONE.Num())
+	}
+	return value.Value{Num: ratutils.FromInt(int)}
+}
+
+func Floor(args ...value.Value) value.Value {
+	if len(args) != 1 {
+		panic("floor: expected one argument")
+	}
+	arg := args[0]
+	if arg.Num.IsInt() {
+		return value.Value{Num: arg.Num}
+	}
+	ret := Ceil(arg)
+	ret.Num.Sub(ret.Num, ratutils.ONE)
+	return ret
+}
+
+func Trunc(args ...value.Value) value.Value {
+	if len(args) != 1 {
+		panic("trunc: expected one argument")
+	}
+	return value.Value{Num: ratutils.FromInt(ratutils.ToInt(args[0].Num))}
+}

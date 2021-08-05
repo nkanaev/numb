@@ -6,3 +6,33 @@ deg : pi / 180 rad
 sin(1)      | !angle
 sin(1 rad)  | 0.84
 sin(90 deg) | 1
+
+# ceil
+ceil(2)     | 2
+ceil(2.3)   | 3
+ceil(2.9)   | 3
+ceil(-2)    | -2
+ceil(-2.3)  | -2
+ceil(-2.6)  | -2
+ceil(-0.1)  | 0
+ceil(0.1)   | 1
+
+# floor
+floor(2)     | 2
+floor(2.3)   | 2
+floor(2.9)   | 2
+floor(-2)    | -2
+floor(-2.3)  | -3
+floor(-2.6)  | -3
+floor(-0.1)  | -1
+floor(0.1)   | 0
+
+# trunc
+trunc(2)     | 2
+trunc(2.3)   | 2
+trunc(2.9)   | 2
+trunc(-2)    | -2
+trunc(-2.3)  | -2
+trunc(-2.6)  | -2
+trunc(-0.1)  | 0
+trunc(0.1)   | 0

@@ -25,10 +25,10 @@ var db = map[string]Func{
 	"log10": nop,
 	"sqrt":  nop,
 
-	"ceil":  nop,
-	"floor": nop,
+	"ceil":  Ceil,
+	"floor": Floor,
 	"abs":   Abs,
-	"trunc": nop,
+	"trunc": Trunc,
 
 	"gcd": GCD,
 	"lcm": LCM,
