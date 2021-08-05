@@ -75,9 +75,9 @@ func (r *Runtime) EvalConfig(line string) (string, error) {
 			return "", err
 		}
 		r.Prec = prec
-	case "dsep":
+	case "tsep":
 		r.Tsep = ","
-	case "nodsep":
+	case "notsep":
 		r.Tsep = ""
 	}
 	return "", nil
