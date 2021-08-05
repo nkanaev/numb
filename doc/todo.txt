@@ -1,3 +1,6 @@
 - verbose error messages
 - implement nop functions, fix existing
 - documentation
+- e notation
+- more measures & units
+  https://en.wikipedia.org/wiki/Conversion_of_units
