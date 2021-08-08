@@ -43,11 +43,15 @@ func (r *Runtime) Eval(line string) (string, error) {
 	if line[0] == '.' {
 		return r.EvalConfig(line[1:])
 	}
-	
+
+	if line[0] == '#' {
+		return line, nil
+	}
+
 	val, err := parser.Eval(Clean(line), r.Env)
 	out := ""
 	if err != nil {
-		return "", err	
+		return "", err
 	} else {
 		if val.Fmt == value.DEC {
 			out = val.Format(r.Tsep, r.Prec)
