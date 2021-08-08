@@ -15,15 +15,11 @@ type Value struct {
 	Unit unit.UnitList
 }
 
-func toInt(x *big.Rat) *big.Int {
-	return new(big.Int).Div(x.Num(), x.Denom())
-}
-
-func NewInt(x int64) Value {
+func Int64(x int64) Value {
 	return Value{Num: big.NewRat(x, 1)}
 }
 
-func FromFloat64(x float64) Value {
+func Float64(x float64) Value {
 	return Value{Num: new(big.Rat).SetFloat64(x)}
 }
 
@@ -63,7 +59,7 @@ func do(a, b Value, op func(*big.Rat, *big.Rat) *big.Rat) Value {
 
 func doInt(a, b Value, op func(*big.Int, *big.Int) *big.Int) Value {
 	a, b, u := prepare(a, b)
-	int := op(toInt(a.Num), toInt(b.Num))
+	int := op(ratutils.ToInt(a.Num), ratutils.ToInt(b.Num))
 	rat := big.NewRat(1, 1)
 	rat.Num().Set(int)
 	return Value{Num: rat, Fmt: a.Fmt, Unit: u}
@@ -71,7 +67,7 @@ func doInt(a, b Value, op func(*big.Int, *big.Int) *big.Int) Value {
 
 func doShift(a, b Value, op func(*big.Int, uint) *big.Int) Value {
 	a, b, u := prepare(a, b)
-	ia, ib := toInt(a.Num), uint(toInt(b.Num).Uint64())
+	ia, ib := ratutils.ToInt(a.Num), uint(ratutils.ToInt(b.Num).Uint64())
 	num := big.NewRat(1, 1)
 	num.Num().Set(op(ia, ib))
 	return Value{Num: num, Fmt: a.Fmt, Unit: u}
@@ -143,7 +139,7 @@ func (a Value) Rem(b Value) Value {
 
 func (a Value) Exp(b Value) Value {
 	a, b, u := prepare(a, b)
-	exp := int(toInt(b.Num).Int64())
+	exp := int(ratutils.ToInt(b.Num).Int64())
 	num := ratutils.ExpInt(a.Num, exp)
 	if u != nil {
 		u = u.Exp(exp)
@@ -184,11 +180,11 @@ func (a Value) String() string {
 	case DEC:
 		num = a.dec(2)
 	case HEX:
-		num = fmt.Sprintf("%#x", toInt(a.Num))
+		num = fmt.Sprintf("%#x", ratutils.ToInt(a.Num))
 	case OCT:
-		num = fmt.Sprintf("%O", toInt(a.Num))
+		num = fmt.Sprintf("%O", ratutils.ToInt(a.Num))
 	case BIN:
-		num = fmt.Sprintf("%#b", toInt(a.Num))
+		num = fmt.Sprintf("%#b", ratutils.ToInt(a.Num))
 	case RAT:
 		num = a.Num.String()
 	case SCI:

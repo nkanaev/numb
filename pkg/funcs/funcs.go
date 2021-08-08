@@ -34,5 +34,5 @@ func Get(x string) *Func {
 }
 
 func nop(args ...value.Value) value.Value {
-	return value.NewInt(1)
+	return value.Int64(1)
 }

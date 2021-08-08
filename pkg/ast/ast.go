@@ -53,7 +53,7 @@ func (n *BinOP) Eval(env map[string]value.Value) value.Value {
 	case token.EXP:
 		return n.Lhs.Eval(env).Exp(n.Rhs.Eval(env))
 	}
-	return value.NewInt(0)
+	return value.Int64(0)
 }
 
 type ParenExpr struct {
@@ -115,7 +115,7 @@ type Var struct {
 
 func (n *Var) Eval(env map[string]value.Value) value.Value {
 	if unit, ok := unit.Get(n.Name); ok {
-		return value.NewInt(1).WithUnit(unit)
+		return value.Int64(1).WithUnit(unit)
 	}
 	val, ok := env[n.Name]
 	if !ok {

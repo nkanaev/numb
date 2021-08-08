@@ -9,7 +9,7 @@ import (
 
 func GCD(args ...value.Value) value.Value {
 	if len(args) == 0 {
-		return value.NewInt(0)
+		return value.Int64(0)
 	}
 	var ret *big.Int
 	for _, arg := range args {
@@ -33,7 +33,7 @@ func GCD(args ...value.Value) value.Value {
 
 func LCM(args ...value.Value) value.Value {
 	if len(args) == 0 {
-		return value.NewInt(0)
+		return value.Int64(0)
 	}
 	var ret *big.Int
 	for _, arg := range args {

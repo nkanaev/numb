@@ -23,20 +23,20 @@ func f64(val value.Value) float64 {
 
 func Log(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.FromFloat64(math.Log(f64(args[0])))
+	return value.Float64(math.Log(f64(args[0])))
 }
 
 func Log2(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.FromFloat64(math.Log2(f64(args[0])))
+	return value.Float64(math.Log2(f64(args[0])))
 }
 
 func Log10(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.FromFloat64(math.Log10(f64(args[0])))
+	return value.Float64(math.Log10(f64(args[0])))
 }
 
 func Sqrt(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.FromFloat64(math.Sqrt(f64(args[0])))
+	return value.Float64(math.Sqrt(f64(args[0])))
 }
