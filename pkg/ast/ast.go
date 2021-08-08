@@ -184,6 +184,7 @@ func (n *FunCall) Eval(env map[string]value.Value) value.Value {
 	for i, arg := range n.Args {
 		args[i] = arg.Eval(env)
 	}
+	// TODO: prepend function name to panic message
 	return (*fn)(args...)
 }
 

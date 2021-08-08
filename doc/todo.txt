@@ -1,5 +1,4 @@
 - verbose error messages
-- implement nop functions, fix existing
 - documentation
 - e notation
 - more measures & units
