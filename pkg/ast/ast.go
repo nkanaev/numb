@@ -91,9 +91,6 @@ type Assign struct {
 }
 
 func (n *Assign) Eval(env map[string]value.Value) value.Value {
-	if _, ok := value.Consts[n.Name]; ok {
-		panic("cannot assign to const " + n.Name)
-	}
 	val := n.Expr.Eval(env)
 	if n.Unit {
 		if val.Unit.Dimension().IsZero() {
@@ -117,9 +114,6 @@ type Var struct {
 }
 
 func (n *Var) Eval(env map[string]value.Value) value.Value {
-	if val, ok := value.Consts[n.Name]; ok {
-		return val
-	}
 	if unit, ok := unit.Get(n.Name); ok {
 		return value.NewInt(1).WithUnit(unit)
 	}

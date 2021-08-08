@@ -5,7 +5,6 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/nkanaev/numb/pkg/consts"
 	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/unit"
 )
@@ -14,11 +13,6 @@ type Value struct {
 	Num  *big.Rat
 	Fmt  NumeralSystem
 	Unit unit.UnitList
-}
-
-var Consts = map[string]Value{
-	"pi": Value{Num: consts.PI},
-	"e":  Value{Num: consts.E},
 }
 
 func toInt(x *big.Rat) *big.Int {
