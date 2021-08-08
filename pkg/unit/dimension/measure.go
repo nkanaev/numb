@@ -38,6 +38,9 @@ const (
 	ILLUMINANCE
 	SPEED
 	DATA_RATE
+	DENSITY
+	FLOW
+	ACCELERATION
 
 	end_measures
 )
@@ -77,6 +80,9 @@ var measureDimensions = map[Measure]Dimensions{
 	ILLUMINANCE:           Dimensions{LuminousIntensity: 1, SolidAngle: 1, Length: -1},
 	SPEED:                 Dimensions{Length: 1, Time: -1},
 	DATA_RATE:             Dimensions{Digital: 1, Time: -1},
+	DENSITY:               Dimensions{Mass: 1, Length: -3},
+	FLOW:                  Dimensions{Length: 3, Time: -1},
+	ACCELERATION:          Dimensions{Length: 1, Time: -2},
 }
 
 var measureNames = map[Measure]string{
@@ -114,6 +120,9 @@ var measureNames = map[Measure]string{
 	ILLUMINANCE:           "ILLUMINANCE",
 	SPEED:                 "SPEED",
 	DATA_RATE:             "DATA_RANGE",
+	DENSITY:               "DENSITY",
+	FLOW:                  "FLOW",
+	ACCELERATION:          "ACCELERATION",
 }
 
 func (d Measure) Dim() Dimensions {
