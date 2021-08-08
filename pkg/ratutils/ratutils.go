@@ -72,10 +72,6 @@ func Trunc(x *big.Rat) *big.Rat {
 	return r
 }
 
-func IsInt(x *big.Rat) bool {
-	return x.Denom().Cmp(ONE.Num()) == 0
-}
-
 func Num(x string) *big.Rat {
 	rat, ok := new(big.Rat).SetString(x)
 	if !ok {
@@ -91,7 +87,7 @@ func FromInt(int *big.Int) *big.Rat {
 }
 
 func ToInt(x *big.Rat) *big.Int {
-	if IsInt(x) {
+	if x.IsInt() {
 		return x.Num()
 	}
 	// TODO: quorem vs. divmod

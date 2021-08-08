@@ -16,7 +16,7 @@ func GCD(args ...value.Value) value.Value {
 		if len(arg.Unit) > 0 {
 			panic("cannot accept argument with unit: " + arg.String())
 		}
-		if !ratutils.IsInt(arg.Num) {
+		if !arg.Num.IsInt() {
 			panic("not integer: " + arg.String())
 		}
 		argint := ratutils.ToInt(arg.Num)
@@ -38,10 +38,10 @@ func LCM(args ...value.Value) value.Value {
 	var ret *big.Int
 	for _, arg := range args {
 		if len(arg.Unit) > 0 {
-			panic("lcm: cannot accept argument with unit: " + arg.String())
+			panic("cannot accept argument with unit: " + arg.String())
 		}
-		if !ratutils.IsInt(arg.Num) {
-			panic("lcm: not integer: " + arg.String())
+		if !arg.Num.IsInt() {
+			panic("not integer: " + arg.String())
 		}
 		argint := ratutils.ToInt(arg.Num)
 		if ret == nil {
