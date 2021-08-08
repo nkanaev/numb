@@ -184,7 +184,7 @@ func (a Value) Format(sep string, prec int) string {
 	case RAT:
 		num = a.Num.String()
 	case SCI:
-		num = fmt.Sprintf("%e", new(big.Float).SetRat(a.Num))
+		num = fmt.Sprintf(fmt.Sprint("%.",  prec, "e"), new(big.Float).SetRat(a.Num))
 	}
 	if a.Unit != nil {
 		num += " " + a.Unit.String()
