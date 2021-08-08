@@ -74,6 +74,7 @@ func TestSpecs(t *testing.T) {
 		spec := spec
 		t.Run(spec.Name, func(t *testing.T) {
 			runtime := NewRuntime()
+			runtime.LoadBuiltins()
 			for i := 0; i < len(spec.Exprs); i++ {
 				expr := spec.Exprs[i]
 				want := spec.Wants[i]
@@ -87,6 +88,9 @@ func TestSpecs(t *testing.T) {
 				}
 				if want[0] == '!' {
 					want = want[1:]
+					if err == nil {
+						t.Fatalf("expected error, got answer\nexpr: %s\nwant: !%s\nhave: %s", expr, want, have)
+					}
 					if !strings.Contains(err.Error(), want) {
 						t.Fatalf("invalid error\nexpr: %s\nwant: !%s\nhave: !%s", expr, want, err.Error())
 					}

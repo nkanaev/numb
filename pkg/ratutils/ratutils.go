@@ -66,7 +66,7 @@ func ModRat(a, n *big.Rat) *big.Rat {
 }
 
 func Trunc(x *big.Rat) *big.Rat {
-	i := new(big.Int).Div(x.Num(), x.Denom())
+	i := new(big.Int).Quo(x.Num(), x.Denom())
 	r := new(big.Rat)
 	r.Num().Set(i)
 	return r
