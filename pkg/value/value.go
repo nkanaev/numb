@@ -29,6 +29,10 @@ func NewInt(x int64) Value {
 	return Value{Num: big.NewRat(x, 1)}
 }
 
+func FromFloat64(x float64) Value {
+	return Value{Num: new(big.Rat).SetFloat64(x)}
+}
+
 func Parse(x string) Value {
 	num, ok := new(big.Rat).SetString(x)
 	if !ok {

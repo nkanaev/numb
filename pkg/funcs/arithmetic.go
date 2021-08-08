@@ -102,5 +102,5 @@ func Trunc(args ...value.Value) value.Value {
 	if len(args) != 1 {
 		panic("trunc: expected one argument")
 	}
-	return value.Value{Num: ratutils.FromInt(ratutils.ToInt(args[0].Num))}
+	return value.Value{Num: ratutils.Trunc(args[0].Num)}
 }
