@@ -14,10 +14,10 @@ func GCD(args ...value.Value) value.Value {
 	var ret *big.Int
 	for _, arg := range args {
 		if len(arg.Unit) > 0 {
-			panic("gcd: cannot accept argument with unit: " + arg.String())
+			panic("cannot accept argument with unit: " + arg.String())
 		}
 		if !ratutils.IsInt(arg.Num) {
-			panic("gcd: not integer: " + arg.String())
+			panic("not integer: " + arg.String())
 		}
 		argint := ratutils.ToInt(arg.Num)
 		if ret == nil {

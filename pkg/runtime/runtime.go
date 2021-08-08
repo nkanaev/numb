@@ -49,17 +49,10 @@ func (r *Runtime) Eval(line string) (string, error) {
 	}
 
 	val, err := parser.Eval(Clean(line), r.Env)
-	out := ""
 	if err != nil {
 		return "", err
-	} else {
-		if val.Fmt == value.DEC {
-			out = val.Format(r.Tsep, r.Prec)
-		} else {
-			out = val.String()
-		}
 	}
-	return out, nil
+	return val.Format(r.Tsep, r.Prec), nil
 }
 
 func (r *Runtime) EvalConfig(line string) (string, error) {

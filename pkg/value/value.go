@@ -166,19 +166,15 @@ func (a Value) WithUnit(u unit.UnitList) Value {
 	return a
 }
 
-func (a Value) dec(prec int) string {
-	if a.Num.IsInt() {
-		return a.Num.RatString()
-	}
-	return a.Num.FloatString(prec)
+func (a Value) String() string {
+	return a.Format(",", 2)
 }
 
-// TODO: remove, use Format instead
-func (a Value) String() string {
+func (a Value) Format(sep string, prec int) string {
 	num := ""
 	switch a.Fmt {
 	case DEC:
-		num = a.dec(2)
+		num = a.dec(sep, prec)
 	case HEX:
 		num = fmt.Sprintf("%#x", ratutils.ToInt(a.Num))
 	case OCT:
@@ -196,8 +192,13 @@ func (a Value) String() string {
 	return num
 }
 
-func (a Value) Format(sep string, prec int) string {
-	num := a.dec(prec)
+func (a Value) dec(sep string, prec int) string {
+	var num string
+	if a.Num.IsInt() {
+		num = a.Num.RatString()
+	} else {
+		num = a.Num.FloatString(prec)
+	}
 
 	l, r := num, ""
 
