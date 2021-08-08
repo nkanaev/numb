@@ -3,14 +3,21 @@
 0xff         | 0xff
 0o12         | 0o12
 0b10         | 0b10
+1e4          | 1e4
+1e-4         | 1e-4
 
 # dec
 10/3          | 3.33
 10/3 as dec   | 3.33
 
 # sci
-10/3 as sci   | 3.33e+00
-12345 as sci  | 1.23e+04
+1.2 as sci     | 1.2e0
+10/3 as sci    | 3.33e0
+1000 as sci    | 10e4
+10^100 as sci  | 1e100
+12345 as sci   | 1.23e4
+0.01 as sci    | 1e-2
+0.01234 as sci | 1.23e-2
 
 # rat
 10/3 as rat   | 10/3
