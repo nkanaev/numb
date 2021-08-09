@@ -5,8 +5,7 @@ abs(1)      | 1
 abs(1.2)    | 1.2
 
 # sin
-deg : pi / 180 rad
-sin(1)      | !angle
+sin(1)      | 0.84
 sin(1 rad)  | 0.84
 sin(90 deg) | 1
 

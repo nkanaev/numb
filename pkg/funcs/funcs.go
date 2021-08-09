@@ -12,18 +12,10 @@ var db = map[string]Func{
 	"acos": Acos,
 	"atan": Atan,
 
-	"cosh":  nop,
-	"sinh":  nop,
-	"tanh":  nop,
-	"acosh": nop,
-	"asinh": nop,
-	"atanh": nop,
-
-	"ln":    nop,
-	"log":   nop,
-	"log2":  nop,
-	"log10": nop,
-	"sqrt":  nop,
+	"log":   Log,
+	"log2":  Log2,
+	"log10": Log10,
+	"sqrt":  Sqrt,
 
 	"ceil":  Ceil,
 	"floor": Floor,
@@ -43,5 +35,5 @@ func Get(x string) *Func {
 }
 
 func nop(args ...value.Value) value.Value {
-	return value.NewInt(1)
+	return value.Int64(1)
 }

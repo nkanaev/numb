@@ -1,11 +1,9 @@
 package funcs
 
 import (
+	"fmt"
 	"math"
-	"math/big"
 
-	"github.com/nkanaev/numb/pkg/consts"
-	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/unit/dimension"
 	"github.com/nkanaev/numb/pkg/value"
@@ -15,45 +13,45 @@ type mathOp func(float64) float64
 
 var radian = unit.Must("rad")
 
-func trigOp1(name string, op mathOp, args ...value.Value) value.Value {
-	if len(args) != 1 {
-		panic(name + ": expected 1 argument")
+func toRadian(val value.Value) value.Value {
+	if val.Unit.Dimension().IsZero() {
+		return val.WithUnit(radian)
 	}
-	arg := args[0]
-	if len(arg.Unit) == 0 || !arg.Unit.Dimension().Equals(dimension.ANGLE.Dim()) {
-		panic(name + ": can accept only dimensions of angle")
+	if measure, _ := val.Unit.Dimension().Measure(); measure != dimension.ANGLE {
+		panic(fmt.Sprintf("expected angle unit"))
 	}
-	arg = arg.To(radian)
-	// TODO: check for negative values
-	x := ratutils.ModRat(arg.Num, consts.PI)
-	f, exact := x.Float64()
-	if !exact && math.IsInf(f, 0) {
-		panic(name + ": value too large")
-	}
-	num := new(big.Rat).SetFloat64(op(f))
-	return value.Value{Num: num}
+	return val.To(radian)
 }
 
 func Sin(args ...value.Value) value.Value {
-	return trigOp1("sin", math.Sin, args...)
+	arity(1, len(args))
+	arg := toRadian(args[0])
+	return value.Float64(math.Sin(f64(arg)))
 }
 
 func Cos(args ...value.Value) value.Value {
-	return trigOp1("cos", math.Cos, args...)
+	arity(1, len(args))
+	arg := toRadian(args[0])
+	return value.Float64(math.Cos(f64(arg)))
 }
 
 func Tan(args ...value.Value) value.Value {
-	return trigOp1("tan", math.Tan, args...)
+	arity(1, len(args))
+	arg := toRadian(args[0])
+	return value.Float64(math.Cos(f64(arg)))
 }
 
 func Asin(args ...value.Value) value.Value {
-	return trigOp1("asin", math.Asin, args...)
+	arity(1, len(args))
+	return value.Float64(math.Asin(f64(args[0]))).WithUnit(radian)
 }
 
 func Acos(args ...value.Value) value.Value {
-	return trigOp1("acos", math.Acos, args...)
+	arity(1, len(args))
+	return value.Float64(math.Acos(f64(args[0]))).WithUnit(radian)
 }
 
 func Atan(args ...value.Value) value.Value {
-	return trigOp1("atan", math.Atan, args...)
+	arity(1, len(args))
+	return value.Float64(math.Atan(f64(args[0]))).WithUnit(radian)
 }

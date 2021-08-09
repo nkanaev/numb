@@ -66,14 +66,10 @@ func ModRat(a, n *big.Rat) *big.Rat {
 }
 
 func Trunc(x *big.Rat) *big.Rat {
-	i := new(big.Int).Div(x.Num(), x.Denom())
+	i := new(big.Int).Quo(x.Num(), x.Denom())
 	r := new(big.Rat)
 	r.Num().Set(i)
 	return r
-}
-
-func IsInt(x *big.Rat) bool {
-	return x.Denom().Cmp(ONE.Num()) == 0
 }
 
 func Num(x string) *big.Rat {
@@ -91,7 +87,7 @@ func FromInt(int *big.Int) *big.Rat {
 }
 
 func ToInt(x *big.Rat) *big.Int {
-	if IsInt(x) {
+	if x.IsInt() {
 		return x.Num()
 	}
 	// TODO: quorem vs. divmod

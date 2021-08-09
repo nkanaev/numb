@@ -8,7 +8,7 @@ import (
 )
 
 func TestASTConst(t *testing.T) {
-	root := value.NewInt(123)
+	root := value.Int64(123)
 	have := root.Eval(nil).String()
 	want := "123"
 	if have != want {
@@ -34,7 +34,7 @@ func TestASTBinOPEval(t *testing.T) {
 		{"36", token.EXP},
 	}
 	for _, testcase := range testcases {
-		root := &BinOP{Lhs: value.NewInt(6), Rhs: value.NewInt(2), Op: testcase.tok}
+		root := &BinOP{Lhs: value.Int64(6), Rhs: value.Int64(2), Op: testcase.tok}
 		have := root.Eval(nil).String()
 		want := testcase.str
 		if have != want {

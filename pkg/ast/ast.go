@@ -53,7 +53,7 @@ func (n *BinOP) Eval(env map[string]value.Value) value.Value {
 	case token.EXP:
 		return n.Lhs.Eval(env).Exp(n.Rhs.Eval(env))
 	}
-	return value.NewInt(0)
+	return value.Int64(0)
 }
 
 type ParenExpr struct {
@@ -91,9 +91,6 @@ type Assign struct {
 }
 
 func (n *Assign) Eval(env map[string]value.Value) value.Value {
-	if _, ok := value.Consts[n.Name]; ok {
-		panic("cannot assign to const " + n.Name)
-	}
 	val := n.Expr.Eval(env)
 	if n.Unit {
 		if val.Unit.Dimension().IsZero() {
@@ -117,11 +114,8 @@ type Var struct {
 }
 
 func (n *Var) Eval(env map[string]value.Value) value.Value {
-	if val, ok := value.Consts[n.Name]; ok {
-		return val
-	}
 	if unit, ok := unit.Get(n.Name); ok {
-		return value.NewInt(1).WithUnit(unit)
+		return value.Int64(1).WithUnit(unit)
 	}
 	val, ok := env[n.Name]
 	if !ok {
@@ -184,6 +178,7 @@ func (n *FunCall) Eval(env map[string]value.Value) value.Value {
 	for i, arg := range n.Args {
 		args[i] = arg.Eval(env)
 	}
+	// TODO: prepend function name to panic message
 	return (*fn)(args...)
 }
 

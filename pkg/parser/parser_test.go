@@ -23,8 +23,8 @@ func TestParserBinOP(t *testing.T) {
 		expr := "1 " + op.str + " 2"
 		have := Parse(expr)
 		want := &ast.BinOP{
-			Lhs: value.NewInt(1),
-			Rhs: value.NewInt(2),
+			Lhs: value.Int64(1),
+			Rhs: value.Int64(2),
 			Op:  op.val,
 		}
 
@@ -38,8 +38,8 @@ func TestParserParen(t *testing.T) {
 	expr := "(1 + 2) * 3"
 	have := Parse(expr)
 	want := &ast.BinOP{
-		Lhs: &ast.ParenExpr{Expr: &ast.BinOP{Lhs: value.NewInt(1), Rhs: value.NewInt(2), Op: token.ADD}},
-		Rhs: value.NewInt(3),
+		Lhs: &ast.ParenExpr{Expr: &ast.BinOP{Lhs: value.Int64(1), Rhs: value.Int64(2), Op: token.ADD}},
+		Rhs: value.Int64(3),
 		Op:  token.MUL,
 	}
 	if !reflect.DeepEqual(want, have) {
@@ -50,7 +50,7 @@ func TestParserParen(t *testing.T) {
 func TestParserUnary(t *testing.T) {
 	expr := "-100"
 	have := Parse(expr)
-	want := &ast.Unary{Op: token.SUB, Expr: value.NewInt(100)}
+	want := &ast.Unary{Op: token.SUB, Expr: value.Int64(100)}
 	if !reflect.DeepEqual(want, have) {
 		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
 	}
@@ -60,8 +60,8 @@ func TestParseBitOps(t *testing.T) {
 	expr := "0b101 and 0b111"
 	have := Parse(expr)
 	want := &ast.BinOP{
-		Lhs: value.NewInt(5).As(value.BIN),
-		Rhs: value.NewInt(7).As(value.BIN),
+		Lhs: value.Int64(5).As(value.BIN),
+		Rhs: value.Int64(7).As(value.BIN),
 		Op:  token.AND,
 	}
 	if !reflect.DeepEqual(want, have) {
@@ -74,7 +74,7 @@ func TestParseAssign(t *testing.T) {
 	have := Parse(expr)
 	want := &ast.Assign{
 		Name: "foo",
-		Expr: value.NewInt(123),
+		Expr: value.Int64(123),
 	}
 	if !reflect.DeepEqual(want, have) {
 		t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
@@ -86,7 +86,7 @@ func TestParseVar(t *testing.T) {
 	have := Parse(expr)
 	want := &ast.BinOP{
 		Lhs: &ast.Var{Name: "foo"},
-		Rhs: value.NewInt(123),
+		Rhs: value.Int64(123),
 		Op:  token.ADD,
 	}
 	if !reflect.DeepEqual(want, have) {
@@ -99,8 +99,8 @@ func TestParseFormat(t *testing.T) {
 	have := Parse(expr)
 	want := &ast.Format{
 		Expr: &ast.BinOP{
-			Lhs: value.NewInt(10),
-			Rhs: value.NewInt(1),
+			Lhs: value.Int64(10),
+			Rhs: value.Int64(1),
 			Op:  token.ADD,
 		},
 		Fmt: value.HEX,
@@ -117,7 +117,7 @@ func TestParseFunCall(t *testing.T) {
 		Name: "sin",
 		Args: []ast.Node{
 			&ast.BinOP{
-				Lhs:      value.NewInt(2),
+				Lhs:      value.Int64(2),
 				Rhs:      &ast.Var{Name: "radian"},
 				Op:       token.MUL,
 				Implicit: true,
