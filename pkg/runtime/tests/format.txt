@@ -21,6 +21,7 @@
 
 # rat
 10/3 as rat   | 10/3
+10000 as rat  | 10,000/1
 
 # hex
 10/3 as hex   | 0x3
