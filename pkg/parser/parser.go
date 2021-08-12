@@ -27,10 +27,26 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		expr := p.parseExpr()
 		p.expect(token.RPAREN)
 		return &ast.ParenExpr{Expr: expr}
-	case token.NUM:
+	case token.NUM_DEC:
 		val := p.s.Value
 		p.s.Scan()
-		return value.Parse(val)
+		return value.Parse(val).WithFormat(value.DEC)
+	case token.NUM_HEX:
+		val := p.s.Value
+		p.s.Scan()
+		return value.Parse(val).WithFormat(value.HEX)
+	case token.NUM_OCT:
+		val := p.s.Value
+		p.s.Scan()
+		return value.Parse(val).WithFormat(value.OCT)
+	case token.NUM_BIN:
+		val := p.s.Value
+		p.s.Scan()
+		return value.Parse(val).WithFormat(value.BIN)
+	case token.NUM_SCI:
+		val := p.s.Value
+		p.s.Scan()
+		return value.Parse(val).WithFormat(value.SCI)
 	case token.WORD:
 		name := p.s.Value
 		p.expect(token.WORD)

@@ -8,21 +8,45 @@ import (
 )
 
 func TestParseNumber(t *testing.T) {
-	text := " 123 0b101 0x123 0123 0o123 123.456, 100,200,300 100_200_300 0 0.123 1.2e3 1.2e+3 1.2e-3"
-	want := []string{"123", "0b101", "0x123", "123", "0o123", "123.456", "100200300", "100200300", "0", "0.123", "1.2e3", "1.2e3", "1.2e-3"}
-	have := make([]string, 0)
-
-	s := New(text)
-	for s.Scan() {
-		if s.Token != token.NUM {
-			t.Log(s.Value)
-			t.Fatalf("expected %s, got %s", token.NUM, s.Token)
-		}
-		have = append(have, s.Value)
+	cases := []struct{
+		tok token.Token
+		want, have string	
+	}{
+		{token.NUM_DEC, "123", "123"},
+		{token.NUM_BIN, "0b101", "0b101"},
+		{token.NUM_HEX, "0x123", "0x123"},
+		{token.NUM_DEC, "123", "123"},
+		{token.NUM_OCT, "0o123", "0o123"},
+		{token.NUM_DEC, "123.456", "123.456"},
+		{token.NUM_DEC, "100200300", "100200300"},
+		{token.NUM_DEC, "0", "0"},
+		{token.NUM_DEC, "0.123", "0.123"},
+		{token.NUM_SCI, "1.2e3", "1.2e3"},
+		{token.NUM_SCI, "1.2e3", "1.2e+3"},
+		{token.NUM_SCI, "1.2e-3", "1.2e-3"},
 	}
 
-	if !reflect.DeepEqual(want, have) {
-		t.Fatalf("\nwant: %s\nhave: %s", want, have)
+	text := ""
+	for _, c := range cases {
+		text += " " + c.have
+	}
+
+	s := New(text)
+	for i := 0; i < len(cases); i++ {
+		if !s.Scan() {
+			t.Fatal("finished too early")
+		}
+		if s.Token != cases[i].tok {
+			t.Log(s.Value)
+			t.Fatalf("expected %s, got %s", cases[i].tok, s.Token)
+		}
+		if s.Value != cases[i].want {
+			t.Fatalf("\nwant: %s\nhave: %s", cases[i].want, s.Value)
+		}
+	}
+
+	if s.Scan(); s.Token != token.END {
+		t.Fatalf("did not finish properly, last token: %s (%s)", s.Token, s.Value)
 	}
 }
 

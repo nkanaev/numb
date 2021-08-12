@@ -2,7 +2,6 @@ package value
 
 import (
 	"math/big"
-	"strings"
 
 	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/unit"
@@ -27,15 +26,7 @@ func Parse(x string) Value {
 	if !ok {
 		panic("unable to parse number: " + x)
 	}
-	base := DEC
-	if strings.HasPrefix(x, "0x") {
-		base = HEX
-	} else if strings.HasPrefix(x, "0o") {
-		base = OCT
-	} else if strings.HasPrefix(x, "0b") {
-		base = BIN
-	}
-	return Value{Num: num, Fmt: base}
+	return Value{Num: num}
 }
 
 func prepare(a, b Value) (Value, Value, unit.UnitList) {
@@ -162,6 +153,11 @@ func (a Value) To(u unit.UnitList) Value {
 
 func (a Value) WithUnit(u unit.UnitList) Value {
 	a.Unit = u
+	return a
+}
+
+func (a Value) WithFormat(fmt NumeralSystem) Value {
+	a.Fmt = fmt
 	return a
 }
 

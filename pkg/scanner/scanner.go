@@ -149,7 +149,8 @@ func (s *Scanner) digits(base int) string {
 }
 
 func (s *Scanner) scanNumber() (token.Token, string) {
-	value := ""
+	tok := token.NUM_DEC
+	val := ""
 	base := 10
 
 	// integer
@@ -159,48 +160,52 @@ func (s *Scanner) scanNumber() (token.Token, string) {
 		case 'x', 'X':
 			s.next()
 			base = 16
-			value = "0x"
+			val = "0x"
+			tok = token.NUM_HEX
 		case 'o', 'O':
 			s.next()
 			base = 8
-			value = "0o"
+			val = "0o"
+			tok = token.NUM_OCT
 		case 'b', 'B':
 			s.next()
 			base = 2
-			value = "0b"
+			val = "0b"
+			tok = token.NUM_BIN
 		default:
-			value = "0"
+			val = "0"
 		}
 	}
-	value += s.digits(base)
+	val += s.digits(base)
 
 	// HACK: remove leading 0 from decimal numbers to avoid confusion with octal
 	// 0123 = 123 (!= 0o123)
-	if len(value) > 1 && value[0] == '0' && base == 10 {
-		value = value[1:]
+	if len(val) > 1 && val[0] == '0' && base == 10 {
+		val = val[1:]
 	}
 
 	// fraction
 	if base == 10 && s.char() == '.' {
 		s.next()
-		value += "." + s.digits(base)
+		val += "." + s.digits(base)
 	}
 
 	// exponent
 	if base == 10 && s.char() == 'e' {
+		tok = token.NUM_SCI
 		s.next()
 		switch s.char() {
 		case '-':
 			s.next()
-			value += "e-" + s.digits(base)
+			val += "e-" + s.digits(base)
 		case '+':
 			s.next()
 			fallthrough
 		default:
-			value += "e" + s.digits(base)
+			val += "e" + s.digits(base)
 		}
 	}
-	return token.NUM, value
+	return tok, val
 }
 
 func (s *Scanner) Scan() bool {

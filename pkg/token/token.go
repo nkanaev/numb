@@ -27,7 +27,11 @@ const (
 	ASSIGN // =
 	COLON  // :
 
-	NUM
+	NUM_DEC  // 10, 10.1
+	NUM_HEX  // 0xdeadbeef
+	NUM_OCT  // 0o127
+	NUM_BIN  // 0b101
+	NUM_SCI  // 1e2, 1.2e-7
 	WORD
 
 	AS
@@ -57,7 +61,11 @@ var tokenToString = map[Token]string{
 	COLON:  ":",
 	ASSIGN: "=",
 
-	NUM:  "NUM",
+	NUM_DEC: "NUM_DEC",
+	NUM_HEX: "NUM_HEX",
+	NUM_OCT: "NUM_OCT",
+	NUM_BIN: "NUM_BIN",
+	NUM_SCI: "NUM_SCI",
 	WORD: "WORD",
 
 	AS: "as",
