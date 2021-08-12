@@ -231,9 +231,6 @@ func (a Value) dec(sep string, prec int) string {
 		num = l + "." + r
 	}
 
-	if a.Unit != nil {
-		num += " " + a.Unit.String()
-	}
 	return num
 }
 
