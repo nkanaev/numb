@@ -1,3 +1,2 @@
 - verbose error messages
 - documentation
-- e notation
