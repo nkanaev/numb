@@ -11,9 +11,9 @@
 10/3 as dec   | 3.33
 
 # sci
-1.2 as sci     | 1.20e0
+1.2 as sci     | 1.2e0
 10/3 as sci    | 3.33e0
-1000 as sci    | 10e4
+1000 as sci    | 1e3
 10^100 as sci  | 1e100
 12345 as sci   | 1.23e4
 0.01 as sci    | 1e-2

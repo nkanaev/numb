@@ -30,7 +30,7 @@ func (a Value) Format(sep string, prec int) string {
 			groupDigits(a.Num.Denom().String(), sep, 3),
 		)
 	case SCI:
-		num = fmt.Sprintf(fmt.Sprint("%.",  prec, "e"), new(big.Float).SetRat(a.Num))
+		num = formatSci(a.Num, sep, prec)
 	}
 	if a.Unit != nil {
 		num += " " + a.Unit.String()
@@ -55,6 +55,38 @@ func groupDigits(num string, sep string, size int) string {
 	return string(out)
 }
 
+func formatSci(rat *big.Rat, sep string, prec int) string {
+	str := fmt.Sprintf(fmt.Sprint("%.",  prec, "e"), new(big.Float).SetRat(rat))
+	
+	var int, dec, exp, expsign string
+
+	parts := strings.Split(str, ".")
+	int = parts[0]
+	dec = parts[1]
+
+	parts = strings.Split(dec, "e")
+	dec = parts[0]
+	exp = parts[1]
+
+	expsign = exp[:1]
+	if expsign == "+" {
+		expsign = ""
+	}
+	exp = exp[1:]
+	dec = strings.TrimRight(dec, "0")
+	exp = strings.TrimLeft(exp, "0")
+	if len(exp) == 0 {
+		exp = "0"
+	}
+
+	out := int
+	if len(dec) > 0 {
+		out += "." + dec
+	}
+	out += "e" + expsign + exp
+	return out
+}
+
 func formatDec(rat *big.Rat, sep string, prec int) string {
 	var str string
 	if rat.IsInt() {
@@ -63,7 +95,7 @@ func formatDec(rat *big.Rat, sep string, prec int) string {
 		str = rat.FloatString(prec)
 	}
 
-	var sign, num, dec string
+	var sign, int, dec string
 
 	if str[0] == '-' {
 		sign = "-"
@@ -71,13 +103,13 @@ func formatDec(rat *big.Rat, sep string, prec int) string {
 	}
 
 	parts := strings.Split(str, ".")
-	num = parts[0]
+	int = parts[0]
 	if len(parts) == 2 && prec > 0 {
 		dec = parts[1]
 	}
 
 	var out string
-	out = sign + groupDigits(num, sep, 3)
+	out = sign + groupDigits(int, sep, 3)
 	if len(dec) > 0 {
 		dec = strings.TrimRight(dec, "0")
 		if len(dec) == 0 {
