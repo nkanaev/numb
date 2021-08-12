@@ -50,7 +50,7 @@ func listSpecs() []Spec {
 				}
 				spec = Spec{Name: file + ":" + line[2:]}
 			} else {
-				chunks := strings.Split(line, "|")
+				chunks := strings.SplitN(line, "|", 2)
 				var expr, want string
 				if len(chunks) == 2 {
 					expr = strings.TrimSpace(chunks[0])
@@ -59,6 +59,9 @@ func listSpecs() []Spec {
 					expr = strings.TrimSpace(chunks[0])
 				} else {
 					log.Fatal("failed to parse:", line)
+				}
+				if expr == "" {
+					continue
 				}
 				spec.Exprs = append(spec.Exprs, expr)
 				spec.Wants = append(spec.Wants, want)
