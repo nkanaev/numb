@@ -1,7 +1,6 @@
 package value
 
 import (
-	"fmt"
 	"math/big"
 	"strings"
 
@@ -164,74 +163,6 @@ func (a Value) To(u unit.UnitList) Value {
 func (a Value) WithUnit(u unit.UnitList) Value {
 	a.Unit = u
 	return a
-}
-
-func (a Value) String() string {
-	return a.Format(",", 2)
-}
-
-func (a Value) Format(sep string, prec int) string {
-	num := ""
-	switch a.Fmt {
-	case DEC:
-		num = a.dec(sep, prec)
-	case HEX:
-		num = fmt.Sprintf("%#x", ratutils.ToInt(a.Num))
-	case OCT:
-		num = fmt.Sprintf("%O", ratutils.ToInt(a.Num))
-	case BIN:
-		num = fmt.Sprintf("%#b", ratutils.ToInt(a.Num))
-	case RAT:
-		num = a.Num.String()
-	case SCI:
-		num = fmt.Sprintf(fmt.Sprint("%.",  prec, "e"), new(big.Float).SetRat(a.Num))
-	}
-	if a.Unit != nil {
-		num += " " + a.Unit.String()
-	}
-	return num
-}
-
-func (a Value) dec(sep string, prec int) string {
-	var num string
-	if a.Num.IsInt() {
-		num = a.Num.RatString()
-	} else {
-		num = a.Num.FloatString(prec)
-	}
-
-	l, r := num, ""
-
-	parts := strings.Split(num, ".")
-	if len(parts) == 2 {
-		l, r = parts[0], parts[1]
-	}
-
-	s := ""
-	if l[0] == '-' {
-		s = "-"
-		l = l[1:]
-	}
-
-	x := ""
-	for len(l) > 3 {
-		x = sep + l[len(l)-3:] + x
-		l = l[0 : len(l)-3]
-	}
-	l = s + l + x
-
-	r = strings.TrimRight(r, "0")
-
-	if a.Num.IsInt() || prec == 0 {
-		num = l
-	} else {
-		if r == "" {
-			r = "0"
-		}
-		num = l + "." + r
-	}
-
-	return num
 }
 
 func (a Value) Eval(map[string]Value) Value {
