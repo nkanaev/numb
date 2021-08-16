@@ -1,15 +1,12 @@
 package funcs
 
 import (
-	"fmt"
 	"math"
 
 	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/unit/dimension"
 	"github.com/nkanaev/numb/pkg/value"
 )
-
-type mathOp func(float64) float64
 
 var radian = unit.Must("rad")
 
@@ -18,7 +15,7 @@ func toRadian(val value.Value) value.Value {
 		return val.WithUnit(radian)
 	}
 	if measure, _ := val.Unit.Dimension().Measure(); measure != dimension.ANGLE {
-		panic(fmt.Sprintf("expected angle unit"))
+		panic("expected angle unit")
 	}
 	return val.To(radian)
 }

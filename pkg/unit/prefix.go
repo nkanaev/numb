@@ -36,15 +36,6 @@ var metricPrefixes = []prefix{
 	{"Y", "yotta", r.Exp(10, 24)},
 }
 
-var metricPrefixesTonne = []prefix{
-	{"k", "kilo", r.Exp(10, 3)},
-	{"M", "mega", r.Exp(10, 6)},
-	{"G", "giga", r.Exp(10, 9)},
-	{"T", "tera", r.Exp(10, 12)},
-	{"P", "peta", r.Exp(10, 15)},
-	{"E", "exa", r.Exp(10, 18)},
-}
-
 var digitalPrefixes = []prefix{
 	{"k", "kilo", r.Exp(1000, 1)},
 	{"M", "mega", r.Exp(1000, 2)},

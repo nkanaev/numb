@@ -26,7 +26,6 @@ type unitDef struct {
 	offset    *big.Rat
 	prefixes  *[]prefix
 	prefixpow int
-	info      string
 }
 
 func splitlist(x string) []string {

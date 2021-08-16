@@ -10,3 +10,7 @@ kilograms     | 1 kg
 3 puppies     | 3 puppy
 1 kilopotato  | 1 kilopotato
 1 kIlOgrAm    | 1 kg
+
+# conversion
+7 feet to meter  | 2.13 m
+7 ft to meter    | 2.13 m

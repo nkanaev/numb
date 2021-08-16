@@ -8,7 +8,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/nkanaev/numb/pkg/value"
 	"github.com/nkanaev/numb/pkg/runtime"
 	"golang.org/x/term"
 )
@@ -17,7 +16,6 @@ var prompt = "> "
 var prefix = "  "
 
 var loadfiles = ""
-var prec = 2
 
 func repl(rt *runtime.Runtime) {
 	state, err := term.MakeRaw(int(os.Stdin.Fd()))
@@ -54,9 +52,6 @@ func repl(rt *runtime.Runtime) {
 			terminal.Write([]byte(prefix + out + "\n"))
 		}
 	}
-}
-
-func load(env map[string]value.Value, r io.Reader, name string) {
 }
 
 func read(rt *runtime.Runtime, r io.Reader) {
