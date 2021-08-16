@@ -172,13 +172,17 @@ type FunCall struct {
 func (n *FunCall) Eval(env map[string]value.Value) value.Value {
 	fn := funcs.Get(n.Name)
 	if fn == nil {
-		panic("no such function: " + n.Name)
+		panic("unknown function: " + n.Name)
 	}
 	args := make([]value.Value, len(n.Args))
 	for i, arg := range n.Args {
 		args[i] = arg.Eval(env)
 	}
-	// TODO: prepend function name to panic message
+	defer func() {
+		if r := recover(); r != nil {
+			panic(fmt.Sprintf("%s: %s", n.Name, r))
+		}
+	}()
 	return (*fn)(args...)
 }
 
