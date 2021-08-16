@@ -60,7 +60,7 @@ func DivInt(a *big.Rat, x int64) *big.Rat {
 	return num
 }
 
-func ModRat(a, n *big.Rat) *big.Rat {
+func Mod(a, n *big.Rat) *big.Rat {
 	// r = a - n * trunc(a / n)
 	return new(big.Rat).Sub(a, new(big.Rat).Mul(n, Trunc(new(big.Rat).Quo(a, n))))
 }
@@ -90,7 +90,6 @@ func ToInt(x *big.Rat) *big.Int {
 	if x.IsInt() {
 		return x.Num()
 	}
-	// TODO: quorem vs. divmod
 	quo := new(big.Int)
 	rem := new(big.Int)
 	quo.QuoRem(x.Num(), x.Denom(), rem)

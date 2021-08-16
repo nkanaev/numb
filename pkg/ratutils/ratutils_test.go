@@ -13,7 +13,7 @@ func TestRatMod(t *testing.T) {
 	}
 	for _, tcase := range tcases {
 		want := Num(tcase.want)
-		have := ModRat(Num(tcase.a), Num(tcase.n))
+		have := Mod(Num(tcase.a), Num(tcase.n))
 		if want.Cmp(have) != 0 {
 			t.Errorf("%s %% %s != %s (must be %s)", tcase.a, tcase.n, have, want)
 		}

@@ -124,7 +124,19 @@ func (a Value) Xor(b Value) Value {
 }
 
 func (a Value) Rem(b Value) Value {
-	return doInt(a, b, new(big.Int).Rem)
+	n := ratutils.Mod(a.Num, b.Num)
+
+	u := a.Unit
+	if u == nil {
+		u = b.Unit
+	}
+	if a.Unit != nil && b.Unit != nil {
+		utmp := a.Unit.Quo(b.Unit)
+		u = utmp.Simplify()
+		n = unit.Convert(n, utmp, u)
+	}
+
+	return Value{Num: n, Fmt: a.Fmt, Unit: u}
 }
 
 func (a Value) Exp(b Value) Value {

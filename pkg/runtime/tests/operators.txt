@@ -14,3 +14,11 @@
 # precedence
 2 + 3 * 4 | 14
 2 * 3 + 4 | 10
+
+# modulus (truncated)
+8 mod 3   | 2
+8 mod -3  | 2
+-8 mod 3  | -2
+-8 mod -3 | -2
+10 mod 2.4 | 0.4
+10 mod 2.2 | 1.2
