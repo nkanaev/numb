@@ -17,7 +17,7 @@ var units = []unitDef{
 	{u: d.DIGITAL, name: "B", long: "byte", value: r.Num("8"), prefixes: &digitalPrefixes},
 	{u: d.AREA, name: "m2", value: r.ONE, prefixes: &metricPrefixes, prefixpow: 2},
 	{u: d.VOLUME, name: "m3", value: r.ONE, prefixes: &metricPrefixes, prefixpow: 3},
-	{u: d.VOLUME, name: "l, lt", long: "liter, litre", value: r.Num("0.001"), prefixes: &metricPrefixes},
+	{u: d.VOLUME, name: "l, lt, L", long: "liter, litre", value: r.Num("0.001"), prefixes: &metricPrefixes},
 	{u: d.ENERGY, name: "J", long: "joule", value: r.ONE, prefixes: &metricPrefixes},
 	{u: d.ENERGY, name: "Wh", long: "watt-hour", value: r.Num("3600"), prefixes: &metricPrefixes},
 	{u: d.ENERGY, name: "eV", long: "electronvolt", value: r.Num("1.602176565e-19"), prefixes: &metricPrefixes},

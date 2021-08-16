@@ -1,2 +1,12 @@
 # misc
 kg   | 1 kg
+
+# suffixes
+puppy : 3 kg
+potato : 10 oz
+kgs           | 1 kg
+kilograms     | 1 kg
+2 potatoes    | 2 potato
+3 puppies     | 3 puppy
+1 kilopotato  | 1 kilopotato
+1 kIlOgrAm    | 1 kg

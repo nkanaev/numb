@@ -110,19 +110,32 @@ func getNamedUnit(x string) *Unit {
 	if u, ok := db[x]; ok {
 		return u
 	}
-	if u, ok := db[strings.ToUpper(x)]; ok {
-		return u
+	for _, suffix := range []string{"s", "es"} {
+		if u, ok := db[strings.TrimSuffix(x, suffix)]; ok {
+			return u
+		}
 	}
-	if u, ok := db[strings.ToLower(x)]; ok {
-		return u
+	if strings.HasSuffix(x, "ies") {
+		newx := strings.TrimSuffix(x, "ies") + "y"
+		if u, ok := db[newx]; ok {
+			return u
+		}
 	}
-	if u, ok := db[strings.TrimSuffix(x, "s")]; ok {
-		return u
+	for _, prefix := range metricPrefixes {
+		if strings.HasPrefix(x, prefix.name) {
+			newx := strings.TrimPrefix(x, prefix.name)
+			if u, ok := db[newx]; ok {
+				Add(x, prefix.value, UnitList{unitEntry{Unit: *u, Exp: 1}})
+				return db[x]
+			}
+			break
+		}
 	}
-	if u, ok := db[strings.TrimSuffix(x, "es")]; ok {
-		return u
+	for name, u := range db {
+		if strings.EqualFold(name, x) {
+			return u
+		}
 	}
-	// TODO: guess with prefixes
 	return nil
 }
 
