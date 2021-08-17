@@ -115,7 +115,7 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 			if p.s.Token != token.WORD {
 				panic("expected format")
 			}
-			f, ok := value.StringToNumeral[p.s.Value]
+			f, ok := value.StringToFormat[p.s.Value]
 			if !ok {
 				panic("unknown format: " + p.s.Value)
 			}

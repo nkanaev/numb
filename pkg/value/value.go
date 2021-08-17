@@ -9,7 +9,7 @@ import (
 
 type Value struct {
 	Num  *big.Rat
-	Fmt  NumeralSystem
+	Fmt  Format
 	Unit unit.UnitList
 }
 
@@ -153,7 +153,7 @@ func (a Value) Neg() Value {
 	return Value{Num: new(big.Rat).Neg(a.Num), Fmt: a.Fmt, Unit: a.Unit}
 }
 
-func (a Value) As(n NumeralSystem) Value {
+func (a Value) As(n Format) Value {
 	a.Fmt = n
 	return a
 }
@@ -168,7 +168,7 @@ func (a Value) WithUnit(u unit.UnitList) Value {
 	return a
 }
 
-func (a Value) WithFormat(fmt NumeralSystem) Value {
+func (a Value) WithFormat(fmt Format) Value {
 	a.Fmt = fmt
 	return a
 }

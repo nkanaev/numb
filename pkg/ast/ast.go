@@ -130,7 +130,7 @@ func (n *Var) String() string {
 
 type Format struct {
 	Expr Node
-	Fmt  value.NumeralSystem
+	Fmt  value.Format
 }
 
 func (n *Format) Eval(env map[string]value.Value) value.Value {
