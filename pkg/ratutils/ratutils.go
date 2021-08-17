@@ -66,32 +66,23 @@ func Mod(a, n *big.Rat) *big.Rat {
 }
 
 func Trunc(x *big.Rat) *big.Rat {
+	if x.IsInt() {
+		return x
+	}
 	i := new(big.Int).Quo(x.Num(), x.Denom())
 	r := new(big.Rat)
 	r.Num().Set(i)
 	return r
 }
 
-func Num(x string) *big.Rat {
+func TruncInt(x *big.Rat) *big.Int {
+	return Trunc(x).Num()
+}
+
+func Must(x string) *big.Rat {
 	rat, ok := new(big.Rat).SetString(x)
 	if !ok {
 		log.Fatal("unable to parse: " + x)
 	}
 	return rat
-}
-
-func FromInt(int *big.Int) *big.Rat {
-	ret := new(big.Rat)
-	ret.Num().Set(int)
-	return ret
-}
-
-func ToInt(x *big.Rat) *big.Int {
-	if x.IsInt() {
-		return x.Num()
-	}
-	quo := new(big.Int)
-	rem := new(big.Int)
-	quo.QuoRem(x.Num(), x.Denom(), rem)
-	return quo
 }

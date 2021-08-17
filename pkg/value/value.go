@@ -49,7 +49,7 @@ func do(a, b Value, op func(*big.Rat, *big.Rat) *big.Rat) Value {
 
 func doInt(a, b Value, op func(*big.Int, *big.Int) *big.Int) Value {
 	a, b, u := prepare(a, b)
-	int := op(ratutils.ToInt(a.Num), ratutils.ToInt(b.Num))
+	int := op(ratutils.TruncInt(a.Num), ratutils.TruncInt(b.Num))
 	rat := big.NewRat(1, 1)
 	rat.Num().Set(int)
 	return Value{Num: rat, Fmt: a.Fmt, Unit: u}
@@ -57,7 +57,7 @@ func doInt(a, b Value, op func(*big.Int, *big.Int) *big.Int) Value {
 
 func doShift(a, b Value, op func(*big.Int, uint) *big.Int) Value {
 	a, b, u := prepare(a, b)
-	ia, ib := ratutils.ToInt(a.Num), uint(ratutils.ToInt(b.Num).Uint64())
+	ia, ib := ratutils.TruncInt(a.Num), uint(ratutils.TruncInt(b.Num).Uint64())
 	num := big.NewRat(1, 1)
 	num.Num().Set(op(ia, ib))
 	return Value{Num: num, Fmt: a.Fmt, Unit: u}
@@ -141,7 +141,7 @@ func (a Value) Rem(b Value) Value {
 
 func (a Value) Exp(b Value) Value {
 	a, b, u := prepare(a, b)
-	exp := int(ratutils.ToInt(b.Num).Int64())
+	exp := int(ratutils.TruncInt(b.Num).Int64())
 	num := ratutils.ExpInt(a.Num, exp)
 	if u != nil {
 		u = u.Exp(exp)

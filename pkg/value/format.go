@@ -44,11 +44,11 @@ func (a Value) Format(sep string, prec int) string {
 	case DEC:
 		num = formatDec(a.Num, sep, prec)
 	case HEX:
-		num = fmt.Sprintf("%#x", ratutils.ToInt(a.Num))
+		num = fmt.Sprintf("%#x", ratutils.TruncInt(a.Num))
 	case OCT:
-		num = fmt.Sprintf("%O", ratutils.ToInt(a.Num))
+		num = fmt.Sprintf("%O", ratutils.TruncInt(a.Num))
 	case BIN:
-		num = fmt.Sprintf("%#b", ratutils.ToInt(a.Num))
+		num = fmt.Sprintf("%#b", ratutils.TruncInt(a.Num))
 	case RAT:
 		num = fmt.Sprintf(
 			"%s/%s",

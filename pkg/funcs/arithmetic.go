@@ -19,7 +19,7 @@ func GCD(args ...value.Value) value.Value {
 		if !arg.Num.IsInt() {
 			panic("not integer: " + arg.String())
 		}
-		argint := ratutils.ToInt(arg.Num)
+		argint := ratutils.TruncInt(arg.Num)
 		if ret == nil {
 			ret = argint
 		} else {
@@ -43,7 +43,7 @@ func LCM(args ...value.Value) value.Value {
 		if !arg.Num.IsInt() {
 			panic("not integer: " + arg.String())
 		}
-		argint := ratutils.ToInt(arg.Num)
+		argint := ratutils.TruncInt(arg.Num)
 		if ret == nil {
 			ret = argint
 		} else {
@@ -78,11 +78,11 @@ func Ceil(args ...value.Value) value.Value {
 	if arg.Num.IsInt() {
 		return value.Value{Num: arg.Num}
 	}
-	int := ratutils.ToInt(arg.Num)
+	num := ratutils.Trunc(arg.Num)
 	if arg.Num.Cmp(ratutils.ZERO) > 0 {
-		int.Add(int, ratutils.ONE.Num())
+		num.Add(num, ratutils.ONE)
 	}
-	return value.Value{Num: ratutils.FromInt(int)}
+	return value.Value{Num: num}
 }
 
 func Floor(args ...value.Value) value.Value {
