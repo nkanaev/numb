@@ -82,7 +82,7 @@ const (
 
 func (t Token) Precedence() int {
 	switch t {
-	case ASSIGN:
+	case ASSIGN, COLON:
 		return 1
 	case AS, TO:
 		return 2

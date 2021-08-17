@@ -39,11 +39,16 @@ operators:
     or    bitwise or
     xor   bitwise xor
 
+    =     assign (var)
+    :     assign (unit)
+
 operator predecence (high to low):
 
     ^
     *  /  <<  >>  and  mod
     +  -  or  xor
+    as to
+    =  :
 
 formats:
 
