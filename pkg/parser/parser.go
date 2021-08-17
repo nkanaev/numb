@@ -13,9 +13,19 @@ type parser struct {
 	s *scanner.Scanner
 }
 
+type SyntaxError struct {
+	Pos int
+	Err string
+}
+
+func (e *SyntaxError) Error() string {
+	return e.Err
+}
+
 func (p *parser) expect(t token.Token) {
 	if p.s.Token != t {
-		panic("expected " + t.String() + ", got " + p.s.Token.String())
+		err := "expected " + t.String() + ", got " + p.s.Token.String()
+		panic(&SyntaxError{Pos: p.s.Cur, Err: err})
 	}
 	p.s.Scan()
 }
@@ -74,11 +84,11 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		}
 		return &ast.Var{Name: name}
 	case token.END:
-		panic("unexpected end")
+		panic(&SyntaxError{Pos: p.s.Cur, Err: "unexpected end"})
 	case token.Illegal:
-		panic("illegal char")
+		panic(&SyntaxError{Pos: p.s.Cur, Err: "illegal character"})
 	}
-	panic("unexpected token: " + p.s.Token.String())
+	panic(&SyntaxError{Pos: p.s.Cur, Err: "unexpected token: " + p.s.Token.String()})
 }
 
 func (p *parser) parseUnaryExpr() ast.Node {
@@ -113,11 +123,17 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 
 		if tok == token.AS {
 			if p.s.Token != token.WORD {
-				panic("expected format")
+				panic(&SyntaxError{
+					Pos: p.s.Cur - len(p.s.Value),
+					Err: "expected format",
+				})
 			}
 			f, ok := value.StringToFormat[p.s.Value]
 			if !ok {
-				panic("unknown format: " + p.s.Value)
+				panic(&SyntaxError{
+					Pos: p.s.Cur - len(p.s.Value),
+					Err: "unknown format: " + p.s.Value,
+				})
 			}
 			lhs = &ast.Format{Expr: lhs, Fmt: f}
 			p.expect(token.WORD)
@@ -142,7 +158,7 @@ func Parse(line string) ast.Node {
 	s.Scan()
 	root := p.parseExpr()
 	if s.Token != token.END {
-		panic("trailing stuff")
+		panic(&SyntaxError{Pos: p.s.Cur - 1, Err: "invalid syntax"})
 	}
 	return root
 }

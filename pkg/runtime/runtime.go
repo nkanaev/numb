@@ -31,12 +31,12 @@ func NewRuntime() *Runtime {
 }
 
 func Clean(line string) string {
-	return strings.TrimSpace(strings.SplitN(line, "|", 2)[0])
+	return strings.SplitN(line, "|", 2)[0]
 }
 
 func (r *Runtime) Eval(line string) (string, error) {
 	line = Clean(line)
-	if line == "" {
+	if strings.TrimSpace(line) == "" {
 		return "", nil
 	}
 

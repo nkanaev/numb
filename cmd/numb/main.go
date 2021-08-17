@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/nkanaev/numb/pkg/parser"
 	"github.com/nkanaev/numb/pkg/runtime"
 	"golang.org/x/term"
 )
@@ -46,7 +47,12 @@ func repl(rt *runtime.Runtime) {
 		}
 		out, err := rt.Eval(line)
 		if err != nil {
-			out = err.Error()
+			if syntaxerr, ok := err.(*parser.SyntaxError); ok {
+				out = strings.Repeat(" ", syntaxerr.Pos) + "^\n"
+				out += prefix + syntaxerr.Error()
+			} else {
+				out = err.Error()
+			}
 		}
 		if out != "" {
 			terminal.Write([]byte(prefix + out + "\n"))
