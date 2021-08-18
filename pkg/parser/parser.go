@@ -25,7 +25,7 @@ func (e *SyntaxError) Error() string {
 func (p *parser) expect(t token.Token) {
 	if p.s.Token != t {
 		err := "expected " + t.String() + ", got " + p.s.Token.String()
-		panic(&SyntaxError{Pos: p.s.Cur, Err: err})
+		panic(&SyntaxError{Pos: p.s.Pos(), Err: err})
 	}
 	p.s.Scan()
 }
@@ -84,11 +84,11 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		}
 		return &ast.Var{Name: name}
 	case token.END:
-		panic(&SyntaxError{Pos: p.s.Cur, Err: "unexpected end"})
+		panic(&SyntaxError{Pos: p.s.Pos(), Err: "unexpected end"})
 	case token.Illegal:
-		panic(&SyntaxError{Pos: p.s.Cur, Err: "illegal character"})
+		panic(&SyntaxError{Pos: p.s.Pos(), Err: "illegal character"})
 	}
-	panic(&SyntaxError{Pos: p.s.Cur, Err: "unexpected token: " + p.s.Token.String()})
+	panic(&SyntaxError{Pos: p.s.Pos(), Err: "unexpected token: " + p.s.Token.String()})
 }
 
 func (p *parser) parseUnaryExpr() ast.Node {
@@ -124,14 +124,14 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 		if tok == token.AS {
 			if p.s.Token != token.WORD {
 				panic(&SyntaxError{
-					Pos: p.s.Cur - len(p.s.Value),
+					Pos: p.s.Pos() - len(p.s.Value),
 					Err: "expected format",
 				})
 			}
 			f, ok := value.StringToFormat[p.s.Value]
 			if !ok {
 				panic(&SyntaxError{
-					Pos: p.s.Cur - len(p.s.Value),
+					Pos: p.s.Pos() - len(p.s.Value),
 					Err: "unknown format: " + p.s.Value,
 				})
 			}
@@ -158,7 +158,7 @@ func Parse(line string) ast.Node {
 	s.Scan()
 	root := p.parseExpr()
 	if s.Token != token.END {
-		panic(&SyntaxError{Pos: p.s.Cur - 1, Err: "invalid syntax"})
+		panic(&SyntaxError{Pos: p.s.Pos() - 1, Err: "invalid syntax"})
 	}
 	return root
 }

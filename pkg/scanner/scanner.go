@@ -8,8 +8,8 @@ import (
 )
 
 type Scanner struct {
-	Src []rune
-	Cur int
+	src []rune
+	cur int
 
 	Token token.Token
 	Value string
@@ -17,24 +17,24 @@ type Scanner struct {
 
 func New(line string) *Scanner {
 	return &Scanner{
-		Src:   []rune(line),
+		src:   []rune(line),
 		Token: token.Illegal,
 	}
 }
 
 func (s *Scanner) Pos() int {
-	return s.Cur
+	return s.cur
 }
 
 func (s *Scanner) char() rune {
-	if s.Cur >= len(s.Src) {
+	if s.cur >= len(s.src) {
 		return 0
 	}
-	return s.Src[s.Cur]
+	return s.src[s.cur]
 }
 
 func (s *Scanner) next() {
-	s.Cur += 1
+	s.cur += 1
 }
 
 func isDecimal(ch rune) bool { return '0' <= ch && ch <= '9' }
@@ -43,7 +43,7 @@ func (s *Scanner) scan() {
 	for ; unicode.IsSpace(s.char()); s.next() {
 	}
 
-	if s.Cur >= len(s.Src) {
+	if s.cur >= len(s.src) {
 		s.Token = token.END
 		return
 	}
@@ -76,7 +76,7 @@ func (s *Scanner) scan() {
 	case ch == '<' || ch == '>':
 		s.next()
 		if s.char() != ch {
-			s.Cur -= 1
+			s.cur -= 1
 			s.Token = token.Illegal
 			return
 		}
