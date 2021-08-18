@@ -104,7 +104,7 @@ func (s *Scanner) scan() {
 		s.Value = string(letters)
 	default:
 		letters := make([]rune, 0)
-		for ch != 0 && !unicode.IsSpace(ch) && !strings.Contains("^*/+-()=:", string(ch)) {
+		for ch != 0 && !unicode.IsSpace(ch) && !strings.Contains(token.SpecialChars, string(ch)) {
 			letters = append(letters, ch)
 			s.next()
 			ch = s.char()
@@ -113,11 +113,7 @@ func (s *Scanner) scan() {
 		if tok, ok := token.StringToOperator[word]; ok {
 			s.Token = tok
 			s.Value = word
-		} else if word == "as" {
-			s.Token = token.AS
-		} else if word == "to" {
-			s.Token = token.TO
-		} else if unicode.IsLetter(letters[0]) {
+		} else if len(word) > 0 {
 			s.Token = token.WORD
 			s.Value = word
 		} else {

@@ -1,5 +1,7 @@
 package token
 
+import "strings"
+
 type Token int
 
 const (
@@ -10,14 +12,18 @@ const (
 	OR  // or
 	XOR // xor
 	AND // and
+	REM // mod
+
+	AS  // as
+	TO  // to
+
+	chars_beg
 	SHL // <<
 	SHR // >>
-
 	ADD // +
 	SUB // -
 	MUL // *
 	QUO // /
-	REM // mod
 	EXP // ^
 	operator_end
 
@@ -26,6 +32,7 @@ const (
 	COMMA  // ,
 	ASSIGN // =
 	COLON  // :
+	chars_end
 
 	NUM_DEC  // 10, 10.1
 	NUM_HEX  // 0xdeadbeef
@@ -33,9 +40,6 @@ const (
 	NUM_BIN  // 0b101
 	NUM_SCI  // 1e2, 1.2e-7
 	WORD
-
-	AS
-	TO
 )
 
 var tokenToString = map[Token]string{
@@ -96,24 +100,16 @@ func (t Token) Precedence() int {
 	return LowestPrec
 }
 
-var StringToOperator = map[string]Token{
-	"or":  OR,
-	"xor": XOR,
-	"and": AND,
-	"<<":  SHL,
-	">>":  SHR,
+var StringToOperator = map[string]Token{}
 
-	"+":   ADD,
-	"-":   SUB,
-	"*":   MUL,
-	"/":   QUO,
-	"mod": REM,
-
-	"^": EXP,
-}
+var SpecialChars string
 
 func init() {
 	for x := operator_beg + 1; x < operator_end; x++ {
-		StringToOperator[x.String()] = x
+		StringToOperator[strings.ToLower(x.String())] = x
+	}
+
+	for x := chars_beg + 1; x < chars_end; x++ {
+		SpecialChars += x.String()
 	}
 }
