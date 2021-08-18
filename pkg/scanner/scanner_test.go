@@ -19,7 +19,11 @@ func TestParseNumber(t *testing.T) {
 		{token.NUM_OCT, "0o123", "0o123"},
 		{token.NUM_DEC, "123.456", "123.456"},
 		{token.NUM_DEC, "100200300", "100200300"},
+		{token.NUM_DEC, "100200300", "100,200,300"},
+		{token.NUM_DEC, "100.200300", "100.200,300"},
 		{token.NUM_DEC, "0", "0"},
+		{token.NUM_DEC, "123", "0123"},
+		{token.NUM_DEC, "1.23", "01.23"},
 		{token.NUM_DEC, "0.123", "0.123"},
 		{token.NUM_SCI, "1.2e3", "1.2e3"},
 		{token.NUM_SCI, "1.2e3", "1.2e+3"},
@@ -56,6 +60,7 @@ func TestParseToken(t *testing.T) {
 		token.LPAREN, token.RPAREN,
 		token.SHL, token.SHR,
 		token.AND, token.OR, token.XOR, token.REM, token.EXP,
+		token.COLON, token.ASSIGN, token.COMMA,
 	}
 	have := make([]token.Token, 0)
 	text := `
@@ -63,6 +68,7 @@ func TestParseToken(t *testing.T) {
 		( )
 		<< >>
 		and or xor mod ^
+		: = ,
 	`
 	s := New(text)
 	for i := 0; i < len(want); i++ {
@@ -84,9 +90,9 @@ func TestParseToken(t *testing.T) {
 }
 
 func TestParseWord(t *testing.T) {
-	want := []string{"foobar", "{foo bar}"}
+	want := []string{"foobar", "foo_bar"}
 	have := make([]string, 0)
-	text := ` foobar {foo bar} `
+	text := ` foobar foo_bar `
 	s := New(text)
 	for i := 0; i < len(want); i++ {
 		s.Scan()

@@ -10,37 +10,39 @@ import (
 type Scanner struct {
 	src []rune
 	cur int
+	ch  rune
 
 	Token token.Token
 	Value string
 }
 
 func New(line string) *Scanner {
-	return &Scanner{
+	s := &Scanner{
 		src:   []rune(line),
+		cur:   -1,
 		Token: token.Illegal,
 	}
+	s.next()
+	return s
 }
 
 func (s *Scanner) Pos() int {
 	return s.cur
 }
 
-func (s *Scanner) char() rune {
-	if s.cur >= len(s.src) {
-		return 0
-	}
-	return s.src[s.cur]
-}
-
 func (s *Scanner) next() {
 	s.cur += 1
+	if s.cur < len(s.src) {
+		s.ch = s.src[s.cur]
+	} else {
+		s.ch = 0
+	}
 }
 
 func isDecimal(ch rune) bool { return '0' <= ch && ch <= '9' }
 
 func (s *Scanner) scan() {
-	for ; unicode.IsSpace(s.char()); s.next() {
+	for ; unicode.IsSpace(s.ch); s.next() {
 	}
 
 	if s.cur >= len(s.src) {
@@ -48,7 +50,7 @@ func (s *Scanner) scan() {
 		return
 	}
 
-	ch := s.char()
+	ch := s.ch
 	switch {
 	case isDecimal(ch):
 		s.Token, s.Value = s.scanNumber()
@@ -75,7 +77,7 @@ func (s *Scanner) scan() {
 		s.next()
 	case ch == '<' || ch == '>':
 		s.next()
-		if s.char() != ch {
+		if s.ch != ch {
 			s.cur -= 1
 			s.Token = token.Illegal
 			return
@@ -87,39 +89,31 @@ func (s *Scanner) scan() {
 		case '>':
 			s.Token = token.SHR
 		}
-	case ch == '{':
-		letters := make([]rune, 0)
-		for {
-			if s.char() == 0 {
-				panic("unexpected end of word")
-			}
-			letters = append(letters, s.char())
-			if s.char() == '}' {
-				s.next()
-				break
-			}
-			s.next()
-		}
-		s.Token = token.WORD
-		s.Value = string(letters)
 	default:
 		letters := make([]rune, 0)
-		for ch != 0 && !unicode.IsSpace(ch) && !strings.Contains(token.SpecialChars, string(ch)) {
+		for isWordChar(ch) {
 			letters = append(letters, ch)
 			s.next()
-			ch = s.char()
+			ch = s.ch
 		}
-		word := string(letters)
-		if tok, ok := token.StringToOperator[word]; ok {
-			s.Token = tok
-			s.Value = word
-		} else if len(word) > 0 {
-			s.Token = token.WORD
-			s.Value = word
-		} else {
+		if len(letters) == 0 {
 			s.Token = token.Illegal
+		} else {
+			word := string(letters)
+			if tok, ok := token.StringToOperator[word]; ok {
+				s.Token = tok
+				s.Value = word
+			} else {
+				s.Token = token.WORD
+				s.Value = word
+			}
 		}
 	}
+}
+
+func isWordChar(ch rune) bool {
+	// L/N/Sc/Pc = letters/numbers/currency symbols/connector punctuation
+	return !strings.Contains(token.SpecialChars, string(ch)) && unicode.In(ch, unicode.L, unicode.N, unicode.Sc, unicode.Pc)
 }
 
 func (s *Scanner) digits(base int) string {
@@ -130,10 +124,10 @@ func (s *Scanner) digits(base int) string {
 		accept += "ABCDEF"
 	}
 	loop: for  {
-		ch := s.char()
+		ch := s.ch
 		switch {
 		case strings.ContainsRune(accept, ch):
-			digits = append(digits, s.char())
+			digits = append(digits, s.ch)
 			s.next()
 		case strings.ContainsRune(separators, ch):
 			s.next()
@@ -150,9 +144,9 @@ func (s *Scanner) scanNumber() (token.Token, string) {
 	base := 10
 
 	// integer
-	if s.char() == '0' {
+	if s.ch == '0' {
 		s.next()
-		switch s.char() {
+		switch s.ch {
 		case 'x', 'X':
 			s.next()
 			base = 16
@@ -181,16 +175,16 @@ func (s *Scanner) scanNumber() (token.Token, string) {
 	}
 
 	// fraction
-	if base == 10 && s.char() == '.' {
+	if base == 10 && s.ch == '.' {
 		s.next()
 		val += "." + s.digits(base)
 	}
 
 	// exponent
-	if base == 10 && s.char() == 'e' {
+	if base == 10 && s.ch == 'e' {
 		tok = token.NUM_SCI
 		s.next()
-		switch s.char() {
+		switch s.ch {
 		case '-':
 			s.next()
 			val += "e-" + s.digits(base)
