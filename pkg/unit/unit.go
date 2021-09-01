@@ -12,6 +12,7 @@ type Unit struct {
 	value   *big.Rat
 	offset  *big.Rat
 	measure dimension.Measure
+	// TODO: prefix value
 }
 
 func (u Unit) String() string {
@@ -115,17 +116,18 @@ func getNamedUnit(x string) *Unit {
 		}
 	}
 	if strings.HasSuffix(x, "ies") {
-		newx := strings.TrimSuffix(x, "ies") + "y"
-		if u, ok := db[newx]; ok {
+		if u, ok := db[strings.TrimSuffix(x, "ies") + "y"]; ok {
 			return u
 		}
 	}
 	for _, prefix := range metricPrefixes {
 		if strings.HasPrefix(x, prefix.name) {
-			newx := strings.TrimPrefix(x, prefix.name)
-			if u, ok := db[newx]; ok {
-				Add(x, prefix.value, UnitList{unitEntry{Unit: *u, Exp: 1}})
-				return db[x]
+			if u, ok := db[strings.TrimPrefix(x, prefix.name)]; ok && u.offset == nil {
+				return &Unit{
+					name: x,
+					value: new(big.Rat).Mul(u.value, prefix.value),
+					measure: u.measure,
+				}
 			}
 			break
 		}
