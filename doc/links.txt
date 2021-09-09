@@ -3,3 +3,4 @@ https://github.com/josdejong/mathjs
 https://pypi.org/project/numericalunits/
 https://www.gnu.org/software/bc/
 https://www.gnu.org/software/units/
+https://github.com/hgrecco/pint
