@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/nkanaev/numb/pkg/funcs"
+	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/token"
 	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
@@ -154,7 +155,7 @@ func (n *Convert) Eval(env map[string]value.Value) value.Value {
 	if len(u.Unit) == 0 {
 		panic(n.Unit.String() + " is not a unit")
 	}
-	if u.Num.IsInt() && u.Num.Num().Int64() != 1 {
+	if u.Num.Cmp(ratutils.ONE) != 0 {
 		panic("cannot convert to a unit with a value: " + n.Unit.String())
 	}
 	return l.To(u.Unit)
