@@ -12,21 +12,10 @@ type Unit struct {
 	value   *big.Rat
 	offset  *big.Rat
 	measure dimension.Measure
-	// TODO: prefix value
 }
 
 func (u Unit) String() string {
 	return u.name
-}
-
-type unitDef struct {
-	u         dimension.Measure
-	name      string
-	long      string
-	value     *big.Rat
-	offset    *big.Rat
-	prefixes  *[]prefix
-	prefixpow int
 }
 
 func splitlist(x string) []string {
@@ -40,51 +29,21 @@ func splitlist(x string) []string {
 	return list
 }
 
-func (bu unitDef) Expand() map[string]*Unit {
-	shortforms := splitlist(bu.name)
-	longforms := splitlist(bu.long)
-	name := shortforms[0]
+func (bu unit) Expand() map[string]*Unit {
+	names := splitlist(bu.names)
 
 	result := make(map[string]*Unit)
 	unit := &Unit{
-		name:    name,
+		name:    names[0],
 		value:   bu.value,
 		offset:  bu.offset,
 		measure: bu.u,
 	}
 
-	for _, alias := range shortforms {
-		result[alias] = unit
-	}
-	for _, alias := range longforms {
+	for _, alias := range names {
 		result[alias] = unit
 	}
 
-	if bu.prefixes != nil {
-		for _, pr := range *bu.prefixes {
-			prefixValue := big.NewRat(1, 1).Set(pr.value)
-			if bu.prefixpow > 0 {
-				x := new(big.Rat).Set(prefixValue)
-				for i := 1; i < bu.prefixpow; i++ {
-					prefixValue.Mul(prefixValue, x)
-				}
-			}
-			prefixValue.Mul(prefixValue, bu.value)
-			prefixUnit := &Unit{
-				name:    pr.abbr + name,
-				value:   prefixValue,
-				offset:  bu.offset,
-				measure: bu.u,
-			}
-
-			for _, alias := range longforms {
-				result[pr.name+alias] = prefixUnit
-			}
-			for _, alias := range shortforms {
-				result[pr.abbr+alias] = prefixUnit
-			}
-		}
-	}
 	return result
 }
 
@@ -120,16 +79,18 @@ func getNamedUnit(x string) *Unit {
 			return u
 		}
 	}
-	for _, prefix := range metricPrefixes {
-		if strings.HasPrefix(x, prefix.name) {
-			if u, ok := db[strings.TrimPrefix(x, prefix.name)]; ok && u.offset == nil {
-				return &Unit{
-					name: x,
-					value: new(big.Rat).Mul(u.value, prefix.value),
-					measure: u.measure,
+	for _, prefix := range prefixes {
+		for _, name := range splitlist(prefix.names) {
+			if strings.HasPrefix(x, name) {
+				if u, ok := db[strings.TrimPrefix(x, name)]; ok && u.offset == nil {
+					return &Unit{
+						name: x,
+						value: new(big.Rat).Mul(u.value, prefix.value),
+						measure: u.measure,
+					}
 				}
+				break
 			}
-			break
 		}
 	}
 	for name, u := range db {

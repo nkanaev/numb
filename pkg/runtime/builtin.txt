@@ -72,12 +72,13 @@ ft2 : sqft : ft^2
 yd2 : sqyd : yd^2
 mi2 : sqmi : mi^2
 
-acre : 4046.86 m2
-ha : 10,000 m2
+acre : 4046.86 m^2
+ha : 10,000 m^2
 hectare = ha
 
 
 | volume
+m3  : m^3
 in3 : cuin : in^3
 ft3 : cuft : ft^3
 yd3 : cuyd : yd^3

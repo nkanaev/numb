@@ -45,6 +45,14 @@ const (
 	end_measures
 )
 
+func List() []Measure {
+	result := make([]Measure, end_measures - start_measures)
+	for measure := start_measures+1; measure < end_measures; measure++ {
+		result = append(result, measure)
+	}
+	return result
+}
+
 var measureDimensions = map[Measure]Dimensions{
 	LENGTH:                Dimensions{Length: 1},
 	TEMPERATURE:           Dimensions{Temperature: 1},
