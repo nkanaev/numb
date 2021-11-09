@@ -89,7 +89,6 @@ func getNamedUnit(x string) *Unit {
 						measure: u.measure,
 					}
 				}
-				break
 			}
 		}
 	}
