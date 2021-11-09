@@ -90,11 +90,12 @@ func (a Value) Mul(b Value) Value {
 func (a Value) Quo(b Value) Value {
 	n := new(big.Rat).Quo(a.Num, b.Num)
 
-	u := a.Unit
-	if u == nil {
-		u = b.Unit
-	}
-	if a.Unit != nil && b.Unit != nil {
+	var u unit.UnitList
+	if a.Unit != nil && b.Unit == nil {
+		u = a.Unit
+	} else if a.Unit == nil && b.Unit != nil {
+		u = b.Unit.Exp(-1)
+	} else {
 		utmp := a.Unit.Quo(b.Unit)
 		u = utmp.Simplify()
 		n = unit.Convert(n, utmp, u)
