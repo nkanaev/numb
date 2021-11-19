@@ -1,0 +1,47 @@
+# implicit multiplication rules
+
+Implicit multiplication applies only if
+the right-hand side is a word:
+
+    10 kg
+    (1000 + 1) nights
+    foo(123) metre
+    1 thousand puppies
+
+Having global implicit multiplication
+leads to ambiguity between function calls
+and grouping parantheses:
+
+    foo(bar)
+    # foo * (bar)    multiplication
+    # foo(bar)       ... or function call?
+
+which `frink` had to resolve by
+introducing square brackets for function calls.
+
+Besides, implicit multiplication's sole purpose is
+to make unit operations look more "natural".
+
+
+
+# implicit multiplication precedence
+
+While some projects (like `insect`, `mathjs`)
+have a higher precedence
+for implicit multiplication than division
+to prevent certain confusion, like:
+
+    # how many pieces do i get if I split
+    # 1 metre rope so that each has 20 cm
+    1 m / 20 cm = 5
+
+this still causes misunderstandings when dealing
+with multidimensional units:
+
+    # how much time does it take to download
+    # 10 GB file over 10 MB/s broadband
+    10GB / 10MB/s
+
+Hence `numb`'s implicit multiplication precedence is
+the same as the explicit multiplication and division
+(as in `frink`).

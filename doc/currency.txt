@@ -1,3 +1,0 @@
-frankfurter (33 currencies as of 2021-05-05):
-
-curl https://api.frankfurter.app/latest | jq '{(.base): .amount} + .rates | to_entries[] | [.key, .value] | @tsv' -r

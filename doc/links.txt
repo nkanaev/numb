@@ -1,6 +1,8 @@
 https://frinklang.org/
+https://github.com/hgrecco/pint
 https://github.com/josdejong/mathjs
+https://github.com/nikolaeu/numi/wiki/Documentation
+https://github.com/sharkdp/insect
 https://pypi.org/project/numericalunits/
 https://www.gnu.org/software/bc/
 https://www.gnu.org/software/units/
-https://github.com/hgrecco/pint
