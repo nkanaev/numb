@@ -58,7 +58,7 @@ func (a Value) Format(sep string, prec int) string {
 	case SCI:
 		num = formatSci(a.Num, sep, prec)
 	}
-	if a.Unit != nil {
+	if len(a.Unit) > 0 {
 		num += " " + a.Unit.String()
 	}
 	return num

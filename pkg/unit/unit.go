@@ -60,7 +60,19 @@ func Must(x string) UnitList {
 func Get(x string) (UnitList, bool) {
 	u := getNamedUnit(x)
 	if u == nil {
-		return nil, false
+		suffixes := map[string]string{
+			"s": "",
+			"es": "",
+			"ies": "y",
+		}
+		for suffix, substitute := range suffixes {
+			if u = getNamedUnit(strings.TrimSuffix(x, suffix) + substitute); u != nil {
+				break
+			}
+		}
+		if u == nil {
+			return nil, false
+		}
 	}
 	return UnitList{unitEntry{Unit: *u, Exp: 1}}, true
 }
@@ -68,16 +80,6 @@ func Get(x string) (UnitList, bool) {
 func getNamedUnit(x string) *Unit {
 	if u, ok := db[x]; ok {
 		return u
-	}
-	for _, suffix := range []string{"s", "es"} {
-		if u, ok := db[strings.TrimSuffix(x, suffix)]; ok {
-			return u
-		}
-	}
-	if strings.HasSuffix(x, "ies") {
-		if u, ok := db[strings.TrimSuffix(x, "ies") + "y"]; ok {
-			return u
-		}
 	}
 	for _, prefix := range prefixes {
 		for _, name := range splitlist(prefix.names) {

@@ -99,7 +99,7 @@ func TestSpecs(t *testing.T) {
 					}
 				} else {
 					if have != want {
-						t.Fatalf("wrong answer\nexpr: %s\nwant: %s\nhave: %s", expr, want, have)
+						t.Fatalf("wrong answer\nexpr: %s\nwant: %q\nhave: %q", expr, want, have)
 					}
 				}
 			}
