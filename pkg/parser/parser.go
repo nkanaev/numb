@@ -83,8 +83,6 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 			return &ast.FunCall{Name: name, Args: args}
 		}
 		return &ast.Var{Name: name}
-	case token.END:
-		panic(&SyntaxError{Pos: p.s.Pos(), Err: "unexpected end"})
 	case token.Illegal:
 		panic(&SyntaxError{Pos: p.s.Pos(), Err: "illegal character"})
 	}
@@ -158,7 +156,7 @@ func Parse(line string) ast.Node {
 	s.Scan()
 	root := p.parseExpr()
 	if s.Token != token.END {
-		panic(&SyntaxError{Pos: p.s.Pos() - 1, Err: "invalid syntax"})
+		panic(&SyntaxError{Pos: p.s.Pos(), Err: "invalid syntax"})
 	}
 	return root
 }

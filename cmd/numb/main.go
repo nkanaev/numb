@@ -41,7 +41,6 @@ func repl(rt *runtime.Runtime) {
 			os.Stderr.WriteString(line + "\n")
 			os.Exit(1)
 		}
-		line = strings.TrimSpace(line)
 		if line == "q" {
 			break
 		}

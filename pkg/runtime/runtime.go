@@ -36,19 +36,19 @@ func Clean(line string) string {
 
 func (r *Runtime) Eval(line string) (string, error) {
 	line = Clean(line)
-	if strings.TrimSpace(line) == "" {
-		return "", nil
+
+	if len(line) == 0 {
+		return line, nil
 	}
 
 	if line[0] == '.' {
 		return r.EvalConfig(line[1:])
 	}
-
 	if line[0] == '#' {
 		return line, nil
 	}
 
-	val, err := parser.Eval(Clean(line), r.Env)
+	val, err := parser.Eval(line, r.Env)
 	if err != nil {
 		return "", err
 	}
