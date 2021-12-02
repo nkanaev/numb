@@ -60,15 +60,6 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 	case token.WORD:
 		name := p.s.Value
 		p.expect(token.WORD)
-		if p.s.Token == token.ASSIGN {
-			p.expect(token.ASSIGN)
-			expr := p.parseExpr()
-			return &ast.Assign{Name: name, Expr: expr}
-		} else if p.s.Token == token.COLON {
-			p.expect(token.COLON)
-			expr := p.parseExpr()
-			return &ast.Assign{Name: name, Expr: expr, Unit: true}
-		}
 		if p.s.Token == token.LPAREN {
 			args := make([]ast.Node, 0)
 			p.expect(token.LPAREN)
@@ -138,6 +129,13 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 		} else if tok == token.TO {
 			rhs := p.parseBinaryExpr(prec + 1)
 			lhs = &ast.Convert{Expr: lhs, Unit: rhs}
+		} else if tok == token.ASSIGN || tok == token.COLON {
+			if _, ok := lhs.(*ast.Var); !ok {
+				panic("expected varname, got " + lhs.String())
+			}
+			name := lhs.String()
+			rhs := p.parseBinaryExpr(prec)
+			lhs = &ast.Assign{Name: name, Expr: rhs, Unit: tok == token.COLON}
 		} else {
 			rhs := p.parseBinaryExpr(prec + 1)
 			lhs = &ast.BinOP{Lhs: lhs, Rhs: rhs, Op: tok, Implicit: implicit}

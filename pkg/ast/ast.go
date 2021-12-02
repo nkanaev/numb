@@ -53,6 +53,9 @@ func (n *BinOP) Eval(env map[string]value.Value) value.Value {
 		return n.Lhs.Eval(env).Rem(n.Rhs.Eval(env))
 	case token.EXP:
 		return n.Lhs.Eval(env).Exp(n.Rhs.Eval(env))
+	default:
+		// should not happen
+		panic("illegal operator: " + n.Op.String())
 	}
 	return value.Int64(0)
 }
