@@ -28,4 +28,4 @@ examples:
 
 install:
 
-    $ go get -u github.com/nkanaev/numb/cmd/numb
+    $ go install github.com/nkanaev/numb@latest
