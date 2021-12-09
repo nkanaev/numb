@@ -42,6 +42,9 @@ operators:
     =     assign (var)
     :     assign (unit)
 
+    as    format number
+    to    unit conversion
+
 operator predecence (high to low):
 
     ^
