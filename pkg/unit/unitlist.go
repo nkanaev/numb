@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	r "github.com/nkanaev/numb/pkg/ratutils"
-	"github.com/nkanaev/numb/pkg/unit/dimension"
+	"github.com/nkanaev/numb/pkg/dimension"
 )
 
 type unitEntry struct {

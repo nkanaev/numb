@@ -4,7 +4,7 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/nkanaev/numb/pkg/unit/dimension"
+	"github.com/nkanaev/numb/pkg/dimension"
 )
 
 type Unit struct {

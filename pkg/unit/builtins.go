@@ -4,7 +4,7 @@ import (
 	"math/big"
 
 	r "github.com/nkanaev/numb/pkg/ratutils"
-	d "github.com/nkanaev/numb/pkg/unit/dimension"
+	d "github.com/nkanaev/numb/pkg/dimension"
 )
 
 type unit struct {

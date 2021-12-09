@@ -1,4 +1,4 @@
-package runtime
+package test
 
 import (
 	"bufio"
@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/nkanaev/numb/pkg/runtime"
 )
 
 type Spec struct {
@@ -31,7 +33,7 @@ func readLines(path string) []string {
 }
 
 func listSpecs() []Spec {
-	files, err := filepath.Glob("tests/*.txt")
+	files, err := filepath.Glob("*.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -76,7 +78,7 @@ func TestSpecs(t *testing.T) {
 	for _, spec := range listSpecs() {
 		spec := spec
 		t.Run(spec.Name, func(t *testing.T) {
-			runtime := NewRuntime()
+			runtime := runtime.NewRuntime()
 			runtime.LoadBuiltins()
 			for i := 0; i < len(spec.Exprs); i++ {
 				expr := spec.Exprs[i]

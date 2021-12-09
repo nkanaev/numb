@@ -4,7 +4,7 @@ import (
 	"math"
 
 	"github.com/nkanaev/numb/pkg/unit"
-	"github.com/nkanaev/numb/pkg/unit/dimension"
+	"github.com/nkanaev/numb/pkg/dimension"
 	"github.com/nkanaev/numb/pkg/value"
 )
 

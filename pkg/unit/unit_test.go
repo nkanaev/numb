@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nkanaev/numb/pkg/unit/dimension"
+	"github.com/nkanaev/numb/pkg/dimension"
 )
 
 func TestUnitGet(t *testing.T) {
