@@ -8,16 +8,14 @@ import (
 	"github.com/nkanaev/numb/pkg/value"
 )
 
-var radian = unit.Must("rad")
-
 func toRadian(val value.Value) value.Value {
 	if val.Unit.Dimension().IsZero() {
-		return val.WithUnit(radian)
+		return val.WithUnit(unit.Must("rad"))
 	}
 	if measure, _ := val.Unit.Dimension().Measure(); measure != dimension.ANGLE {
 		panic("expected angle unit")
 	}
-	return val.To(radian)
+	return val.To(unit.Must("rad"))
 }
 
 func Sin(args ...value.Value) value.Value {
@@ -40,15 +38,15 @@ func Tan(args ...value.Value) value.Value {
 
 func Asin(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.Float64(math.Asin(f64(args[0]))).WithUnit(radian)
+	return value.Float64(math.Asin(f64(args[0]))).WithUnit(unit.Must("rad"))
 }
 
 func Acos(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.Float64(math.Acos(f64(args[0]))).WithUnit(radian)
+	return value.Float64(math.Acos(f64(args[0]))).WithUnit(unit.Must("rad"))
 }
 
 func Atan(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.Float64(math.Atan(f64(args[0]))).WithUnit(radian)
+	return value.Float64(math.Atan(f64(args[0]))).WithUnit(unit.Must("rad"))
 }
