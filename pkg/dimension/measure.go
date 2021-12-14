@@ -138,5 +138,9 @@ func (d Measure) Dim() Dimensions {
 }
 
 func (d Measure) String() string {
-	return measureNames[d]
+	name, found := measureNames[d]
+	if !found {
+		return "unknown"
+	}
+	return name
 }
