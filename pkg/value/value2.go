@@ -19,6 +19,19 @@ const (
 	TYPE_NAME
 )
 
+func (t ValueType) String() string {
+	switch t {
+	case TYPE_NUMBER:
+		return "number"
+	case TYPE_UNIT:
+		return "unit"
+	case TYPE_NAME:
+		return "name"
+	default:
+		return "unknown"
+	}
+}
+
 func Type(x Value2) ValueType {
 	switch x.(type) {
 	case Number:
