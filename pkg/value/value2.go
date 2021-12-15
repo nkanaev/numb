@@ -40,6 +40,7 @@ type Value2 interface {
 
 type Number struct {
 	Num *big.Rat
+	Fmt string
 }
 
 type IntOperationError struct {
@@ -93,9 +94,8 @@ func (a Number) BinOP(op token.Token, b Value2) (Value2, error) {
 			if b.Num.Cmp(ratutils.ZERO) < 0 {
 				return nil, errors.New("negative shift")
 			}
-			num := new(big.Rat).Set(a.Num)
-			num.Num().Lsh(num.Num(), uint(b.Num.Num().Uint64()))
-			return Number{Num: num}, nil
+			n = new(big.Rat).Set(a.Num)
+			n.Num().Lsh(n.Num(), uint(b.Num.Num().Uint64()))
 		case token.SHR:
 			if !(a.Num.IsInt() && b.Num.IsInt()) {
 				return nil, IntOperationError{op}
@@ -103,33 +103,29 @@ func (a Number) BinOP(op token.Token, b Value2) (Value2, error) {
 			if b.Num.Cmp(ratutils.ZERO) < 0 {
 				return nil, errors.New("negative shift")
 			}
-			num := new(big.Rat).Set(a.Num)
-			num.Num().Rsh(num.Num(), uint(b.Num.Num().Uint64()))
-			return Number{Num: num}, nil
+			n = new(big.Rat).Set(a.Num)
+			n.Num().Rsh(n.Num(), uint(b.Num.Num().Uint64()))
 		case token.AND:
 			if !(a.Num.IsInt() && b.Num.IsInt()) {
 				return nil, IntOperationError{op}
 			}
-			num := new(big.Rat).Set(a.Num)
-			num.Num().And(num.Num(), b.Num.Num())
-			return Number{Num: num}, nil
+			n = new(big.Rat).Set(a.Num)
+			n.Num().And(n.Num(), b.Num.Num())
 		case token.OR:
 			if !(a.Num.IsInt() && b.Num.IsInt()) {
 				return nil, IntOperationError{op}
 			}
-			num := new(big.Rat).Set(a.Num)
-			num.Num().Or(num.Num(), b.Num.Num())
-			return Number{Num: num}, nil
+			n = new(big.Rat).Set(a.Num)
+			n.Num().Or(n.Num(), b.Num.Num())
 		case token.XOR:
 			if !(a.Num.IsInt() && b.Num.IsInt()) {
 				return nil, IntOperationError{op}
 			}
-			num := new(big.Rat).Set(a.Num)
-			num.Num().Xor(num.Num(), b.Num.Num())
-			return Number{Num: num}, nil
+			n := new(big.Rat).Set(a.Num)
+			n.Num().Xor(n.Num(), b.Num.Num())
 		}
 		if n != nil {
-			return Number{Num: n}, nil
+			return Number{Num: n, Fmt: a.Fmt}, nil
 		}
 	case Unit:
 		b := b.(Unit)
