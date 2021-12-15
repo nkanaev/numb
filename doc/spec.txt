@@ -15,7 +15,7 @@ grammar:
     args → expr | args `,` expr
 
     op   → `+` | `-` | `*` ...
-    fmt  → `dec` | `hex` | `oct` | `bin` | `rat` | `sci`
+    fmt  → [^\s]+
 
     num  → int | hex | oct | bin
     int  → [0-9]+

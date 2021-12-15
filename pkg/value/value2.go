@@ -10,8 +10,31 @@ import (
 	"github.com/nkanaev/numb/pkg/unit"
 )
 
+type ValueType int
+
+const (
+	TYPE_UNKNOWN ValueType = iota
+	TYPE_NUMBER
+	TYPE_UNIT
+	TYPE_NAME
+)
+
+func Type(x Value2) ValueType {
+	switch x.(type) {
+	case Number:
+		return TYPE_NUMBER
+	case Unit:
+		return TYPE_UNIT
+	case Name:
+		return TYPE_NAME
+	default:
+		return TYPE_UNKNOWN
+	}
+}
+
 type Value2 interface {
-	Do(token.Token, Value2) (Value2, error)
+	BinOP(token.Token, Value2) (Value2, error)
+	UnOP(token.Token) (Value2, error)
 	String() string
 }
 
@@ -45,7 +68,7 @@ func (a Number) String() string {
 	return a.Num.String()
 }
 
-func (a Number) Do(op token.Token, b Value2) (Value2, error) {
+func (a Number) BinOP(op token.Token, b Value2) (Value2, error) {
 	switch b.(type) {
 	case Number:
 		b := b.(Number)
@@ -120,6 +143,13 @@ func (a Number) Do(op token.Token, b Value2) (Value2, error) {
 	return nil, errors.New("unsupported operation: " + op.String())
 }
 
+func (a Number) UnOP(op token.Token) (Value2, error) {
+	if op == token.SUB {
+		return Number{Num: new(big.Rat).Neg(a.Num)}, nil
+	}
+	return nil, errors.New("unsupported unary operation: %s" + op.String())
+}
+
 type Unit struct {
 	Num   *big.Rat
 	Units unit.UnitList
@@ -129,7 +159,7 @@ func (a Unit) String() string {
 	return a.Num.String() + " " + a.Units.String()
 }
 
-func (a Unit) Do(op token.Token, b Value2) (Value2, error) {
+func (a Unit) BinOP(op token.Token, b Value2) (Value2, error) {
 	switch b.(type) {
 	case Number:
 		bnum := b.(Number).Num
@@ -168,7 +198,35 @@ func (a Unit) Do(op token.Token, b Value2) (Value2, error) {
 				return Number{Num: newn}, nil
 			}
 			return Unit{Num: newn, Units: newu}, nil
+		case token.TO:
+			if b.Num.Cmp(ratutils.ONE) != 0 {
+				return nil, errors.New("cannot convert to a unit with a value: " + b.String())
+			}
+			return Unit{Num: unit.Convert(a.Num, a.Units, b.Units), Units: b.Units}, nil
 		}
 	}
 	return nil, errors.New("Unsupported operation")
+}
+
+func (a Unit) UnOP(op token.Token) (Value2, error) {
+	if op == token.SUB {
+		return Unit{Num: new(big.Rat).Neg(a.Num), Units: a.Units}, nil
+	}
+	return nil, errors.New("unsupported unary operation: %s" + op.String())
+}
+
+type Name struct {
+	Val string
+}
+
+func (n Name) BinOP(t token.Token, v Value2) (Value2, error) {
+	return nil, errors.New("name cannot be used for operations")
+}
+
+func (n Name) UnOP(t token.Token) (Value2, error) {
+	return nil, errors.New("name cannot be used for operations")
+}
+
+func (n Name) String() string {
+	return n.Val
 }
