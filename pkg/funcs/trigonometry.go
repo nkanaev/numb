@@ -9,13 +9,17 @@ import (
 )
 
 func toRadian(val value.Value) value.Value {
-	if val.Unit.Dimension().IsZero() {
-		return val.WithUnit(unit.Must("rad"))
+	if value.Type(val) == value.TYPE_NUMBER {
+		return value.Unit{Num: val.(value.Number).Num, Units: unit.Must("rad")}
 	}
-	if measure, _ := val.Unit.Dimension().Measure(); measure != dimension.ANGLE {
-		panic("expected angle unit")
+	if value.Type(val) == value.TYPE_UNIT {
+		val := val.(value.Unit)
+		if measure, _ := val.Units.Dimension().Measure(); measure != dimension.ANGLE {
+			panic("expected angle unit")
+		}
+		return value.Unit{Num: unit.Convert(val.Num, val.Units, unit.Must("rad"))}
 	}
-	return val.To(unit.Must("rad"))
+	panic("unsupported type: " + value.Type(val).String())
 }
 
 func Sin(args ...value.Value) value.Value {
@@ -38,15 +42,15 @@ func Tan(args ...value.Value) value.Value {
 
 func Asin(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.Float64(math.Asin(f64(args[0]))).WithUnit(unit.Must("rad"))
+	return toRadian(value.Float64(math.Asin(f64(args[0]))))
 }
 
 func Acos(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.Float64(math.Acos(f64(args[0]))).WithUnit(unit.Must("rad"))
+	return toRadian(value.Float64(math.Acos(f64(args[0]))))
 }
 
 func Atan(args ...value.Value) value.Value {
 	arity(1, len(args))
-	return value.Float64(math.Atan(f64(args[0]))).WithUnit(unit.Must("rad"))
+	return toRadian(value.Float64(math.Atan(f64(args[0]))))
 }

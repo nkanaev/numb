@@ -30,34 +30,13 @@ func (n *BinOP) String() string {
 }
 
 func (n *BinOP) Eval(env map[string]value.Value) value.Value {
-	switch n.Op {
-	case token.ADD:
-		return n.Lhs.Eval(env).Add(n.Rhs.Eval(env))
-	case token.SUB:
-		return n.Lhs.Eval(env).Sub(n.Rhs.Eval(env))
-	case token.MUL:
-		return n.Lhs.Eval(env).Mul(n.Rhs.Eval(env))
-	case token.QUO:
-		return n.Lhs.Eval(env).Quo(n.Rhs.Eval(env))
-	case token.SHL:
-		return n.Lhs.Eval(env).Lsh(n.Rhs.Eval(env))
-	case token.SHR:
-		return n.Lhs.Eval(env).Rsh(n.Rhs.Eval(env))
-	case token.AND:
-		return n.Lhs.Eval(env).And(n.Rhs.Eval(env))
-	case token.OR:
-		return n.Lhs.Eval(env).Or(n.Rhs.Eval(env))
-	case token.XOR:
-		return n.Lhs.Eval(env).Xor(n.Rhs.Eval(env))
-	case token.REM:
-		return n.Lhs.Eval(env).Rem(n.Rhs.Eval(env))
-	case token.EXP:
-		return n.Lhs.Eval(env).Exp(n.Rhs.Eval(env))
-	default:
-		// should not happen
-		panic("illegal operator: " + n.Op.String())
+	lhs := n.Lhs.Eval(env)
+	rhs := n.Rhs.Eval(env)
+	val, err := lhs.BinOP(n.Op, rhs)
+	if err != nil {
+		panic(err)
 	}
-	return value.Int64(0)
+	return val
 }
 
 type ParenExpr struct {
@@ -78,10 +57,11 @@ type Unary struct {
 }
 
 func (n *Unary) Eval(env map[string]value.Value) value.Value {
-	if n.Op == token.SUB {
-		return n.Expr.Eval(env).Neg()
+	val, err := n.Expr.Eval(env).UnOP(n.Op)
+	if err != nil {
+		panic(err)
 	}
-	return n.Expr.Eval(env)
+	return val
 }
 
 func (n *Unary) String() string {
@@ -97,10 +77,11 @@ type Assign struct {
 func (n *Assign) Eval(env map[string]value.Value) value.Value {
 	val := n.Expr.Eval(env)
 	if n.Unit {
-		if val.Unit.Dimension().IsZero() {
-			panic("cannot create dimensionless unit")
+		if value.Type(val) != value.TYPE_UNIT {
+			panic("not a unit: " + val.String())
 		}
-		unit.Add(n.Name, val.Num, val.Unit)
+		val := val.(value.Unit)
+		unit.Add(n.Name, val.Num, val.Units)
 	}
 	env[n.Name] = val
 	return val
@@ -119,7 +100,7 @@ type Var struct {
 
 func (n *Var) Eval(env map[string]value.Value) value.Value {
 	if unit, ok := unit.Get(n.Name); ok {
-		return value.Int64(1).WithUnit(unit)
+		return value.Unit{Num: ratutils.ONE, Units: unit}
 	}
 	val, ok := env[n.Name]
 	if !ok {
@@ -132,6 +113,7 @@ func (n *Var) String() string {
 	return n.Name
 }
 
+/*
 type Format struct {
 	Expr Node
 	Fmt  value.Format
@@ -144,7 +126,9 @@ func (n *Format) Eval(env map[string]value.Value) value.Value {
 func (n *Format) String() string {
 	return n.Expr.String() + " as " + n.Fmt.String()
 }
+*/
 
+/*
 type Convert struct {
 	Expr, Unit Node
 }
@@ -167,6 +151,7 @@ func (n *Convert) Eval(env map[string]value.Value) value.Value {
 func (n *Convert) String() string {
 	return n.Expr.String() + " to " + n.Unit.String()
 }
+*/
 
 type FunCall struct {
 	Name string
@@ -196,4 +181,16 @@ func (n *FunCall) String() string {
 		args[i] = arg.String()
 	}
 	return n.Name + "(" + strings.Join(args, ", ") + ")"
+}
+
+type Literal struct {
+	Val value.Value
+}
+
+func (n *Literal) Eval(env map[string]value.Value) value.Value {
+	return n.Val
+}
+
+func (n *Literal) String() string {
+	return n.Val.String()
 }

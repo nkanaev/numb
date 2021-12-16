@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/nkanaev/numb/pkg/ast"
+	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/scanner"
 	"github.com/nkanaev/numb/pkg/token"
 	"github.com/nkanaev/numb/pkg/value"
@@ -40,23 +41,23 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 	case token.NUM_DEC:
 		val := p.s.Value
 		p.s.Scan()
-		return value.Parse(val).WithFormat(value.DEC)
+		return &ast.Literal{value.Number{Num: ratutils.Must(val)}}
 	case token.NUM_HEX:
 		val := p.s.Value
 		p.s.Scan()
-		return value.Parse(val).WithFormat(value.HEX)
+		return &ast.Literal{value.Number{Num: ratutils.Must(val), Fmt: value.HEX}}
 	case token.NUM_OCT:
 		val := p.s.Value
 		p.s.Scan()
-		return value.Parse(val).WithFormat(value.OCT)
+		return &ast.Literal{value.Number{Num: ratutils.Must(val), Fmt: value.OCT}}
 	case token.NUM_BIN:
 		val := p.s.Value
 		p.s.Scan()
-		return value.Parse(val).WithFormat(value.BIN)
+		return &ast.Literal{value.Number{Num: ratutils.Must(val), Fmt: value.BIN}}
 	case token.NUM_SCI:
 		val := p.s.Value
 		p.s.Scan()
-		return value.Parse(val).WithFormat(value.SCI)
+		return &ast.Literal{value.Number{Num: ratutils.Must(val), Fmt: value.SCI}}
 	case token.WORD:
 		name := p.s.Value
 		p.expect(token.WORD)
@@ -117,18 +118,8 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 					Err: "expected format",
 				})
 			}
-			f, ok := value.StringToFormat[p.s.Value]
-			if !ok {
-				panic(&SyntaxError{
-					Pos: p.s.Pos() - len(p.s.Value),
-					Err: "unknown format: " + p.s.Value,
-				})
-			}
-			lhs = &ast.Format{Expr: lhs, Fmt: f}
+			lhs = &ast.BinOP{Lhs: lhs, Rhs: &ast.Literal{value.Name{p.s.Value}}}
 			p.expect(token.WORD)
-		} else if tok == token.TO {
-			rhs := p.parseBinaryExpr(prec + 1)
-			lhs = &ast.Convert{Expr: lhs, Unit: rhs}
 		} else if tok == token.ASSIGN || tok == token.COLON {
 			if _, ok := lhs.(*ast.Var); !ok {
 				panic("expected varname, got " + lhs.String())

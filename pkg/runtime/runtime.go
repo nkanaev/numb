@@ -52,7 +52,7 @@ func (r *Runtime) Eval(line string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return val.Format(r.Tsep, r.Prec), nil
+	return val.String(), nil //val.Format(r.Tsep, r.Prec), nil
 }
 
 func (r *Runtime) EvalConfig(line string) (string, error) {

@@ -19,6 +19,17 @@ const (
 	TYPE_NAME
 )
 
+type NumberFormat int
+
+const (
+	DEC NumberFormat = iota
+	HEX
+	OCT
+	BIN
+	RAT
+	SCI
+)
+
 func (t ValueType) String() string {
 	switch t {
 	case TYPE_NUMBER:
@@ -32,7 +43,7 @@ func (t ValueType) String() string {
 	}
 }
 
-func Type(x Value2) ValueType {
+func Type(x Value) ValueType {
 	switch x.(type) {
 	case Number:
 		return TYPE_NUMBER
@@ -45,15 +56,15 @@ func Type(x Value2) ValueType {
 	}
 }
 
-type Value2 interface {
-	BinOP(token.Token, Value2) (Value2, error)
-	UnOP(token.Token) (Value2, error)
+type Value interface {
+	BinOP(token.Token, Value) (Value, error)
+	UnOP(token.Token) (Value, error)
 	String() string
 }
 
 type Number struct {
 	Num *big.Rat
-	Fmt string
+	Fmt NumberFormat
 }
 
 type IntOperationError struct {
@@ -78,11 +89,23 @@ func (c ConformanceError) Error() string {
 		c.b.String(), dim2.String())
 }
 
-func (a Number) String() string {
-	return a.Num.String()
+type UnsupportedBinOP struct {
+	a, b Value
+	op token.Token
 }
 
-func (a Number) BinOP(op token.Token, b Value2) (Value2, error) {
+func (err UnsupportedBinOP) Error() string {
+	return fmt.Sprintf(
+		"unsupported operation `%s` between %s and %s",
+		err.op.String(), Type(err.a).String(), Type(err.b).String(),
+	)
+}
+
+func (a Number) String() string {
+	return formatNum(a.Num, a.Fmt, "_", 2)
+}
+
+func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 	// TODO: int type casts lose precision
 	switch b.(type) {
 	case Number:
@@ -101,7 +124,7 @@ func (a Number) BinOP(op token.Token, b Value2) (Value2, error) {
 			if !b.Num.IsInt() {
 				return nil, errors.New("exponentiation does not support non-integer power")
 			}
-			n = ratutils.ExpInt(a.Num, int(b.Num.Num().Int64))
+			n = ratutils.ExpInt(a.Num, int(b.Num.Num().Int64()))
 		case token.REM:
 			n = ratutils.Mod(a.Num, b.Num)
 		case token.SHL:
@@ -153,10 +176,10 @@ func (a Number) BinOP(op token.Token, b Value2) (Value2, error) {
 			return Unit{Num: new(big.Rat).Quo(a.Num, b.Num), Units: b.Units.Exp(-1)}, nil
 		}
 	}
-	return nil, errors.New("unsupported operation: " + op.String())
+	return nil, UnsupportedBinOP{a: a, b: b, op: op}
 }
 
-func (a Number) UnOP(op token.Token) (Value2, error) {
+func (a Number) UnOP(op token.Token) (Value, error) {
 	if op == token.SUB {
 		return Number{Num: new(big.Rat).Neg(a.Num)}, nil
 	}
@@ -169,10 +192,10 @@ type Unit struct {
 }
 
 func (a Unit) String() string {
-	return a.Num.String() + " " + a.Units.String()
+	return formatNum(a.Num, DEC, "_", 2) + " " + a.Units.String()
 }
 
-func (a Unit) BinOP(op token.Token, b Value2) (Value2, error) {
+func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 	switch b.(type) {
 	case Number:
 		bnum := b.(Number).Num
@@ -181,6 +204,17 @@ func (a Unit) BinOP(op token.Token, b Value2) (Value2, error) {
 			return Unit{Num: new(big.Rat).Mul(a.Num, bnum), Units: a.Units}, nil
 		case token.QUO:
 			return Unit{Num: new(big.Rat).Quo(a.Num, bnum), Units: a.Units}, nil
+		case token.EXP:
+			if !bnum.IsInt() {
+				return nil, errors.New("exponentiation does not support non-integer power")
+			}
+			exp := int(bnum.Num().Int64())
+			n := ratutils.ExpInt(a.Num, exp)
+			u := a.Units.Exp(exp)
+			if u.Dimension().IsZero() {
+				return Number{Num: n}, nil
+			}
+			return Unit{Num: n, Units: u}, nil
 		}
 	case Unit:
 		b := b.(Unit)
@@ -218,10 +252,10 @@ func (a Unit) BinOP(op token.Token, b Value2) (Value2, error) {
 			return Unit{Num: unit.Convert(a.Num, a.Units, b.Units), Units: b.Units}, nil
 		}
 	}
-	return nil, errors.New("Unsupported operation")
+	return nil, UnsupportedBinOP{a: a, b: b, op: op}
 }
 
-func (a Unit) UnOP(op token.Token) (Value2, error) {
+func (a Unit) UnOP(op token.Token) (Value, error) {
 	if op == token.SUB {
 		return Unit{Num: new(big.Rat).Neg(a.Num), Units: a.Units}, nil
 	}
@@ -232,14 +266,22 @@ type Name struct {
 	Val string
 }
 
-func (n Name) BinOP(t token.Token, v Value2) (Value2, error) {
+func (n Name) BinOP(t token.Token, v Value) (Value, error) {
 	return nil, errors.New("name cannot be used for operations")
 }
 
-func (n Name) UnOP(t token.Token) (Value2, error) {
+func (n Name) UnOP(t token.Token) (Value, error) {
 	return nil, errors.New("name cannot be used for operations")
 }
 
 func (n Name) String() string {
 	return n.Val
+}
+
+func Int64(x int64) Value {
+	return Number{Num: new(big.Rat).SetInt64(x)}
+}
+
+func Float64(x float64) Value {
+	return Number{Num: new(big.Rat).SetFloat64(x)}
 }

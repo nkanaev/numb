@@ -1,5 +1,6 @@
 package value
 
+/*
 import (
 	"math/big"
 
@@ -177,3 +178,4 @@ func (a Value) WithFormat(fmt Format) Value {
 func (a Value) Eval(map[string]Value) Value {
 	return a
 }
+*/

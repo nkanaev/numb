@@ -13,13 +13,14 @@ func GCD(args ...value.Value) value.Value {
 	}
 	var ret *big.Int
 	for _, arg := range args {
-		if len(arg.Unit) > 0 {
-			panic("cannot accept argument with unit: " + arg.String())
+		if value.Type(arg) != value.TYPE_NUMBER {
+			panic("can accept only numbers: " + arg.String())
 		}
-		if !arg.Num.IsInt() {
+		num := arg.(value.Number).Num
+		if !num.IsInt() {
 			panic("not integer: " + arg.String())
 		}
-		argint := ratutils.TruncInt(arg.Num)
+		argint := ratutils.TruncInt(num)
 		if ret == nil {
 			ret = argint
 		} else {
@@ -28,7 +29,7 @@ func GCD(args ...value.Value) value.Value {
 	}
 	num := big.NewRat(1, 1)
 	num.Num().Set(ret)
-	return value.Value{Num: num}
+	return value.Number{Num: num}
 }
 
 func LCM(args ...value.Value) value.Value {
@@ -37,13 +38,14 @@ func LCM(args ...value.Value) value.Value {
 	}
 	var ret *big.Int
 	for _, arg := range args {
-		if len(arg.Unit) > 0 {
-			panic("cannot accept argument with unit: " + arg.String())
+		if value.Type(arg) != value.TYPE_NUMBER {
+			panic("can accept only numbers: " + arg.String())
 		}
-		if !arg.Num.IsInt() {
+		num := arg.(value.Number).Num
+		if !num.IsInt() {
 			panic("not integer: " + arg.String())
 		}
-		argint := ratutils.TruncInt(arg.Num)
+		argint := ratutils.TruncInt(num)
 		if ret == nil {
 			ret = argint
 		} else {
@@ -56,18 +58,34 @@ func LCM(args ...value.Value) value.Value {
 	}
 	num := big.NewRat(1, 1)
 	num.Num().Set(ret)
-	return value.Value{Num: num}
+	return value.Number{Num: num}
 }
 
 func Abs(args ...value.Value) value.Value {
 	if len(args) != 1 {
 		panic("abs: expected one argument")
 	}
-	num := new(big.Rat).Set(args[0].Num)
+	arg := args[0]
+	if value.Type(arg) != value.TYPE_NUMBER {
+		panic("can accept only numbers: " + arg.String())
+	}
+	num := new(big.Rat).Set(arg.(value.Number).Num)
 	if num.Cmp(ratutils.ZERO) == -1 {
 		num.Neg(num)
 	}
-	return value.Value{Num: num}
+	return value.Number{Num: num}
+}
+
+func ceil(num *big.Rat) *big.Rat {
+	num = new(big.Rat).Set(num)
+	if num.IsInt() {
+		return num
+	}
+	num = ratutils.Trunc(num)
+	if num.Cmp(ratutils.ZERO) > 0 {
+		num.Add(num, ratutils.ONE)
+	}
+	return num
 }
 
 func Ceil(args ...value.Value) value.Value {
@@ -75,14 +93,11 @@ func Ceil(args ...value.Value) value.Value {
 		panic("ceil: expected one argument")
 	}
 	arg := args[0]
-	if arg.Num.IsInt() {
-		return value.Value{Num: arg.Num}
+	if value.Type(arg) != value.TYPE_NUMBER {
+		panic("can accept only numbers: " + arg.String())
 	}
-	num := ratutils.Trunc(arg.Num)
-	if arg.Num.Cmp(ratutils.ZERO) > 0 {
-		num.Add(num, ratutils.ONE)
-	}
-	return value.Value{Num: num}
+	num := arg.(value.Number).Num
+	return value.Number{Num: ceil(num)}
 }
 
 func Floor(args ...value.Value) value.Value {
@@ -90,17 +105,26 @@ func Floor(args ...value.Value) value.Value {
 		panic("floor: expected one argument")
 	}
 	arg := args[0]
-	if arg.Num.IsInt() {
-		return value.Value{Num: arg.Num}
+	if value.Type(arg) != value.TYPE_NUMBER {
+		panic("can accept only numbers: " + arg.String())
 	}
-	ret := Ceil(arg)
-	ret.Num.Sub(ret.Num, ratutils.ONE)
-	return ret
+	num := arg.(value.Number).Num
+	if num.IsInt() {
+		return value.Number{Num: num}
+	}
+	num = ceil(num)
+	num.Sub(num, ratutils.ONE)
+	return value.Number{Num: num}
 }
 
 func Trunc(args ...value.Value) value.Value {
 	if len(args) != 1 {
 		panic("trunc: expected one argument")
 	}
-	return value.Value{Num: ratutils.Trunc(args[0].Num)}
+	arg := args[0]
+	if value.Type(arg) != value.TYPE_NUMBER {
+		panic("can accept only numbers: " + arg.String())
+	}
+	num := arg.(value.Number).Num
+	return value.Number{Num: ratutils.Trunc(num)}
 }

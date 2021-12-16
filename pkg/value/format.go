@@ -8,15 +8,13 @@ import (
 	"github.com/nkanaev/numb/pkg/ratutils"
 )
 
-type Format int
+/*
+import (
+	"fmt"
+	"math/big"
+	"strings"
 
-const (
-	DEC Format = iota
-	HEX
-	OCT
-	BIN
-	RAT
-	SCI
+	"github.com/nkanaev/numb/pkg/ratutils"
 )
 
 var FormatToString = map[Format]string{
@@ -37,31 +35,30 @@ func (n Format) String() string {
 func (a Value) String() string {
 	return a.Format(",", 2)
 }
+*/
 
-func (a Value) Format(sep string, prec int) string {
-	num := ""
-	switch a.Fmt {
+//func (a Value) Format(sep string, prec int) string {
+func formatNum(num *big.Rat, numfmt NumberFormat, sep string, prec int) string {
+	ret := ""
+	switch numfmt {
 	case DEC:
-		num = formatDec(a.Num, sep, prec)
+		ret = formatDec(num, sep, prec)
 	case HEX:
-		num = fmt.Sprintf("%#x", ratutils.TruncInt(a.Num))
+		ret = fmt.Sprintf("%#x", ratutils.TruncInt(num))
 	case OCT:
-		num = fmt.Sprintf("%O", ratutils.TruncInt(a.Num))
+		ret = fmt.Sprintf("%O", ratutils.TruncInt(num))
 	case BIN:
-		num = fmt.Sprintf("%#b", ratutils.TruncInt(a.Num))
+		ret = fmt.Sprintf("%#b", ratutils.TruncInt(num))
 	case RAT:
-		num = fmt.Sprintf(
+		ret = fmt.Sprintf(
 			"%s/%s",
-			groupDigits(a.Num.Num().String(), sep, 3),
-			groupDigits(a.Num.Denom().String(), sep, 3),
+			groupDigits(num.Num().String(), sep, 3),
+			groupDigits(num.Denom().String(), sep, 3),
 		)
 	case SCI:
-		num = formatSci(a.Num, sep, prec)
+		ret = formatSci(num, sep, prec)
 	}
-	if len(a.Unit) > 0 {
-		num += " " + a.Unit.String()
-	}
-	return num
+	return ret
 }
 
 func groupDigits(num string, sep string, size int) string {
@@ -146,8 +143,10 @@ func formatDec(rat *big.Rat, sep string, prec int) string {
 	return out
 }
 
+/*
 func init() {
 	for num, str := range FormatToString {
 		StringToFormat[str] = num
 	}
 }
+*/
