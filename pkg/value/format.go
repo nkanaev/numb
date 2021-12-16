@@ -8,16 +8,18 @@ import (
 	"github.com/nkanaev/numb/pkg/ratutils"
 )
 
-/*
-import (
-	"fmt"
-	"math/big"
-	"strings"
+type NumberFormat int
 
-	"github.com/nkanaev/numb/pkg/ratutils"
+const (
+	DEC NumberFormat = iota
+	HEX
+	OCT
+	BIN
+	RAT
+	SCI
 )
 
-var FormatToString = map[Format]string{
+var FormatToString = map[NumberFormat]string{
 	DEC: "dec",
 	HEX: "hex",
 	OCT: "oct",
@@ -26,18 +28,18 @@ var FormatToString = map[Format]string{
 	SCI: "sci",
 }
 
-var StringToFormat = map[string]Format{}
+var StringToFormat = map[string]NumberFormat{}
 
-func (n Format) String() string {
+func init() {
+	for num, str := range FormatToString {
+		StringToFormat[str] = num
+	}
+}
+
+func (n NumberFormat) String() string {
 	return FormatToString[n]
 }
 
-func (a Value) String() string {
-	return a.Format(",", 2)
-}
-*/
-
-//func (a Value) Format(sep string, prec int) string {
 func formatNum(num *big.Rat, numfmt NumberFormat, sep string, prec int) string {
 	ret := ""
 	switch numfmt {
@@ -142,11 +144,3 @@ func formatDec(rat *big.Rat, sep string, prec int) string {
 	}
 	return out
 }
-
-/*
-func init() {
-	for num, str := range FormatToString {
-		StringToFormat[str] = num
-	}
-}
-*/
