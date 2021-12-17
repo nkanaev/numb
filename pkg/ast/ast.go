@@ -113,20 +113,22 @@ func (n *Var) String() string {
 	return n.Name
 }
 
-/*
 type Format struct {
 	Expr Node
-	Fmt  value.Format
+	Fmt  string
 }
 
 func (n *Format) Eval(env map[string]value.Value) value.Value {
-	return n.Expr.Eval(env).As(n.Fmt)
+	val, err := n.Expr.Eval(env).In(n.Fmt)
+	if err != nil {
+		panic(err)
+	}
+	return val
 }
 
 func (n *Format) String() string {
-	return n.Expr.String() + " as " + n.Fmt.String()
+	return fmt.Sprintf("%s %s %s", n.Expr.String(), token.IN, n.Fmt)
 }
-*/
 
 /*
 type Convert struct {

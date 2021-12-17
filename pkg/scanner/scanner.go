@@ -12,6 +12,8 @@ type Scanner struct {
 	cur int
 	ch  rune
 
+	namemode bool
+
 	Token token.Token
 	Value string
 }
@@ -41,10 +43,12 @@ func (s *Scanner) next() {
 
 func isDecimal(ch rune) bool { return '0' <= ch && ch <= '9' }
 
-func (s *Scanner) scan() {
+func (s *Scanner) skipWhitespace() {
 	for ; unicode.IsSpace(s.ch); s.next() {
 	}
+}
 
+func (s *Scanner) scan() {
 	if s.cur >= len(s.src) {
 		s.Token = token.END
 		return
@@ -103,6 +107,9 @@ func (s *Scanner) scan() {
 			if tok, ok := token.StringToOperator[word]; ok {
 				s.Token = tok
 				s.Value = word
+				if tok == token.IN {
+					s.namemode = true
+				}
 			} else {
 				s.Token = token.WORD
 				s.Value = word
@@ -199,7 +206,28 @@ func (s *Scanner) scanNumber() (token.Token, string) {
 }
 
 func (s *Scanner) Scan() bool {
+	s.skipWhitespace()
 	s.Value = ""
-	s.scan()
+
+	if s.namemode {
+		s.scanname()
+	} else {
+		s.scan()
+	}
 	return s.Token != token.Illegal && s.Token != token.END
+}
+
+func (s *Scanner) scanname() {
+	if s.cur >= len(s.src) {
+		s.Token = token.END
+		s.Value = ""
+		return
+	}
+
+	chars := make([]rune, 0)
+	for ; s.ch != 0 && !unicode.IsSpace(s.ch); s.next() {
+		chars = append(chars, s.ch)
+	}
+	s.Token = token.NAME
+	s.Value = string(chars)
 }

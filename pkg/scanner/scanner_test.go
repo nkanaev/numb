@@ -114,7 +114,7 @@ func TestParseWord(t *testing.T) {
 }
 
 func TestParseKeywords(t *testing.T) {
-	want := []token.Token{token.AS, token.TO}
+	want := []token.Token{token.IN, token.TO}
 	have := make([]token.Token, 0)
 	text := " as to"
 

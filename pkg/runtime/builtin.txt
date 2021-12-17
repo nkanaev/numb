@@ -23,12 +23,11 @@ millenium : 1000 year
 m: metre : meter : LENGTH
 yd : 0.9144 m  | International Yard
 ft : 1/3 yd
-in : 1/12 ft
+inch : 1/12 ft
 mi : 1760 yd
 
 foot : ft
 feet : ft
-inch : in
 yard : yd
 mile : mi
 
@@ -71,7 +70,7 @@ cycle : pi/2 rad
 
 
 | area
-in2 : sqin : in^2
+in2 : sqin : inch^2
 ft2 : sqft : ft^2
 yd2 : sqyd : yd^2
 mi2 : sqmi : mi^2
@@ -89,7 +88,7 @@ B : byte : 8 bit
 | volume
 l : lt : L : liter : litre : VOLUME / 1000
 m3  : m^3
-in3 : cuin : in^3
+in3 : cuin : inch^3
 ft3 : cuft : ft^3
 yd3 : cuyd : yd^3
 

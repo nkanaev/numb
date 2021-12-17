@@ -14,7 +14,7 @@ const (
 	AND // and
 	REM // mod
 
-	AS  // as
+	IN  // in
 	TO  // to
 
 	chars_beg
@@ -40,6 +40,7 @@ const (
 	NUM_BIN  // 0b101
 	NUM_SCI  // 1e2, 1.2e-7
 	WORD
+	NAME
 )
 
 var tokenToString = map[Token]string{
@@ -71,8 +72,9 @@ var tokenToString = map[Token]string{
 	NUM_BIN: "NUM_BIN",
 	NUM_SCI: "NUM_SCI",
 	WORD: "WORD",
+	NAME: "NAME",
 
-	AS: "as",
+	IN: "in",
 	TO: "to",
 }
 
@@ -88,7 +90,7 @@ func (t Token) Precedence() int {
 	switch t {
 	case ASSIGN, COLON:
 		return 1
-	case AS, TO:
+	case IN, TO:
 		return 2
 	case ADD, SUB, OR, XOR:
 		return 3

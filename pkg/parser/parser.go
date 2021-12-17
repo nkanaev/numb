@@ -111,15 +111,10 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 			p.s.Scan()
 		}
 
-		if tok == token.AS {
-			if p.s.Token != token.WORD {
-				panic(&SyntaxError{
-					Pos: p.s.Pos() - len(p.s.Value),
-					Err: "expected format",
-				})
-			}
-			lhs = &ast.BinOP{Lhs: lhs, Rhs: &ast.Literal{value.Name{p.s.Value}}}
-			p.expect(token.WORD)
+		if tok == token.IN {
+			name := p.s.Value
+			p.expect(token.NAME)
+			lhs = &ast.Format{Expr: lhs, Fmt: name}
 		} else if tok == token.ASSIGN || tok == token.COLON {
 			if _, ok := lhs.(*ast.Var); !ok {
 				panic("expected varname, got " + lhs.String())

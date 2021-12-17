@@ -16,7 +16,6 @@ const (
 	TYPE_UNKNOWN ValueType = iota
 	TYPE_NUMBER
 	TYPE_UNIT
-	TYPE_NAME
 )
 
 func (t ValueType) String() string {
@@ -25,8 +24,6 @@ func (t ValueType) String() string {
 		return "number"
 	case TYPE_UNIT:
 		return "unit"
-	case TYPE_NAME:
-		return "name"
 	default:
 		return "unknown"
 	}
@@ -38,8 +35,6 @@ func Type(x Value) ValueType {
 		return TYPE_NUMBER
 	case Unit:
 		return TYPE_UNIT
-	case Name:
-		return TYPE_NAME
 	default:
 		return TYPE_UNKNOWN
 	}
@@ -48,6 +43,7 @@ func Type(x Value) ValueType {
 type Value interface {
 	BinOP(token.Token, Value) (Value, error)
 	UnOP(token.Token) (Value, error)
+	In(string) (Value, error)
 	String() string
 }
 
@@ -175,16 +171,26 @@ func (a Number) UnOP(op token.Token) (Value, error) {
 	return nil, errors.New("unsupported unary operation: %s" + op.String())
 }
 
+func (a Number) In(fmt string) (Value, error) {
+	f, ok := StringToFormat[fmt]
+	if !ok {
+		return nil, errors.New("unrecognized number format: " + fmt)
+	}
+	return Number{Num: a.Num, Fmt: f}, nil
+}
+
 type Unit struct {
 	Num   *big.Rat
+	Fmt   NumberFormat
 	Units unit.UnitList
 }
 
 func (a Unit) String() string {
-	return formatNum(a.Num, DEC, "_", 2) + " " + a.Units.String()
+	return formatNum(a.Num, a.Fmt, "_", 2) + " " + a.Units.String()
 }
 
 func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
+	// TODO: preserve format
 	switch b.(type) {
 	case Number:
 		bnum := b.(Number).Num
@@ -251,21 +257,14 @@ func (a Unit) UnOP(op token.Token) (Value, error) {
 	return nil, errors.New("unsupported unary operation: %s" + op.String())
 }
 
-type Name struct {
-	Val string
+func (a Unit) In(fmt string) (Value, error) {
+	f, ok := StringToFormat[fmt]
+	if !ok {
+		return nil, errors.New("unrecognized number format for unit: " + fmt)
+	}
+	return Unit{Num: a.Num, Fmt: f, Units: a.Units}, nil
 }
 
-func (n Name) BinOP(t token.Token, v Value) (Value, error) {
-	return nil, errors.New("name cannot be used for operations")
-}
-
-func (n Name) UnOP(t token.Token) (Value, error) {
-	return nil, errors.New("name cannot be used for operations")
-}
-
-func (n Name) String() string {
-	return n.Val
-}
 
 func Int64(x int64) Value {
 	return Number{Num: new(big.Rat).SetInt64(x)}
