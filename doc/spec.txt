@@ -1,9 +1,8 @@
 grammar:
 
-    expr → expr `as` fmt
-    expr → expr `to` expr
-    expr → expr op expr
+    expr → expr `in` name
     expr → expr <var expr>          ; implicit multiplication
+    expr → expr op expr
     expr → `+` | `-` expr
     expr → `(` expr `)`
     expr → num
@@ -14,8 +13,8 @@ grammar:
 
     args → expr | args `,` expr
 
-    op   → `+` | `-` | `*` ...
-    fmt  → [^\s]+
+    op   → `+` | `-` | `*` | `to` ...
+    name → [^\s]+
 
     num  → int | hex | oct | bin
     int  → [0-9]+
@@ -42,7 +41,7 @@ operators:
     =     assign (var)
     :     assign (unit)
 
-    as    format number
+    in    format number
     to    unit conversion
 
 operator predecence (high to low):
@@ -50,7 +49,7 @@ operator predecence (high to low):
     ^
     *  /  <<  >>  and  mod
     +  -  or  xor
-    as to
+    in to
     =  :
 
 formats:
