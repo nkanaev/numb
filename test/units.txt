@@ -12,8 +12,8 @@ kilograms     | 1 kilogram
 1 kilopotatoes| 1 kilopotato
 
 # conversion
-7 feet to meter  | 2.13 m
-7 ft to meter    | 2.13 m
+7 feet to meter  | 2.13 meter
+7 ft to m        | 2.13 m
 
 # currency
 USD : CURRENCY

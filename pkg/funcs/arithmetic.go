@@ -81,10 +81,12 @@ func ceil(num *big.Rat) *big.Rat {
 	if num.IsInt() {
 		return num
 	}
-	num = ratutils.Trunc(num)
 	if num.Cmp(ratutils.ZERO) > 0 {
+		num = ratutils.Trunc(num)
 		num.Add(num, ratutils.ONE)
+		return num
 	}
+	num = ratutils.Trunc(num)
 	return num
 }
 

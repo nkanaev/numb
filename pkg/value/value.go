@@ -87,11 +87,14 @@ func (err UnsupportedBinOP) Error() string {
 }
 
 func (a Number) String() string {
-	return formatNum(a.Num, a.Fmt, "_", 2)
+	return formatNum(a.Num, a.Fmt, ",", 2)
 }
 
 func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 	// TODO: int type casts lose precision
+	if op == token.TO {
+		return nil, errors.New("unitless conversion")
+	}
 	switch b.(type) {
 	case Number:
 		b := b.(Number)
@@ -100,11 +103,11 @@ func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 		case token.ADD:
 			n = new(big.Rat).Add(a.Num, b.Num)
 		case token.SUB:
-			n = new(big.Rat).Add(a.Num, b.Num)
+			n = new(big.Rat).Sub(a.Num, b.Num)
 		case token.MUL:
-			n = new(big.Rat).Add(a.Num, b.Num)
+			n = new(big.Rat).Mul(a.Num, b.Num)
 		case token.QUO:
-			n = new(big.Rat).Add(a.Num, b.Num)
+			n = new(big.Rat).Quo(a.Num, b.Num)
 		case token.EXP:
 			if !b.Num.IsInt() {
 				return nil, errors.New("exponentiation does not support non-integer power")
@@ -186,7 +189,7 @@ type Unit struct {
 }
 
 func (a Unit) String() string {
-	return formatNum(a.Num, a.Fmt, "_", 2) + " " + a.Units.String()
+	return formatNum(a.Num, a.Fmt, ",", 2) + " " + a.Units.String()
 }
 
 func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
@@ -266,10 +269,10 @@ func (a Unit) In(fmt string) (Value, error) {
 }
 
 
-func Int64(x int64) Value {
+func Int64(x int64) Number {
 	return Number{Num: new(big.Rat).SetInt64(x)}
 }
 
-func Float64(x float64) Value {
+func Float64(x float64) Number {
 	return Number{Num: new(big.Rat).SetFloat64(x)}
 }
