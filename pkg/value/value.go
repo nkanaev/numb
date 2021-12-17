@@ -149,7 +149,7 @@ func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 			if !(a.Num.IsInt() && b.Num.IsInt()) {
 				return nil, IntOperationError{op}
 			}
-			n := new(big.Rat).Set(a.Num)
+			n = new(big.Rat).Set(a.Num)
 			n.Num().Xor(n.Num(), b.Num.Num())
 		}
 		if n != nil {
