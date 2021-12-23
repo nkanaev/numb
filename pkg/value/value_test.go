@@ -1,6 +1,10 @@
 package value
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/nkanaev/numb/pkg/ratutils"
+)
 
 func TestFormat(t *testing.T) {
 	testcases := []struct {
@@ -30,7 +34,7 @@ func TestFormat(t *testing.T) {
 		{"1000000000.01", 2, "", "1000000000.01"},
 	}
 	for _, tc := range testcases {
-		have := Parse(tc.have).Format(tc.sep, tc.prec)
+		have := formatDec(ratutils.Must(tc.have), tc.sep, tc.prec)
 		if have != tc.want {
 			t.Errorf("val=%#v sep=%#v prec=%d\nwant: %s\nhave: %s", tc.have, tc.sep, tc.prec, tc.want, have)
 		}

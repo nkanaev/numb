@@ -114,9 +114,9 @@ func TestParseWord(t *testing.T) {
 }
 
 func TestParseKeywords(t *testing.T) {
-	want := []token.Token{token.IN, token.TO}
+	want := []token.Token{token.TO, token.IN, token.NAME}
 	have := make([]token.Token, 0)
-	text := " as to"
+	text := " to in hex"
 
 	s := New(text)
 	for s.Scan() {
@@ -124,7 +124,7 @@ func TestParseKeywords(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(want, have) {
-		t.Fatalf("\nwant: %#v\nhave: %#v", want, have)
+		t.Fatalf("\nwant: %s\nhave: %s", want, have)
 	}
 }
 
