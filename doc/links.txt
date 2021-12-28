@@ -7,3 +7,4 @@ https://pypi.org/project/numericalunits/
 https://www.gnu.org/software/bc/
 https://www.gnu.org/software/units/
 https://documentation.soulver.app/
+https://github.com/Qalculate/libqalculate
