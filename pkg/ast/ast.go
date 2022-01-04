@@ -99,6 +99,9 @@ type Var struct {
 }
 
 func (n *Var) Eval(env map[string]value.Value) value.Value {
+	if time := value.GetNamedTime(n.Name); time != nil {
+		return time
+	}
 	if unit, ok := unit.Get(n.Name); ok {
 		return value.Unit{Num: ratutils.ONE, Units: unit}
 	}

@@ -2,6 +2,7 @@ package value
 
 import (
 	"math/big"
+	"time"
 
 	"github.com/nkanaev/numb/pkg/token"
 )
@@ -12,6 +13,7 @@ const (
 	TYPE_UNKNOWN ValueType = iota
 	TYPE_NUMBER
 	TYPE_UNIT
+	TYPE_TIME
 )
 
 func (t ValueType) String() string {
@@ -20,6 +22,8 @@ func (t ValueType) String() string {
 		return "number"
 	case TYPE_UNIT:
 		return "unit"
+	case TYPE_TIME:
+		return "time"
 	default:
 		return "unknown"
 	}
@@ -31,6 +35,8 @@ func Type(x Value) ValueType {
 		return TYPE_NUMBER
 	case Unit:
 		return TYPE_UNIT
+	case Time:
+		return TYPE_TIME
 	default:
 		return TYPE_UNKNOWN
 	}
@@ -49,4 +55,14 @@ func Int64(x int64) Number {
 
 func Float64(x float64) Number {
 	return Number{Num: new(big.Rat).SetFloat64(x)}
+}
+
+func GetNamedTime(name string) *Time {
+	switch name {
+	case "now":
+		return &Time{ts: time.Now(), fmt: time.ANSIC}
+	case "time":
+		return &Time{ts: time.Now(), fmt: "15:04"}
+	}
+	return nil
 }
