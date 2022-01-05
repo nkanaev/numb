@@ -93,6 +93,9 @@ func (s *Scanner) scan() {
 		case '>':
 			s.Token = token.SHR
 		}
+	case ch == '%':
+		s.Token = token.PERCENT
+		s.next()
 	default:
 		letters := make([]rune, 0)
 		for isWordChar(ch) {

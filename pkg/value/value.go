@@ -14,6 +14,7 @@ const (
 	TYPE_NUMBER
 	TYPE_UNIT
 	TYPE_TIME
+	TYPE_PERCENT
 )
 
 func (t ValueType) String() string {
@@ -24,6 +25,8 @@ func (t ValueType) String() string {
 		return "unit"
 	case TYPE_TIME:
 		return "time"
+	case TYPE_PERCENT:
+		return "percent"
 	default:
 		return "unknown"
 	}
@@ -37,6 +40,8 @@ func Type(x Value) ValueType {
 		return TYPE_UNIT
 	case Time:
 		return TYPE_TIME
+	case Percent:
+		return TYPE_PERCENT
 	default:
 		return TYPE_UNKNOWN
 	}

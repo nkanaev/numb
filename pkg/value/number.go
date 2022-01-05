@@ -111,6 +111,20 @@ func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 		case token.QUO:
 			return Unit{Num: new(big.Rat).Quo(a.Num, b.Num), Units: b.Units.Exp(-1)}, nil
 		}
+	case Percent:
+		switch op {
+		case token.ADD, token.SUB, token.MUL, token.QUO:
+			b := b.(Percent)
+			bnum := b.Apply(a.Num)
+			ret, err := a.BinOP(op, Number{Num: bnum})
+			if err != nil {
+				if errors.Is(err, UnsupportedBinOP{}) {
+					return nil, UnsupportedBinOP{a: a, b: b, op: op}
+				}
+				return nil, err
+			}
+			return ret, err
+		}
 	}
 	return nil, UnsupportedBinOP{a: a, b: b, op: op}
 }
@@ -118,8 +132,10 @@ func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 func (a Number) UnOP(op token.Token) (Value, error) {
 	if op == token.SUB {
 		return Number{Num: new(big.Rat).Neg(a.Num)}, nil
+	} else if op == token.PERCENT {
+		return Percent{Num: a.Num}, nil
 	}
-	return nil, errors.New("unsupported unary operation: %s" + op.String())
+	return nil, errors.New("unsupported unary operation: " + op.String())
 }
 
 func (a Number) In(fmt string) (Value, error) {

@@ -9,6 +9,7 @@ var ZEROINT = big.NewInt(0)
 var ZERO = big.NewRat(0, 1)
 var ONE = big.NewRat(1, 1)
 var TEN = big.NewRat(10, 1)
+var HUNDRED = big.NewRat(100, 1)
 
 func ExpInt(x *big.Rat, n int) *big.Rat {
 	if n == 0 {
