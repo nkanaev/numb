@@ -99,17 +99,16 @@ type Var struct {
 }
 
 func (n *Var) Eval(env map[string]value.Value) value.Value {
+	if val, ok := env[n.Name]; ok {
+		return val
+	}
 	if time := value.GetNamedTime(n.Name); time != nil {
 		return time
 	}
 	if unit, ok := unit.Get(n.Name); ok {
 		return value.Unit{Num: ratutils.ONE, Units: unit}
 	}
-	val, ok := env[n.Name]
-	if !ok {
-		panic(n.Name + " not defined")
-	}
-	return val
+	panic(n.Name + " not defined")
 }
 
 func (n *Var) String() string {
