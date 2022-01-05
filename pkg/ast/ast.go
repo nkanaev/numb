@@ -82,8 +82,9 @@ func (n *Assign) Eval(env map[string]value.Value) value.Value {
 		}
 		val := val.(value.Unit)
 		unit.Add(n.Name, val.Num, val.Units)
+	} else {
+		env[n.Name] = val
 	}
-	env[n.Name] = val
 	return val
 }
 
