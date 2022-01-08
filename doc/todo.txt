@@ -1,3 +1,7 @@
+- do not panic
+- unit/timezone matching
+- tz database provision
+- dimensionless units?
 - verbose error messages
 - documentation
 - test coverage
