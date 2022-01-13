@@ -7,6 +7,7 @@ import (
 
 	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/token"
+	"github.com/nkanaev/numb/pkg/unit"
 )
 
 type IntOperationError struct {
@@ -110,20 +111,12 @@ func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 			return Unit{Num: new(big.Rat).Mul(a.Num, b.Num), Units: b.Units}, nil
 		case token.QUO:
 			return Unit{Num: new(big.Rat).Quo(a.Num, b.Num), Units: b.Units.Exp(-1)}, nil
-		}
-	case Percent:
-		switch op {
-		case token.ADD, token.SUB, token.MUL, token.QUO:
-			b := b.(Percent)
-			bnum := b.Apply(a.Num)
-			ret, err := a.BinOP(op, Number{Num: bnum})
-			if err != nil {
-				if errors.Is(err, UnsupportedBinOP{}) {
-					return nil, UnsupportedBinOP{a: a, b: b, op: op}
-				}
-				return nil, err
+		case token.ADD, token.SUB:
+			if b.Units.Dimension().IsZero() {
+				num := new(big.Rat).Set(a.Num)
+				num.Mul(num, unit.Normalize(b.Num, b.Units))
+				return a.BinOP(op, Number{Num: num})
 			}
-			return ret, err
 		}
 	}
 	return nil, UnsupportedBinOP{a: a, b: b, op: op}
@@ -132,8 +125,6 @@ func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 func (a Number) UnOP(op token.Token) (Value, error) {
 	if op == token.SUB {
 		return Number{Num: new(big.Rat).Neg(a.Num)}, nil
-	} else if op == token.PERCENT {
-		return Percent{Num: a.Num}, nil
 	}
 	return nil, errors.New("unsupported unary operation: " + op.String())
 }

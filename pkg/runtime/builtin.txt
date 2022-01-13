@@ -2,6 +2,9 @@
 e   = 2.71828182845904523536028747135266249775724709369995957496696763  | https://oeis.org/A001113
 pi  = 3.14159265358979323846264338327950288419716939937510582097494459  | https://oeis.org/A000796
 
+| dimensionless
+% : 1/100
+
 | time
 s : sec : second : TIME
 min : 60 s
@@ -60,7 +63,7 @@ once : ounce : oz
 
 
 | angle
-rad : radian : ANGLE
+rad : radian : 1
 deg : pi/180 rad
 degree : deg
 arcsec : pi/648000 rad

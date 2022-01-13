@@ -20,6 +20,9 @@ func (c ConformanceError) Error() string {
 }
 
 func Convert(n *big.Rat, from, to UnitList) (*big.Rat, error) {
+	if from.Dimension().IsZero() {
+		return from.normalize(n), nil
+	}
 	if !from.Conforms(to) {
 		return nil, ConformanceError{from, to}
 	}
@@ -27,4 +30,8 @@ func Convert(n *big.Rat, from, to UnitList) (*big.Rat, error) {
 		return n, nil
 	}
 	return to.denormalize(from.normalize(n)), nil
+}
+
+func Normalize(n *big.Rat, x UnitList) *big.Rat {
+	return x.normalize(n)
 }

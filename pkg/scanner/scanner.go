@@ -93,9 +93,6 @@ func (s *Scanner) scan() {
 		case '>':
 			s.Token = token.SHR
 		}
-	case ch == '%':
-		s.Token = token.PERCENT
-		s.next()
 	default:
 		letters := make([]rune, 0)
 		for isWordChar(ch) {
@@ -123,7 +120,7 @@ func (s *Scanner) scan() {
 
 func isWordChar(ch rune) bool {
 	// L/N/Sc/Pc = letters/numbers/currency symbols/connector punctuation
-	return !strings.Contains(token.SpecialChars, string(ch)) && unicode.In(ch, unicode.L, unicode.N, unicode.Sc, unicode.Pc)
+	return !strings.Contains(token.SpecialChars, string(ch)) && (unicode.In(ch, unicode.L, unicode.N, unicode.Sc, unicode.Pc) || ch == '%')
 }
 
 func (s *Scanner) digits(base int) string {

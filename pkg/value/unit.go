@@ -80,20 +80,6 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			}
 			return Unit{Num: num, Units: b.Units}, nil
 		}
-	case Percent:
-		switch op {
-		case token.ADD, token.SUB, token.MUL, token.QUO:
-			b := b.(Percent)
-			bnum := b.Apply(a.Num)
-			ret, err := Number{Num: a.Num}.BinOP(op, Number{Num: bnum})
-			if err != nil {
-				if errors.Is(err, UnsupportedBinOP{}) {
-					return nil, UnsupportedBinOP{a: a, b: b, op: op}
-				}
-				return nil, err
-			}
-			return Unit{Num: ret.(Number).Num, Units: a.Units, Fmt: a.Fmt}, err
-		}
 	}
 	return nil, UnsupportedBinOP{a: a, b: b, op: op}
 }

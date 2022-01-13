@@ -52,6 +52,7 @@ var units = []unit{
 	{u: d.SOLID_ANGLE, names: "sr, steradian", value: r.ONE},
 
 	{u: d.CURRENCY, names: "CURRENCY", value: r.ONE},
+	{u: d.DIMENSIONLESS, names: "DIMENSIONLESS", value: r.ONE},
 }
 
 type prefix struct {

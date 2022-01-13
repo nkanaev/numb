@@ -32,7 +32,6 @@ const (
 	COMMA   // ,
 	ASSIGN  // =
 	COLON   // :
-	PERCENT // %
 	chars_end
 
 	NUM_DEC  // 10, 10.1
@@ -66,7 +65,6 @@ var tokenToString = map[Token]string{
 	COMMA:  ",",
 	COLON:  ":",
 	ASSIGN: "=",
-	PERCENT: "%",
 
 	NUM_DEC: "NUM_DEC",
 	NUM_HEX: "NUM_HEX",

@@ -4,6 +4,7 @@ type Measure int
 
 const (
 	start_measures Measure = iota
+	DIMENSIONLESS
 	LENGTH
 	TEMPERATURE
 	AREA
@@ -54,13 +55,14 @@ func List() []Measure {
 }
 
 var measureDimensions = map[Measure]Dimensions{
+	DIMENSIONLESS:         Dimensions{},
 	LENGTH:                Dimensions{Length: 1},
 	TEMPERATURE:           Dimensions{Temperature: 1},
 	AREA:                  Dimensions{Length: 2},
 	VOLUME:                Dimensions{Length: 3},
 	MASS:                  Dimensions{Mass: 1},
 	TIME:                  Dimensions{Time: 1},
-	ANGLE:                 Dimensions{Angle: 1},
+	ANGLE:                 Dimensions{},
 	DIGITAL:               Dimensions{Digital: 1},
 	CURRENCY:              Dimensions{Currency: 1},
 	FREQUENCY:             Dimensions{Time: -1},
@@ -80,7 +82,7 @@ var measureDimensions = map[Measure]Dimensions{
 	ELECTRIC_RESISTANCE:   Dimensions{Mass: 1, Length: 2, Time: -3, Current: 2},
 	PRESSURE:              Dimensions{Mass: 1, Length: -1, Time: -2},
 	RADIOACTIVITY:         Dimensions{Time: -1},
-	SOLID_ANGLE:           Dimensions{SolidAngle: 1},
+	SOLID_ANGLE:           Dimensions{},
 	IONIZING_RADIATION:    Dimensions{Length: 2, Time: -2},
 	CATALYCTIC_ACTIVITY:   Dimensions{AmountOfSubstance: 1, Time: -1},
 	RADIATION_DOSE:        Dimensions{Length: 2, Time: -2},
@@ -94,6 +96,7 @@ var measureDimensions = map[Measure]Dimensions{
 }
 
 var measureNames = map[Measure]string{
+	DIMENSIONLESS:         "DIMENSIONLESS",
 	LENGTH:                "LENGTH",
 	TEMPERATURE:           "TEMPERATURE",
 	AREA:                  "AREA",

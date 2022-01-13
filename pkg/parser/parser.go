@@ -88,11 +88,6 @@ func (p *parser) parseUnaryExpr() ast.Node {
 		return &ast.Unary{Op: tok, Expr: p.parseUnaryExpr()}
 	}
 	expr := p.parsePrimaryExpr()
-	if p.s.Token == token.PERCENT {
-		tok := p.s.Token
-		p.s.Scan()
-		return &ast.Unary{Op: tok, Expr: expr}
-	}
 	return expr
 }
 

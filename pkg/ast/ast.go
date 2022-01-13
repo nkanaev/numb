@@ -77,11 +77,15 @@ type Assign struct {
 func (n *Assign) Eval(env map[string]value.Value) value.Value {
 	val := n.Expr.Eval(env)
 	if n.Unit {
-		if value.Type(val) != value.TYPE_UNIT {
-			panic("not a unit: " + val.String())
+		if val, isnum := val.(value.Number); isnum {
+			unit.Add(n.Name, val.Num, unit.UnitList{})
+			return val
 		}
-		val := val.(value.Unit)
-		unit.Add(n.Name, val.Num, val.Units)
+		if val, isunit := val.(value.Unit); isunit {
+			unit.Add(n.Name, val.Num, val.Units)
+			return val
+		}
+		panic(fmt.Sprintf("cannot create unit from %s (%s type)", val, value.Type(val)))
 	} else {
 		env[n.Name] = val
 	}

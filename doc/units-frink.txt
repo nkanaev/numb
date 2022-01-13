@@ -749,7 +749,7 @@ bi :-    2
 tri :-   3
 
 zero :=                0
-one :=                 1
+ane :=                 1
 two :=                 2
 double :=              2
 three :=               3
