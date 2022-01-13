@@ -172,12 +172,11 @@ func (n *FunCall) Eval(env map[string]value.Value) value.Value {
 	for i, arg := range n.Args {
 		args[i] = arg.Eval(env)
 	}
-	defer func() {
-		if r := recover(); r != nil {
-			panic(fmt.Sprintf("%s: %s", n.Name, r))
-		}
-	}()
-	return (*fn)(args...)
+	val, err := (*fn)(args...)
+	if err != nil {
+		panic(n.Name + ": " + err.Error())
+	}
+	return val
 }
 
 func (n *FunCall) String() string {

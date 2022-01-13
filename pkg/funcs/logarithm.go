@@ -22,22 +22,22 @@ func f64(val value.Value) float64 {
 	return f
 }
 
-func Log(args ...value.Value) value.Value {
+func Log(args ...value.Value) (value.Value, error) {
 	arity(1, len(args))
-	return value.Float64(math.Log(f64(args[0])))
+	return value.Float64(math.Log(f64(args[0]))), nil
 }
 
-func Log2(args ...value.Value) value.Value {
+func Log2(args ...value.Value) (value.Value, error) {
 	arity(1, len(args))
-	return value.Float64(math.Log2(f64(args[0])))
+	return value.Float64(math.Log2(f64(args[0]))), nil
 }
 
-func Log10(args ...value.Value) value.Value {
+func Log10(args ...value.Value) (value.Value, error) {
 	arity(1, len(args))
-	return value.Float64(math.Log10(f64(args[0])))
+	return value.Float64(math.Log10(f64(args[0]))), nil
 }
 
-func Sqrt(args ...value.Value) value.Value {
+func Sqrt(args ...value.Value) (value.Value, error) {
 	arity(1, len(args))
-	return value.Float64(math.Sqrt(f64(args[0])))
+	return value.Float64(math.Sqrt(f64(args[0]))), nil
 }

@@ -2,7 +2,7 @@ package funcs
 
 import "github.com/nkanaev/numb/pkg/value"
 
-type Func func(...value.Value) value.Value
+type Func func(...value.Value) (value.Value, error)
 
 var db = map[string]Func{
 	"sin":  Sin,
