@@ -2,27 +2,12 @@ package value
 
 import (
 	"errors"
-	"fmt"
 	"math/big"
 
 	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/token"
 	"github.com/nkanaev/numb/pkg/unit"
 )
-
-type ConformanceError struct {
-	a, b unit.UnitList
-}
-
-func (c ConformanceError) Error() string {
-	dim1, _ := c.a.Dimension().Measure()
-	dim2, _ := c.b.Dimension().Measure()
-
-	return fmt.Sprintf(
-		"%s (%s) does not conform %s (%s)",
-		c.a.String(), dim1.String(),
-		c.b.String(), dim2.String())
-}
 
 type Unit struct {
 	Num   *big.Rat
@@ -60,16 +45,16 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 		b := b.(Unit)
 		switch op {
 		case token.ADD:
-			if !a.Units.Conforms(b.Units) {
-				return nil, ConformanceError{a.Units, b.Units}
+			bnum, err := unit.Convert(b.Num, b.Units, a.Units)
+			if err != nil {
+				return nil, err
 			}
-			bnum := unit.Convert(b.Num, b.Units, a.Units)
 			return Unit{Num: new(big.Rat).Add(a.Num, bnum), Units: a.Units}, nil
 		case token.SUB:
-			if !a.Units.Conforms(b.Units) {
-				return nil, ConformanceError{a.Units, b.Units}
+			bnum, err := unit.Convert(b.Num, b.Units, a.Units)
+			if err != nil {
+				return nil, err
 			}
-			bnum := unit.Convert(b.Num, b.Units, a.Units)
 			return Unit{Num: new(big.Rat).Sub(a.Num, bnum), Units: a.Units}, nil
 		case token.MUL:
 			newn := new(big.Rat).Mul(a.Num, b.Num)
@@ -89,7 +74,11 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			if b.Num.Cmp(ratutils.ONE) != 0 {
 				return nil, errors.New("cannot convert to a unit with a value: " + b.String())
 			}
-			return Unit{Num: unit.Convert(a.Num, a.Units, b.Units), Units: b.Units}, nil
+			num, err := unit.Convert(a.Num, a.Units, b.Units)
+			if err != nil {
+				return nil, err
+			}
+			return Unit{Num: num, Units: b.Units}, nil
 		}
 	case Percent:
 		switch op {

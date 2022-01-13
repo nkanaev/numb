@@ -16,7 +16,11 @@ func toRadian(val value.Value) value.Number {
 		if measure, _ := val.Units.Dimension().Measure(); measure != dimension.ANGLE {
 			panic("expected angle unit")
 		}
-		return value.Number{Num: unit.Convert(val.Num, val.Units, unit.Must("rad"))}
+		num, err := unit.Convert(val.Num, val.Units, unit.Must("rad"))
+		if err != nil {
+			panic(err)
+		}
+		return value.Number{Num: num}
 	}
 	panic("unsupported type: " + value.Type(val).String())
 }

@@ -5,12 +5,26 @@ import (
 	"math/big"
 )
 
-func Convert(n *big.Rat, from, to UnitList) *big.Rat {
+type ConformanceError struct {
+	a, b UnitList
+}
+
+func (c ConformanceError) Error() string {
+	dim1, _ := c.a.Dimension().Measure()
+	dim2, _ := c.b.Dimension().Measure()
+
+	return fmt.Sprintf(
+		"%s (%s) does not conform %s (%s)",
+		c.a.String(), dim1.String(),
+		c.b.String(), dim2.String())
+}
+
+func Convert(n *big.Rat, from, to UnitList) (*big.Rat, error) {
 	if !from.Conforms(to) {
-		panic(fmt.Sprintf("incompatible units: %s & %s", from, to))
+		return nil, ConformanceError{from, to}
 	}
 	if from.String() == to.String() {
-		return n
+		return n, nil
 	}
-	return to.denormalize(from.normalize(n))
+	return to.denormalize(from.normalize(n)), nil
 }

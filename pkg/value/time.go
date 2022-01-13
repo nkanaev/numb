@@ -23,7 +23,10 @@ func (a Time) BinOP(op token.Token, b Value) (Value, error) {
 			return nil, fmt.Errorf("%s is not a measure of %s", b, dimension.TIME)
 		}
 
-		diff_nsec := unit.Convert(b.Num, b.Units, unit.Must("nanosecond"))
+		diff_nsec, err := unit.Convert(b.Num, b.Units, unit.Must("nanosecond"))
+		if err != nil {
+			return nil, err
+		}
 		if !diff_nsec.IsInt() {
 			return nil, fmt.Errorf("cannot deal with fractional nanosecs")
 		}
