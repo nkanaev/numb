@@ -37,7 +37,7 @@ func (bu unit) Expand() map[string]*Unit {
 		name:    names[0],
 		value:   bu.value,
 		offset:  bu.offset,
-		dim: bu.u.Dim(),
+		dim:     bu.u,
 	}
 
 	for _, alias := range names {

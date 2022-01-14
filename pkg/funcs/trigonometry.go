@@ -3,7 +3,6 @@ package funcs
 import (
 	"math"
 
-	"github.com/nkanaev/numb/pkg/dimension"
 	"github.com/nkanaev/numb/pkg/unit"
 	"github.com/nkanaev/numb/pkg/value"
 )
@@ -13,9 +12,6 @@ func toRadian(val value.Value) value.Number {
 		return val.(value.Number)
 	} else if value.Type(val) == value.TYPE_UNIT {
 		val := val.(value.Unit)
-		if measure, _ := val.Units.Dimension().Measure(); measure != dimension.ANGLE {
-			panic("expected angle unit")
-		}
 		num, err := unit.Convert(val.Num, val.Units, unit.Must("rad"))
 		if err != nil {
 			panic(err)

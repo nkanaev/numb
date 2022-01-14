@@ -2,13 +2,13 @@ package dimension
 
 import "testing"
 
-func TestMeasures(t *testing.T) {
-	for m := start_measures + 1; m < end_measures; m += 1 {
-		if m.String() == "" {
-			t.Errorf("measure #%d is missing name", uint(m))
-		}
-		if m.Dim().Exp(2).Equals(m.Dim()) {
-			t.Errorf("measure #%d is missing dimension", uint(m))
+func TestMeasuresUnique(t *testing.T) {
+	track := make(map[Dimensions]string)
+	for name, dim := range Measures {
+		if oldname, seen := track[dim]; seen {
+			t.Errorf("measure `%s` has the same dimension as `%s`", name, oldname)
+		} else {
+			track[dim] = name
 		}
 	}
 }

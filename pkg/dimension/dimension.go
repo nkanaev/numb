@@ -10,15 +10,13 @@ const (
 	Temperature
 	LuminousIntensity
 	AmountOfSubstance
-	Angle
-	SolidAngle
 	Digital
 	Currency
 
 	end_basis
 )
 
-type Dimensions [11]int
+type Dimensions [9]int
 
 func (d1 Dimensions) Exp(x int) Dimensions {
 	for b := Basis(0); b < end_basis; b++ {
@@ -48,11 +46,23 @@ func (d1 Dimensions) IsZero() bool {
 	return d1.Equals(nodim)
 }
 
-func (d1 Dimensions) Measure() (Measure, bool) {
-	for measure := start_measures + 1; measure < end_measures; measure++ {
-		if measure.Dim().Equals(d1) {
-			return measure, true
+func (d1 Dimensions) Measure() string {
+	for name, dim := range Measures {
+		if dim == d1 {
+			return name
 		}
 	}
-	return 0, false
+	return "unknown"
 }
+
+var (
+	LENGTH              = Dimensions{Length: 1}
+	TIME                = Dimensions{Time: 1}
+	MASS                = Dimensions{Mass: 1}
+	ELECTRIC_CURRENT    = Dimensions{Current: 1}
+	TEMPERATURE         = Dimensions{Temperature: 1}
+	LUMINOUS_INTENSITY  = Dimensions{LuminousIntensity: 1}
+	AMOUNT_OF_SUBSTANCE = Dimensions{AmountOfSubstance: 1}
+	DIGITAL             = Dimensions{Digital: 1}
+	CURRENCY            = Dimensions{Currency: 1}
+)

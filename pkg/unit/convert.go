@@ -10,13 +10,10 @@ type ConformanceError struct {
 }
 
 func (c ConformanceError) Error() string {
-	dim1, _ := c.a.Dimension().Measure()
-	dim2, _ := c.b.Dimension().Measure()
-
 	return fmt.Sprintf(
 		"%s (%s) does not conform %s (%s)",
-		c.a.String(), dim1.String(),
-		c.b.String(), dim2.String())
+		c.a.String(), c.a.Dimension().Measure(),
+		c.b.String(), c.b.Dimension().Measure())
 }
 
 func Convert(n *big.Rat, from, to UnitList) (*big.Rat, error) {

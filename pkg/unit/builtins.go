@@ -8,7 +8,7 @@ import (
 )
 
 type unit struct {
-	u         d.Measure
+	u         d.Dimensions
 	names     string
 	value     *big.Rat
 	offset    *big.Rat
@@ -18,41 +18,16 @@ var units = []unit{
 	{u: d.LENGTH, names: "LENGTH", value: r.ONE},
 	{u: d.MASS, names: "MASS", value: r.ONE},
 	{u: d.TIME, names: "TIME", value: r.ONE},
+	{u: d.AMOUNT_OF_SUBSTANCE, names: "AMOUNT_OF_SUBSTANCE", value: r.ONE},
+	{u: d.DIGITAL, names: "DIGITAL", value: r.ONE},
 
 	{u: d.TEMPERATURE, names: "K, kelvin", value: r.ONE},
 	{u: d.TEMPERATURE, names: "°C, degC, celsius", value: r.ONE, offset: r.Must("273.15")},
 	{u: d.TEMPERATURE, names: "°F, degF, fahrenheit", value: r.Must("10/18"), offset: r.Must("459.67")},
 
-	{u: d.ANGLE, names: "ANGLE", value: r.ONE},
-	{u: d.DIGITAL, names: "DIGITAL", value: r.ONE},
-	{u: d.VOLUME, names: "VOLUME", value: r.ONE},
-	{u: d.ENERGY, names: "ENERGY", value: r.ONE},
-	{u: d.FORCE, names: "FORCE", value: r.ONE},
-	{u: d.PRESSURE, names: "PRESSURE", value: r.ONE},
-	{u: d.POWER, names: "POWER", value: r.ONE},
-
-	{u: d.RADIOACTIVITY, names: "RADIOACTIVITY", value: r.ONE},
-	{u: d.AMOUNT_OF_SUBSTANCE, names: "AMOUNT_OF_SUBSTANCE", value: r.ONE},
-	{u: d.CATALYCTIC_ACTIVITY, names: "kat, katal", value: r.ONE},
-	{u: d.ELECTRIC_CAPACITANCE, names: "F, farad", value: r.ONE},
-	{u: d.ELECTRIC_CHARGE, names: "C, coulomb", value: r.ONE},
-	{u: d.ELECTRIC_CONDUCTANCE, names: "S, siemens", value: r.ONE},
-	{u: d.ELECTRIC_CURRENT, names: "A, amp, ampere", value: r.ONE},
-	{u: d.ELECTRIC_INDUCTANCE, names: "H, henry", value: r.ONE},
-	{u: d.ELECTRIC_POTENTIAL, names: "V, volt", value: r.ONE},
-	{u: d.ELECTRIC_RESISTANCE, names: "ohm", value: r.ONE},
-	{u: d.FREQUENCY, names: "Hz, hertz", value: r.ONE},
-	{u: d.ILLUMINANCE, names: "lx, lux", value: r.ONE},
-	{u: d.IONIZING_RADIATION, names: "Sv, sievert", value: r.ONE},
-	{u: d.LUMINOUS_FLUX, names: "lm, lumen", value: r.ONE},
-	{u: d.LUMINOUS_INTENSITY, names: "cd, candela", value: r.ONE},
-	{u: d.MAGNETIC_FLUX, names: "Wb, weber", value: r.ONE},
-	{u: d.MAGNETIC_FLUX_DENSITY, names: "T, tesla", value: r.ONE},
-	{u: d.RADIATION_DOSE, names: "Gy, gray", value: r.ONE},
-	{u: d.SOLID_ANGLE, names: "sr, steradian", value: r.ONE},
-
 	{u: d.CURRENCY, names: "CURRENCY", value: r.ONE},
-	{u: d.DIMENSIONLESS, names: "DIMENSIONLESS", value: r.ONE},
+	{u: d.ELECTRIC_CURRENT, names: "ELECTRIC_CURRENT", value: r.ONE},
+	{u: d.LUMINOUS_INTENSITY, names: "LUMINOUS_INTENSITY", value: r.ONE},
 }
 
 type prefix struct {
