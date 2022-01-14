@@ -8,9 +8,9 @@ import (
 )
 
 func TestParseNumber(t *testing.T) {
-	cases := []struct{
-		tok token.Token
-		want, have string	
+	cases := []struct {
+		tok        token.Token
+		want, have string
 	}{
 		{token.NUM_DEC, "123", "123"},
 		{token.NUM_BIN, "0b101", "0b101"},

@@ -11,7 +11,7 @@ import (
 )
 
 type Time struct {
-	ts time.Time
+	ts  time.Time
 	fmt string
 }
 

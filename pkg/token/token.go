@@ -14,8 +14,8 @@ const (
 	AND // and
 	REM // mod
 
-	IN  // in
-	TO  // to
+	IN // in
+	TO // to
 
 	chars_beg
 	SHL // <<
@@ -27,18 +27,18 @@ const (
 	EXP // ^
 	operator_end
 
-	LPAREN  // (
-	RPAREN  // )
-	COMMA   // ,
-	ASSIGN  // =
-	COLON   // :
+	LPAREN // (
+	RPAREN // )
+	COMMA  // ,
+	ASSIGN // =
+	COLON  // :
 	chars_end
 
-	NUM_DEC  // 10, 10.1
-	NUM_HEX  // 0xdeadbeef
-	NUM_OCT  // 0o127
-	NUM_BIN  // 0b101
-	NUM_SCI  // 1e2, 1.2e-7
+	NUM_DEC // 10, 10.1
+	NUM_HEX // 0xdeadbeef
+	NUM_OCT // 0o127
+	NUM_BIN // 0b101
+	NUM_SCI // 1e2, 1.2e-7
 	WORD
 	NAME
 )
@@ -71,8 +71,8 @@ var tokenToString = map[Token]string{
 	NUM_OCT: "NUM_OCT",
 	NUM_BIN: "NUM_BIN",
 	NUM_SCI: "NUM_SCI",
-	WORD: "WORD",
-	NAME: "NAME",
+	WORD:    "WORD",
+	NAME:    "NAME",
 
 	IN: "in",
 	TO: "to",

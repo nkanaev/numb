@@ -19,14 +19,14 @@ var builtin string
 type Runtime struct {
 	Prec int
 	Tsep string
-	Env map[string]value.Value
+	Env  map[string]value.Value
 }
 
 func NewRuntime() *Runtime {
 	return &Runtime{
 		Prec: 2,
 		Tsep: ",",
-		Env: make(map[string]value.Value),
+		Env:  make(map[string]value.Value),
 	}
 }
 

@@ -34,10 +34,10 @@ func (bu unit) Expand() map[string]*Unit {
 
 	result := make(map[string]*Unit)
 	unit := &Unit{
-		name:    names[0],
-		value:   bu.value,
-		offset:  bu.offset,
-		dim:     bu.u,
+		name:   names[0],
+		value:  bu.value,
+		offset: bu.offset,
+		dim:    bu.u,
 	}
 
 	for _, alias := range names {
@@ -86,9 +86,9 @@ func getNamedUnit(x string) *Unit {
 			if strings.HasPrefix(x, name) {
 				if u, ok := db[strings.TrimPrefix(x, name)]; ok && u.offset == nil {
 					return &Unit{
-						name:    x,
-						value:   new(big.Rat).Mul(u.value, prefix.value),
-						dim:     u.dim,
+						name:  x,
+						value: new(big.Rat).Mul(u.value, prefix.value),
+						dim:   u.dim,
 					}
 				}
 			}

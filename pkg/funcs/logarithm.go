@@ -15,7 +15,7 @@ func arity(want, have int) {
 
 func f64(val value.Value) float64 {
 	// TODO: type casting fixes
-	f, exact := val.(value.Number).Num.Float64()	
+	f, exact := val.(value.Number).Num.Float64()
 	if !exact && math.IsInf(f, 0) {
 		panic(fmt.Sprintf("%s magnitude is too large", val.String()))
 	}

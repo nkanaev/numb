@@ -37,7 +37,7 @@ func TestASTBinOPEval(t *testing.T) {
 		root := &BinOP{
 			Lhs: &Literal{value.Int64(6)},
 			Rhs: &Literal{value.Int64(2)},
-			Op: testcase.tok,
+			Op:  testcase.tok,
 		}
 		have := root.Eval(nil).String()
 		want := testcase.str

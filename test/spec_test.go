@@ -85,7 +85,7 @@ func TestSpecs(t *testing.T) {
 				want := spec.Wants[i]
 				have, err := runtime.Eval(expr)
 
-				if err != nil && (len(want) == 0 || want[0] != '!' ) {
+				if err != nil && (len(want) == 0 || want[0] != '!') {
 					t.Fatalf("unexpected error\nexpr: %s\nwant: %s\n err: %s", expr, want, err)
 				}
 				if len(want) == 0 {

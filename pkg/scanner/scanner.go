@@ -130,7 +130,8 @@ func (s *Scanner) digits(base int) string {
 	if base == 16 {
 		accept += "ABCDEF"
 	}
-	loop: for  {
+loop:
+	for {
 		ch := s.ch
 		switch {
 		case strings.ContainsRune(accept, ch):

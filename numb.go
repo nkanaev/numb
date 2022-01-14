@@ -74,12 +74,11 @@ func read(rt *runtime.Runtime, r io.Reader) {
 
 		aline, err := rt.Eval(qline)
 		if err != nil {
-			alines = append(alines, "! " + err.Error())
+			alines = append(alines, "! "+err.Error())
 			continue
 		}
 		alines = append(alines, aline)
 
-		
 		awidth := len(aline)
 		spaceidx := strings.Index(aline, " ")
 		if spaceidx != -1 {

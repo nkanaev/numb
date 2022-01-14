@@ -72,17 +72,17 @@ func groupDigits(num string, sep string, size int) string {
 	out := make([]rune, 0)
 	for i := 0; i < len(digits); i++ {
 		ord := len(digits) - i
-		if ord != len(num) && (ord % size) == 0 {
+		if ord != len(num) && (ord%size) == 0 {
 			out = append(out, ch)
 		}
 		out = append(out, digits[i])
-	}	
+	}
 	return string(out)
 }
 
 func formatSci(rat *big.Rat, sep string, prec int) string {
-	str := fmt.Sprintf(fmt.Sprint("%.",  prec, "e"), new(big.Float).SetRat(rat))
-	
+	str := fmt.Sprintf(fmt.Sprint("%.", prec, "e"), new(big.Float).SetRat(rat))
+
 	var int, dec, exp, expsign string
 
 	parts := strings.Split(str, ".")

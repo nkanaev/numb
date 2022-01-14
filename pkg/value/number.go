@@ -20,7 +20,7 @@ func (x IntOperationError) Error() string {
 
 type UnsupportedBinOP struct {
 	a, b Value
-	op token.Token
+	op   token.Token
 }
 
 func (err UnsupportedBinOP) Error() string {

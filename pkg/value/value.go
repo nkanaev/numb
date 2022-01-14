@@ -63,7 +63,7 @@ func GetNamedTime(name string) *Time {
 		return &Time{ts: time.Now(), fmt: time.ANSIC}
 	case "time":
 		return &Time{ts: time.Now(), fmt: "15:04"}
-	// TODO: date
+		// TODO: date
 	}
 	return nil
 }

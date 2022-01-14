@@ -3,15 +3,15 @@ package unit
 import (
 	"math/big"
 
-	r "github.com/nkanaev/numb/pkg/ratutils"
 	d "github.com/nkanaev/numb/pkg/dimension"
+	r "github.com/nkanaev/numb/pkg/ratutils"
 )
 
 type unit struct {
-	u         d.Dimensions
-	names     string
-	value     *big.Rat
-	offset    *big.Rat
+	u      d.Dimensions
+	names  string
+	value  *big.Rat
+	offset *big.Rat
 }
 
 var units = []unit{

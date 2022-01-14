@@ -21,7 +21,7 @@ var db = map[string]Func{
 	"floor": Floor,
 	"trunc": Trunc,
 	//"round": nop,
-	"abs":   Abs,
+	"abs": Abs,
 
 	"gcd": GCD,
 	"lcm": LCM,
