@@ -8,10 +8,10 @@ import (
 )
 
 type Unit struct {
-	name    string
-	value   *big.Rat
-	offset  *big.Rat
-	measure dimension.Measure
+	name   string
+	value  *big.Rat
+	offset *big.Rat
+	dim    dimension.Dimensions
 }
 
 func (u Unit) String() string {
@@ -37,7 +37,7 @@ func (bu unit) Expand() map[string]*Unit {
 		name:    names[0],
 		value:   bu.value,
 		offset:  bu.offset,
-		measure: bu.u,
+		dim: bu.u.Dim(),
 	}
 
 	for _, alias := range names {
@@ -61,8 +61,8 @@ func Get(x string) (UnitList, bool) {
 	u := getNamedUnit(x)
 	if u == nil {
 		suffixes := map[string]string{
-			"s": "",
-			"es": "",
+			"s":   "",
+			"es":  "",
 			"ies": "y",
 		}
 		for suffix, substitute := range suffixes {
@@ -86,9 +86,9 @@ func getNamedUnit(x string) *Unit {
 			if strings.HasPrefix(x, name) {
 				if u, ok := db[strings.TrimPrefix(x, name)]; ok && u.offset == nil {
 					return &Unit{
-						name: x,
-						value: new(big.Rat).Mul(u.value, prefix.value),
-						measure: u.measure,
+						name:    x,
+						value:   new(big.Rat).Mul(u.value, prefix.value),
+						dim:     u.dim,
 					}
 				}
 			}
@@ -111,13 +111,9 @@ func init() {
 }
 
 func Add(name string, num *big.Rat, unit UnitList) {
-	measure, found := unit.Dimension().Measure()
-	if !found {
-		panic("cannot create unit of unknown measure: " + unit.String())
-	}
 	db[name] = &Unit{
-		name:    name,
-		value:   unit.normalize(num),
-		measure: measure,
+		name:  name,
+		value: unit.normalize(num),
+		dim:   unit.Dimension(),
 	}
 }
