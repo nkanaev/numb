@@ -19,7 +19,7 @@ func (a Time) BinOP(op token.Token, b Value) (Value, error) {
 	if Type(b) == TYPE_UNIT {
 		b := b.(Unit)
 		if b.Units.Dimension() != dimension.TIME {
-			return nil, fmt.Errorf("%s is not a measure of %s", b, dimension.TIME)
+			return nil, fmt.Errorf("%s is not a measure of time", b)
 		}
 
 		diff_nsec, err := unit.Convert(b.Num, b.Units, unit.Must("nanosecond"))

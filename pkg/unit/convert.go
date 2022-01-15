@@ -11,7 +11,7 @@ type ConformanceError struct {
 
 func (c ConformanceError) Error() string {
 	return fmt.Sprintf(
-		"%s (%s) does not conform %s (%s)",
+		"incompatible units, %s (%s) does not conform %s (%s)",
 		c.a.String(), c.a.Dimension().Measure(),
 		c.b.String(), c.b.Dimension().Measure())
 }
