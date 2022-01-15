@@ -8,7 +8,7 @@ import (
 )
 
 type unit struct {
-	u      d.Dimensions
+	u      d.Dimension
 	names  string
 	value  *big.Rat
 	offset *big.Rat

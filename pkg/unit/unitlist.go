@@ -25,7 +25,7 @@ func (u1 UnitList) IsSingle() bool {
 }
 
 func (ul UnitList) Simplify() UnitList {
-	exps := make(map[dimension.Dimensions]int)
+	exps := make(map[dimension.Dimension]int)
 	candidates := make([]Unit, 0)
 
 	for _, u := range ul {
@@ -47,8 +47,8 @@ func (ul UnitList) Simplify() UnitList {
 	return out
 }
 
-func (u UnitList) Dimension() dimension.Dimensions {
-	var d dimension.Dimensions
+func (u UnitList) Dimension() dimension.Dimension {
+	var d dimension.Dimension
 	for _, x := range u {
 		d = d.Add(x.Unit.dim.Exp(x.Exp))
 	}

@@ -11,7 +11,7 @@ type Unit struct {
 	name   string
 	value  *big.Rat
 	offset *big.Rat
-	dim    dimension.Dimensions
+	dim    dimension.Dimension
 }
 
 func (u Unit) String() string {
