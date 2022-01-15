@@ -1,7 +1,7 @@
 - do not panic
 - unit/timezone matching
 - tz database provision
-- dimensionless units?
+- port all gnu/frink units
 - verbose error messages
 - documentation
 - test coverage
