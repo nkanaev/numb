@@ -22,6 +22,10 @@ century : 100 year
 millenium : 1000 year
 
 
+| temperature
+K : kelvin : degK : TEMPERATURE
+
+
 | length
 m: metre : meter : LENGTH
 yd : 0.9144 m  | International Yard

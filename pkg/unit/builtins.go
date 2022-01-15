@@ -3,32 +3,8 @@ package unit
 import (
 	"math/big"
 
-	d "github.com/nkanaev/numb/pkg/dimension"
 	r "github.com/nkanaev/numb/pkg/ratutils"
 )
-
-type unit struct {
-	u      d.Dimension
-	names  string
-	value  *big.Rat
-	offset *big.Rat
-}
-
-var units = []unit{
-	{u: d.LENGTH, names: "LENGTH", value: r.ONE},
-	{u: d.MASS, names: "MASS", value: r.ONE},
-	{u: d.TIME, names: "TIME", value: r.ONE},
-	{u: d.AMOUNT_OF_SUBSTANCE, names: "AMOUNT_OF_SUBSTANCE", value: r.ONE},
-	{u: d.DIGITAL, names: "DIGITAL", value: r.ONE},
-
-	{u: d.TEMPERATURE, names: "K, kelvin", value: r.ONE},
-	{u: d.TEMPERATURE, names: "°C, degC, celsius", value: r.ONE, offset: r.Must("273.15")},
-	{u: d.TEMPERATURE, names: "°F, degF, fahrenheit", value: r.Must("10/18"), offset: r.Must("459.67")},
-
-	{u: d.CURRENCY, names: "CURRENCY", value: r.ONE},
-	{u: d.ELECTRIC_CURRENT, names: "ELECTRIC_CURRENT", value: r.ONE},
-	{u: d.LUMINOUS_INTENSITY, names: "LUMINOUS_INTENSITY", value: r.ONE},
-}
 
 type prefix struct {
 	names string
