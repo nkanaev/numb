@@ -6,7 +6,7 @@ import (
 )
 
 type ConformanceError struct {
-	a, b UnitList
+	a, b Units
 }
 
 func (c ConformanceError) Error() string {
@@ -16,7 +16,7 @@ func (c ConformanceError) Error() string {
 		c.b.String(), c.b.Dimension().Measure())
 }
 
-func Convert(n *big.Rat, from, to UnitList) (*big.Rat, error) {
+func Convert(n *big.Rat, from, to Units) (*big.Rat, error) {
 	if from.Dimension().IsPure() {
 		return from.normalize(n), nil
 	}
@@ -29,6 +29,6 @@ func Convert(n *big.Rat, from, to UnitList) (*big.Rat, error) {
 	return to.denormalize(from.normalize(n)), nil
 }
 
-func Normalize(n *big.Rat, x UnitList) *big.Rat {
+func Normalize(n *big.Rat, x Units) *big.Rat {
 	return x.normalize(n)
 }

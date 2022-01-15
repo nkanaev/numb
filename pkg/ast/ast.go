@@ -78,7 +78,7 @@ func (n *Assign) Eval(env map[string]value.Value) value.Value {
 	val := n.Expr.Eval(env)
 	if n.Unit {
 		if val, isnum := val.(value.Number); isnum {
-			unit.Add(n.Name, val.Num, unit.UnitList{})
+			unit.Add(n.Name, val.Num, unit.Units{})
 			return val
 		}
 		if val, isunit := val.(value.Unit); isunit {

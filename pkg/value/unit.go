@@ -12,7 +12,7 @@ import (
 type Unit struct {
 	Num   *big.Rat
 	Fmt   NumberFormat
-	Units unit.UnitList
+	Units unit.Units
 }
 
 func (a Unit) String() string {
