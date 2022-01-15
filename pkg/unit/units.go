@@ -9,13 +9,13 @@ import (
 	r "github.com/nkanaev/numb/pkg/ratutils"
 )
 
-type namedUnit struct {
+type unitEntry struct {
 	name string
-	unit Unit
+	unit unitDef
 	exp  int
 }
 
-type Units []namedUnit
+type Units []unitEntry
 
 func (u1 Units) Conforms(u2 Units) bool {
 	return u1.Dimension().Equals(u2.Dimension())
@@ -43,7 +43,7 @@ func (units Units) Simplify() Units {
 	for _, nu := range tmpunits {
 		key := nu.unit.dim
 		if exp := exps[key]; exp != 0 {
-			nu := namedUnit{name: nu.name, unit: nu.unit, exp: exp}
+			nu := unitEntry{name: nu.name, unit: nu.unit, exp: exp}
 			newunits = append(newunits, nu)
 		}
 	}
@@ -119,7 +119,8 @@ func (u Units) String() string {
 func (u1 Units) Exp(x int) Units {
 	u2 := Units{}
 	for _, u := range u1 {
-		u2 = append(u2, namedUnit{
+		u2 = append(u2, unitEntry{
+			name: u.name,
 			unit: u.unit,
 			exp:  u.exp * x,
 		})
@@ -138,7 +139,8 @@ func (this Units) Quo(other Units) Units {
 	c := Units{}
 	c = append(c, this...)
 	for _, u := range other {
-		c = append(c, namedUnit{
+		c = append(c, unitEntry{
+			name: u.name,
 			unit: u.unit,
 			exp:  -u.exp,
 		})

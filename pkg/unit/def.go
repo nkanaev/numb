@@ -8,13 +8,13 @@ import (
 	r "github.com/nkanaev/numb/pkg/ratutils"
 )
 
-type Unit struct {
+type unitDef struct {
 	value  *big.Rat
 	offset *big.Rat
 	dim    d.Dimension
 }
 
-var db = map[string]Unit{}
+var db = map[string]unitDef{}
 
 func Must(x string) Units {
 	u, ok := Get(x)
@@ -24,44 +24,70 @@ func Must(x string) Units {
 	return u
 }
 
-func Get(x string) (Units, bool) {
-	u := getNamedUnit(x)
-	if u == nil {
+func (u unitDef) ToUnits(name string) Units {
+	return Units{unitEntry{name: name, unit: u, exp: 1}}
+}
+
+func Get(name string) (Units, bool) {
+	return resolveUnit(name, true)
+}
+
+func resolveUnit(name string, subsuffix bool) (Units, bool) {
+	// 1. find the exact definition
+	if def, ok := db[name]; ok {
+		return def.ToUnits(name), true
+	}
+
+	// 2. substitute suffixes
+	if subsuffix {
 		suffixes := map[string]string{
 			"s":   "",
 			"es":  "",
 			"ies": "y",
 		}
 		for suffix, substitute := range suffixes {
-			if u = getNamedUnit(strings.TrimSuffix(x, suffix) + substitute); u != nil {
-				break
+			newname := strings.TrimSuffix(name, suffix) + substitute
+			if u, ok := resolveUnit(newname, false); ok {
+				return u, ok
 			}
 		}
-		if u == nil {
-			return nil, false
+	}
+
+	// 3. search with prefix
+	for prefix, prefixVal := range prefixes {
+		if strings.HasPrefix(name, prefix) {
+			newname := strings.TrimPrefix(name, prefix)
+			if def, ok := db[name]; ok && def.offset == nil {
+				newval := new(big.Rat).Mul(def.value, prefixVal)
+				newdef := unitDef{value: newval, dim: def.dim}
+				return newdef.ToUnits(newname), true
+			}
 		}
 	}
-	return Units{namedUnit{name: x, unit: *u, exp: 1}}, true
-}
 
-func getNamedUnit(x string) *Unit {
-	if u, ok := db[x]; ok {
-		return &u
+	// 4. if all else fails, try case-insensitive match
+	for unitname, unitdef := range db {
+		if strings.EqualFold(name, unitname) {
+			return unitdef.ToUnits(unitname), true
+		}
 	}
 	for prefix, prefixVal := range prefixes {
-		if u, ok := db[strings.TrimPrefix(x, prefix)]; ok && u.offset == nil {
-			return &Unit{
-				value: new(big.Rat).Mul(u.value, prefixVal),
-				dim:   u.dim,
+		for unitname, unitdef := range db {
+			// no fractional digital units
+			if unitdef.dim.Equals(d.DIGITAL) && prefixVal.Cmp(r.ONE) < 0 {
+				continue
+			}
+
+			newname := prefix + unitname
+			if strings.EqualFold(name, newname) {
+				newval := new(big.Rat).Mul(unitdef.value, prefixVal)
+				newdef := unitDef{value: newval, dim: unitdef.dim}
+				return newdef.ToUnits(newname), true
 			}
 		}
 	}
-	for name, u := range db {
-		if strings.EqualFold(name, x) {
-			return &u
-		}
-	}
-	return nil
+
+	return nil, false
 }
 
 func init() {
@@ -71,14 +97,14 @@ func init() {
 }
 
 func Add(name string, num *big.Rat, unit Units) {
-	db[name] = Unit{
+	db[name] = unitDef{
 		value: unit.normalize(num),
 		dim:   unit.Dimension(),
 	}
 }
 
-func Defaults() map[string]Unit {
-	defaults := make(map[string]Unit)
+func Defaults() map[string]unitDef {
+	defaults := make(map[string]unitDef)
 
 	baseunits := map[string]d.Dimension{
 		"LENGTH":              d.LENGTH,
@@ -92,15 +118,15 @@ func Defaults() map[string]Unit {
 		"LUMINOUS_INTENSITY":  d.LUMINOUS_INTENSITY,
 	}
 	for name, dim := range baseunits {
-		defaults[name] = Unit{value: r.ONE, dim: dim}
+		defaults[name] = unitDef{value: r.ONE, dim: dim}
 	}
 
 	// non-linear units
 	for _, name := range []string{"degC", "celsius"} {
-		defaults[name] = Unit{value: r.ONE, offset: r.Must("273.15"), dim: d.TEMPERATURE}
+		defaults[name] = unitDef{value: r.ONE, offset: r.Must("273.15"), dim: d.TEMPERATURE}
 	}
 	for _, name := range []string{"degF", "fahrenheit"} {
-		defaults[name] = Unit{value: big.NewRat(10, 18), offset: r.Must("459.67"), dim: d.TEMPERATURE}
+		defaults[name] = unitDef{value: big.NewRat(10, 18), offset: r.Must("459.67"), dim: d.TEMPERATURE}
 	}
 
 	return defaults
@@ -128,7 +154,7 @@ var prefixes = map[string]*big.Rat{
 	"zepto": r.Exp(10, -21),
 	"y":     r.Exp(10, -24),
 	"yocto": r.Exp(10, -24),
-	"da":     r.Exp(10, 1),
+	"da":    r.Exp(10, 1),
 	"deca":  r.Exp(10, 1),
 	"h":     r.Exp(10, 2),
 	"hecto": r.Exp(10, 2),
@@ -149,20 +175,20 @@ var prefixes = map[string]*big.Rat{
 	"Y":     r.Exp(10, 24),
 	"yotta": r.Exp(10, 24),
 	// digital
-	"Ki":    r.Exp(1024, 1),
-	"kibi":  r.Exp(1024, 1),
-	"Mi":    r.Exp(1024, 2),
-	"mebi":  r.Exp(1024, 2),
-	"Gi":    r.Exp(1024, 3),
-	"gibi":  r.Exp(1024, 3),
-	"Ti":    r.Exp(1024, 4),
-	"tebi":  r.Exp(1024, 4),
-	"Pi":    r.Exp(1024, 5),
-	"pebi":  r.Exp(1024, 5),
-	"Ei":    r.Exp(1024, 6),
-	"exi":   r.Exp(1024, 6),
-	"Zi":    r.Exp(1024, 7),
-	"zebi":  r.Exp(1024, 7),
-	"Yi":    r.Exp(1024, 8),
-	"yobi":  r.Exp(1024, 8),
+	"Ki":   r.Exp(1024, 1),
+	"kibi": r.Exp(1024, 1),
+	"Mi":   r.Exp(1024, 2),
+	"mebi": r.Exp(1024, 2),
+	"Gi":   r.Exp(1024, 3),
+	"gibi": r.Exp(1024, 3),
+	"Ti":   r.Exp(1024, 4),
+	"tebi": r.Exp(1024, 4),
+	"Pi":   r.Exp(1024, 5),
+	"pebi": r.Exp(1024, 5),
+	"Ei":   r.Exp(1024, 6),
+	"exi":  r.Exp(1024, 6),
+	"Zi":   r.Exp(1024, 7),
+	"zebi": r.Exp(1024, 7),
+	"Yi":   r.Exp(1024, 8),
+	"yobi": r.Exp(1024, 8),
 }
