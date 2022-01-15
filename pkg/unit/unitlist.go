@@ -128,7 +128,7 @@ func (this UnitList) Mul(other UnitList) UnitList {
 	c := UnitList{}
 	c = append(c, this...)
 	c = append(c, other...)
-	return c.Simplify()
+	return c
 }
 
 func (this UnitList) Quo(other UnitList) UnitList {
@@ -140,5 +140,5 @@ func (this UnitList) Quo(other UnitList) UnitList {
 			Exp:  -u.Exp,
 		})
 	}
-	return c.Simplify()
+	return c
 }

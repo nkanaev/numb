@@ -57,15 +57,23 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			}
 			return Unit{Num: new(big.Rat).Sub(a.Num, bnum), Units: a.Units}, nil
 		case token.MUL:
-			newn := new(big.Rat).Mul(a.Num, b.Num)
-			newu := a.Units.Mul(b.Units)
+			tmpu := a.Units.Mul(b.Units)
+			newu := tmpu.Simplify()
+
+			tmpn := new(big.Rat).Mul(a.Num, b.Num)
+			newn, _ := unit.Convert(tmpn, tmpu, newu)
+
 			if newu.Dimension().IsZero() {
 				return Number{Num: newn}, nil
 			}
 			return Unit{Num: newn, Units: newu}, nil
 		case token.QUO:
-			newn := new(big.Rat).Quo(a.Num, b.Num)
-			newu := a.Units.Quo(b.Units)
+			tmpu := a.Units.Quo(b.Units)
+			newu := tmpu.Simplify()
+	
+			tmpn := new(big.Rat).Quo(a.Num, b.Num)
+			newn, _ := unit.Convert(tmpn, tmpu, newu)
+
 			if newu.Dimension().IsZero() {
 				return Number{Num: newn}, nil
 			}
