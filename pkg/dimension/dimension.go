@@ -41,9 +41,8 @@ func (d1 Dimension) Equals(d2 Dimension) bool {
 	return true
 }
 
-func (d1 Dimension) IsZero() bool {
-	var nodim Dimension
-	return d1.Equals(nodim)
+func (d1 Dimension) IsPure() bool {
+	return d1.Equals(DIMENSIONLESS)
 }
 
 func (d1 Dimension) Measure() string {
@@ -56,6 +55,7 @@ func (d1 Dimension) Measure() string {
 }
 
 var (
+	DIMENSIONLESS       = Dimension{}
 	LENGTH              = Dimension{Length: 1}
 	TIME                = Dimension{Time: 1}
 	MASS                = Dimension{Mass: 1}

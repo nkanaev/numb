@@ -36,7 +36,7 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			exp := int(bnum.Num().Int64())
 			n := ratutils.ExpInt(a.Num, exp)
 			u := a.Units.Exp(exp)
-			if u.Dimension().IsZero() {
+			if u.Dimension().IsPure() {
 				return Number{Num: n}, nil
 			}
 			return Unit{Num: n, Units: u}, nil
@@ -63,7 +63,7 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			tmpn := new(big.Rat).Mul(a.Num, b.Num)
 			newn, _ := unit.Convert(tmpn, tmpu, newu)
 
-			if newu.Dimension().IsZero() {
+			if newu.Dimension().IsPure() {
 				return Number{Num: newn}, nil
 			}
 			return Unit{Num: newn, Units: newu}, nil
@@ -74,7 +74,7 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			tmpn := new(big.Rat).Quo(a.Num, b.Num)
 			newn, _ := unit.Convert(tmpn, tmpu, newu)
 
-			if newu.Dimension().IsZero() {
+			if newu.Dimension().IsPure() {
 				return Number{Num: newn}, nil
 			}
 			return Unit{Num: newn, Units: newu}, nil

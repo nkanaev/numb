@@ -17,7 +17,7 @@ func (c ConformanceError) Error() string {
 }
 
 func Convert(n *big.Rat, from, to UnitList) (*big.Rat, error) {
-	if from.Dimension().IsZero() {
+	if from.Dimension().IsPure() {
 		return from.normalize(n), nil
 	}
 	if !from.Conforms(to) {

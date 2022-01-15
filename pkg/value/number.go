@@ -112,7 +112,7 @@ func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 		case token.QUO:
 			return Unit{Num: new(big.Rat).Quo(a.Num, b.Num), Units: b.Units.Exp(-1)}, nil
 		case token.ADD, token.SUB:
-			if b.Units.Dimension().IsZero() {
+			if b.Units.Dimension().IsPure() {
 				num := new(big.Rat).Set(a.Num)
 				num.Mul(num, unit.Normalize(b.Num, b.Units))
 				return a.BinOP(op, Number{Num: num})
