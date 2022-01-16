@@ -1,5 +1,4 @@
 - do not panic
-- unit/timezone matching
 - tz database provision
 - port all gnu/frink units
 - verbose error messages
