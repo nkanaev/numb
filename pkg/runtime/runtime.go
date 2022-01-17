@@ -3,8 +3,8 @@ package runtime
 import (
 	"bufio"
 	_ "embed"
+	"fmt"
 	"io"
-	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -36,23 +36,25 @@ func Clean(line string) string {
 
 func (r *Runtime) Eval(line string) (string, error) {
 	line = Clean(line)
-
-	if len(line) == 0 {
+	
+	trimmedline := strings.TrimSpace(line)
+	if len(trimmedline) == 0 {
 		return line, nil
 	}
 
-	if line[0] == '.' {
+	firstchar := trimmedline[0]
+	switch firstchar {
+	case '.':
 		return r.EvalConfig(line[1:])
-	}
-	if line[0] == '#' {
+	case '#':
 		return line, nil
+	default:
+		val, err := parser.Eval(line, r.Env)
+		if err != nil {
+			return "", err
+		}
+		return val.String(), nil //val.Format(r.Tsep, r.Prec), nil
 	}
-
-	val, err := parser.Eval(line, r.Env)
-	if err != nil {
-		return "", err
-	}
-	return val.String(), nil //val.Format(r.Tsep, r.Prec), nil
 }
 
 func (r *Runtime) EvalConfig(line string) (string, error) {
@@ -87,7 +89,7 @@ func (r *Runtime) LoadBuiltins() {
 func (r *Runtime) LoadFile(path string) {
 	file, err := os.Open(path)
 	if err != nil {
-		log.Fatalf("loadfile: %s", err.Error())
+		fail("loadfile: %s", err.Error())
 	}
 	defer file.Close()
 	r.Load(file, path)
@@ -98,13 +100,15 @@ func (r *Runtime) Load(reader io.Reader, filename string) {
 	linenum := 0
 	for scanner.Scan() {
 		linenum += 1
-		line := Clean(scanner.Text())
-		if line == "" {
-			continue
-		}
-		_, err := parser.Eval(line, r.Env)
+		_, err := r.Eval(scanner.Text())
 		if err != nil {
-			log.Fatalf("load %s (line %d): %s", filename, linenum, err)
+			fail("load %s (line %d): %s", filename, linenum, err)
 		}
 	}
+}
+
+func fail(format string, v ...interface{}) {
+	fmt.Fprintf(os.Stderr, format, v...)
+	os.Stderr.WriteString("\n")
+	os.Exit(1)
 }
