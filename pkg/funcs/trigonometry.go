@@ -9,24 +9,6 @@ import (
 	"github.com/nkanaev/numb/pkg/value"
 )
 
-func toRadian(val value.Value) value.Number {
-	if value.Type(val) == value.TYPE_NUMBER {
-		return val.(value.Number)
-	} else if value.Type(val) == value.TYPE_UNIT {
-		val := val.(value.Unit)
-		num, err := unit.Convert(val.Num, val.Units, unit.Must("rad"))
-		if err != nil {
-			panic(err)
-		}
-		return value.Number{Num: num}
-	}
-	panic("unsupported type: " + value.Type(val).String())
-}
-
-func asRadian(val value.Number) value.Value {
-	return value.Unit{Num: val.Num, Units: unit.Must("rad")}
-}
-
 func trigOp(fn func(float64) float64, inUnit, outUnit bool, args ...value.Value) (value.Value, error) {
 	if len(args) != 1 {
 		return nil, fmt.Errorf("expected 1 argument, got %d", len(args))
