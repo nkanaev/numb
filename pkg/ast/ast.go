@@ -12,7 +12,7 @@ import (
 )
 
 type Node interface {
-	Eval(map[string]value.Value) value.Value
+	Eval(map[string]value.Value) (value.Value, error)
 	String() string
 }
 
@@ -29,21 +29,28 @@ func (n *BinOP) String() string {
 	return fmt.Sprintf("%s %s %s", n.Lhs.String(), n.Op.String(), n.Rhs.String())
 }
 
-func (n *BinOP) Eval(env map[string]value.Value) value.Value {
-	lhs := n.Lhs.Eval(env)
-	rhs := n.Rhs.Eval(env)
+func (n *BinOP) Eval(env map[string]value.Value) (value.Value, error) {
+	lhs, err := n.Lhs.Eval(env)
+	if err != nil {
+		return nil, err
+	}
+	rhs, err := n.Rhs.Eval(env)
+	if err != nil {
+		return nil, err
+	}
+
 	val, err := lhs.BinOP(n.Op, rhs)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return val
+	return val, nil
 }
 
 type ParenExpr struct {
 	Expr Node
 }
 
-func (n *ParenExpr) Eval(env map[string]value.Value) value.Value {
+func (n *ParenExpr) Eval(env map[string]value.Value) (value.Value, error) {
 	return n.Expr.Eval(env)
 }
 
@@ -56,12 +63,16 @@ type Unary struct {
 	Expr Node
 }
 
-func (n *Unary) Eval(env map[string]value.Value) value.Value {
-	val, err := n.Expr.Eval(env).UnOP(n.Op)
+func (n *Unary) Eval(env map[string]value.Value) (value.Value, error) {
+	val, err := n.Expr.Eval(env)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return val
+	val, err = val.UnOP(n.Op)
+	if err != nil {
+		return nil, err
+	}
+	return val, nil
 }
 
 func (n *Unary) String() string {
@@ -74,22 +85,25 @@ type Assign struct {
 	Unit bool
 }
 
-func (n *Assign) Eval(env map[string]value.Value) value.Value {
-	val := n.Expr.Eval(env)
+func (n *Assign) Eval(env map[string]value.Value) (value.Value, error) {
+	val, err := n.Expr.Eval(env)
+	if err != nil {
+		return nil, err
+	}
 	if n.Unit {
 		if val, isnum := val.(value.Number); isnum {
 			unit.Add(n.Name, val.Num, unit.Units{})
-			return val
+			return val, nil
 		}
 		if val, isunit := val.(value.Unit); isunit {
 			unit.Add(n.Name, val.Num, val.Units)
-			return val
+			return val, nil
 		}
-		panic(fmt.Sprintf("cannot create unit from %s (%s type)", val, value.Type(val)))
+		return nil, fmt.Errorf("cannot create unit from %s (%s type)", val, value.Type(val))
 	} else {
 		env[n.Name] = val
 	}
-	return val
+	return val, nil
 }
 
 func (n *Assign) String() string {
@@ -103,17 +117,17 @@ type Var struct {
 	Name string
 }
 
-func (n *Var) Eval(env map[string]value.Value) value.Value {
+func (n *Var) Eval(env map[string]value.Value) (value.Value, error) {
 	if val, ok := env[n.Name]; ok {
-		return val
+		return val, nil
 	}
 	if time := value.GetNamedTime(n.Name); time != nil {
-		return time
+		return time, nil
 	}
 	if unit, ok := unit.Get(n.Name); ok {
-		return value.Unit{Num: ratutils.ONE, Units: unit}
+		return value.Unit{Num: ratutils.ONE, Units: unit}, nil
 	}
-	panic(n.Name + " not defined")
+	return nil, fmt.Errorf("%s not defined", n.Name)
 }
 
 func (n *Var) String() string {
@@ -125,62 +139,45 @@ type Format struct {
 	Fmt  string
 }
 
-func (n *Format) Eval(env map[string]value.Value) value.Value {
-	val, err := n.Expr.Eval(env).In(n.Fmt)
+func (n *Format) Eval(env map[string]value.Value) (value.Value, error) {
+	val, err := n.Expr.Eval(env)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return val
+	val, err = val.In(n.Fmt)
+	if err != nil {
+		return nil, err
+	}
+	return val, nil
 }
 
 func (n *Format) String() string {
 	return fmt.Sprintf("%s %s %s", n.Expr.String(), token.IN, n.Fmt)
 }
 
-/*
-type Convert struct {
-	Expr, Unit Node
-}
-
-func (n *Convert) Eval(env map[string]value.Value) value.Value {
-	l := n.Expr.Eval(env)
-	u := n.Unit.Eval(env)
-	if len(l.Unit) == 0 {
-		panic(l.String() + " is a unitless value")
-	}
-	if len(u.Unit) == 0 {
-		panic(n.Unit.String() + " is not a unit")
-	}
-	if u.Num.Cmp(ratutils.ONE) != 0 {
-		panic("cannot convert to a unit with a value: " + n.Unit.String())
-	}
-	return l.To(u.Unit)
-}
-
-func (n *Convert) String() string {
-	return n.Expr.String() + " to " + n.Unit.String()
-}
-*/
-
 type FunCall struct {
 	Name string
 	Args []Node
 }
 
-func (n *FunCall) Eval(env map[string]value.Value) value.Value {
+func (n *FunCall) Eval(env map[string]value.Value) (value.Value, error) {
 	fn := funcs.Get(n.Name)
 	if fn == nil {
-		panic("unknown function: " + n.Name)
+		return nil, fmt.Errorf("unknown function: %s", n.Name)
 	}
 	args := make([]value.Value, len(n.Args))
+	var err error
 	for i, arg := range n.Args {
-		args[i] = arg.Eval(env)
+		args[i], err = arg.Eval(env)
+		if err != nil {
+			return nil, err
+		}
 	}
 	val, err := (*fn)(args...)
 	if err != nil {
-		panic(n.Name + ": " + err.Error())
+		return nil, fmt.Errorf("%s: %s", n.Name, err)
 	}
-	return val
+	return val, nil
 }
 
 func (n *FunCall) String() string {
@@ -195,8 +192,8 @@ type Literal struct {
 	Val value.Value
 }
 
-func (n *Literal) Eval(env map[string]value.Value) value.Value {
-	return n.Val
+func (n *Literal) Eval(env map[string]value.Value) (value.Value, error) {
+	return n.Val, nil
 }
 
 func (n *Literal) String() string {

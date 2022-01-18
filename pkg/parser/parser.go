@@ -159,6 +159,5 @@ func Eval(expr string, env map[string]value.Value) (val value.Value, err error) 
 			}
 		}
 	}()
-	val = Parse(expr).Eval(env)
-	return
+	return Parse(expr).Eval(env)
 }
