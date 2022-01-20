@@ -1,4 +1,3 @@
-- do not panic
 - tz database provision
 - port all gnu/frink units
 - parse time formats
