@@ -135,20 +135,10 @@ func (p *parser) parseExpr() ast.Node {
 	return p.parseBinaryExpr(token.LowestPrec + 1)
 }
 
-func Parse(line string) ast.Node {
-	s := scanner.New(line)
-	p := &parser{s: s}
-	s.Scan()
-	root := p.parseExpr()
-	if s.Token != token.END {
-		panic(&SyntaxError{Pos: p.s.Pos(), Err: "invalid syntax"})
-	}
-	return root
-}
-
-func Eval(expr string, env map[string]value.Value) (val value.Value, err error) {
+func Parse(line string) (node ast.Node, err error) {
 	defer func() {
 		if r := recover(); r != nil {
+			node = nil
 			switch x := r.(type) {
 			case string:
 				err = errors.New(x)
@@ -159,5 +149,21 @@ func Eval(expr string, env map[string]value.Value) (val value.Value, err error) 
 			}
 		}
 	}()
-	return Parse(expr).Eval(env)
+
+	s := scanner.New(line)
+	p := &parser{s: s}
+	s.Scan()
+	node = p.parseExpr()
+	if s.Token != token.END {
+		panic(&SyntaxError{Pos: p.s.Pos(), Err: "invalid syntax"})
+	}
+	return
+}
+
+func Eval(expr string, env map[string]value.Value) (val value.Value, err error) {
+	node, err := Parse(expr)
+	if err != nil {
+		return nil, err
+	}
+	return node.Eval(env)
 }
