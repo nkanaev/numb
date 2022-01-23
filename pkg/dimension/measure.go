@@ -16,6 +16,8 @@ var Measures = map[string]Dimension{
 	"power":                             {Mass: 1, Length: 2, Time: -3},
 	"force":                             {Mass: 1, Length: 1, Time: -2},
 	"energy":                            {Mass: 1, Length: 2, Time: -2},
+	"angular momentum":                  {Mass: 1, Length: 2, Time: -1},
+	"moment of intertia":                {Length: 2, Mass: 1},
 	"electric charge":                   {Time: 1, Current: 1},
 	"electric potential":                {Mass: 1, Length: 2, Time: -3, Current: -1},
 	"electric capacitance":              {Mass: -1, Length: -2, Time: 4, Current: 2},
@@ -34,4 +36,7 @@ var Measures = map[string]Dimension{
 	"density":                           {Mass: 1, Length: -3},
 	"flow":                              {Length: 3, Time: -1},
 	"acceleration":                      {Length: 1, Time: -2},
+	"momentum":                          {Length: 1, Mass: 1, Time: -1},
+	"electric current density":          {Current: 1, Mass: -2},
+	"price per mass":                    {Currency: 1, Mass: -1},
 }
