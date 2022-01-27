@@ -26,7 +26,7 @@ func (a Time) BinOP(op token.Token, b Value) (Value, error) {
 			case token.SUB:
 				maxYears := 200
 				ayear := a.ts.Year()
-				byear := a.ts.Year()
+				byear := b.ts.Year()
 				if math.Abs(float64(ayear-byear)) > float64(maxYears) {
 					return nil, fmt.Errorf("time difference exceedes limitation (%d years)", maxYears)
 				}
