@@ -6,9 +6,11 @@ import (
 )
 
 func TestParse(t *testing.T) {
+	year := time.Now().Year()
+
 	tz := time.Local
 	tcases := []struct{
-		Line string
+		Date string
 		Want time.Time
 	}{
 		// YYYY MM DD
@@ -35,19 +37,23 @@ func TestParse(t *testing.T) {
 		{"6 June 2019 13:30", time.Date(2019, time.June, 6, 13, 30, 0, 0, tz)},
 		{"06 june 2019 13:30", time.Date(2019, time.June, 6, 13, 30, 0, 0, tz)},
 		{"6 june 2019 13:30", time.Date(2019, time.June, 6, 13, 30, 0, 0, tz)},
+
+		// MM DD
+		{"may 6", time.Date(year, time.May, 6, 0, 0, 0, 0, tz)},
+		{"6 may", time.Date(year, time.May, 6, 0, 0, 0, 0, tz)},
 	}
 
 	for _, tcase := range tcases {
-		line := tcase.Line
+		date := tcase.Date
 		want := tcase.Want
-		have, err := Parse(line)
+		have, err := Parse(date)
 		if err != nil {
-			t.Errorf("failed for `%s` (%s)", line, err)
+			t.Errorf("failed for `%s` (%s)", date, err)
 		}
 		if !want.Equal(have) {
 			t.Errorf(
-				"invalid date\nline: %s\nwant: %q\nhave: %q",
-				line, want, have,
+				"invalid date\ndate: %s\nwant: %q\nhave: %q",
+				date, want, have,
 			)
 		}
 	}

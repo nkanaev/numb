@@ -27,14 +27,30 @@ var dateLayouts = []string{
 	"_2 January 2006 15:04",
 }
 
+var thisYearLayouts = []string{
+	"2 Jan",
+	"Jan 2",
+}
+
 var unknownFormat = errors.New("unknown time format")
 
+func parseLocal(layout, value string) (time.Time, error) {
+	return time.ParseInLocation(layout, value, time.Local)
+}
+
 func Parse(value string) (time.Time, error) {
-	tz := time.Local
 	for _, layout := range dateLayouts {
-		if t, err := time.ParseInLocation(layout, value, tz); err == nil {
+		if t, err := parseLocal(layout, value); err == nil {
 			return t, nil
 		}
 	}
+
+	for _, layout := range thisYearLayouts {
+		if t, err := parseLocal(layout, value); err == nil {
+			t = t.AddDate(time.Now().Year(), 0, 0)
+			return t, nil
+		}
+	}
+
 	return time.Time{}, unknownFormat
 }
