@@ -6,6 +6,7 @@ import (
 	"github.com/nkanaev/numb/pkg/ast"
 	"github.com/nkanaev/numb/pkg/ratutils"
 	"github.com/nkanaev/numb/pkg/scanner"
+	"github.com/nkanaev/numb/pkg/timeutil"
 	"github.com/nkanaev/numb/pkg/token"
 	"github.com/nkanaev/numb/pkg/value"
 )
@@ -58,6 +59,13 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		val := p.s.Value
 		p.s.Scan()
 		return &ast.Literal{value.Number{Num: ratutils.Must(val), Fmt: value.SCI}}
+	case token.DATE:
+		t, err := timeutil.Parse(p.s.Value)
+		if err != nil {
+			panic(err)
+		}
+		p.s.Scan()
+		return &ast.Literal{value.NewTime(t)}
 	case token.WORD:
 		name := p.s.Value
 		p.expect(token.WORD)

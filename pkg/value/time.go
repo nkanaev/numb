@@ -56,6 +56,13 @@ func (t Time) In(fmt string) (Value, error) {
 	return nil, errors.New("unknown timezone: " + fmt)
 }
 
+func NewTime(t time.Time) Time {
+	return Time{ts: t}
+}
+
 func (t Time) String() string {
+	if t.fmt == "" {
+		return t.ts.Format(time.RFC1123)
+	}
 	return t.ts.Format(t.fmt)
 }

@@ -93,6 +93,20 @@ func (s *Scanner) scan() {
 		case '>':
 			s.Token = token.SHR
 		}
+	case ch == '{':
+		s.next()
+		runes := make([]rune, 0)
+		for s.ch != 0 && s.ch != '}' {
+			runes = append(runes, s.ch)
+			s.next()
+		}
+		if s.ch == 0 {
+			s.Token = token.Illegal
+			return
+		}
+		s.next()
+		s.Token = token.DATE
+		s.Value = string(runes)
 	default:
 		letters := make([]rune, 0)
 		for isWordChar(ch) {

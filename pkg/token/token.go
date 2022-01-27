@@ -41,6 +41,7 @@ const (
 	NUM_SCI // 1e2, 1.2e-7
 	WORD
 	NAME
+	DATE    // {11/12/2021}
 )
 
 var tokenToString = map[Token]string{
