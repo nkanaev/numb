@@ -3,6 +3,8 @@ package value
 import (
 	"errors"
 	"fmt"
+	"math"
+	"math/big"
 	"time"
 
 	"github.com/nkanaev/numb/pkg/dimension"
@@ -17,7 +19,22 @@ type Time struct {
 }
 
 func (a Time) BinOP(op token.Token, b Value) (Value, error) {
-	if Type(b) == TYPE_UNIT {
+	switch b.(type) {
+	case Time:
+		b := b.(Time)
+		switch op {
+			case token.SUB:
+				maxYears := 200
+				ayear := a.ts.Year()
+				byear := a.ts.Year()
+				if math.Abs(float64(ayear-byear)) > float64(maxYears) {
+					return nil, fmt.Errorf("time difference exceedes limitation (%d years)", maxYears)
+				}
+				ns_i64 := a.ts.Sub(b.ts).Nanoseconds()
+				ns_rat := new(big.Rat).SetInt64(ns_i64)
+				return Unit{Num: ns_rat, Units: unit.Must("nanosecond")}, nil
+		}
+	case Unit:
 		b := b.(Unit)
 		if b.Units.Dimension().Equals(dimension.TIME) {
 			return nil, fmt.Errorf("%s is not a measure of time", b)
