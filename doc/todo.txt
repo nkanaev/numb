@@ -1,6 +1,3 @@
-- tz database provision
-- port all gnu/frink units
-- parse time formats
 - verbose error messages
 - documentation
 - test coverage
