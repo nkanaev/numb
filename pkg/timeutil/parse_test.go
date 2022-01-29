@@ -41,6 +41,11 @@ func TestParse(t *testing.T) {
 		// MM DD
 		{"may 6", time.Date(year, time.May, 6, 0, 0, 0, 0, tz)},
 		{"6 may", time.Date(year, time.May, 6, 0, 0, 0, 0, tz)},
+
+		// timestamp
+		{"1557097200", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
+		{"1557097200000", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
+		{"1557097200000000", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
 	}
 
 	for _, tcase := range tcases {
