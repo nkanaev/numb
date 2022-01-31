@@ -19,8 +19,10 @@ func TestParse(t *testing.T) {
 		{"2019.05.06", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
 
 		// DD MM YYYY
-		{"05/06/2019", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
-		{"05.06.2019", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
+		{"06/05/2019", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
+		{"06.05.2019", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
+		{"6/5/2019", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
+		{"6.5.2019", time.Date(2019, time.May, 6, 0, 0, 0, 0, tz)},
 		{"06 Jun 2019", time.Date(2019, time.June, 6, 0, 0, 0, 0, tz)},
 		{"6 Jun 2019", time.Date(2019, time.June, 6, 0, 0, 0, 0, tz)},
 		{"06 June 2019", time.Date(2019, time.June, 6, 0, 0, 0, 0, tz)},
