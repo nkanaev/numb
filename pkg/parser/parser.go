@@ -70,7 +70,7 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 	case token.DATE:
 		t, err := timeutil.Parse(p.s.Value)
 		if err != nil {
-			panic(err)
+			panic(synerror(err.Error(), p.s.TokenStart, p.s.TokenEnd))
 		}
 		p.s.Scan()
 		return &ast.Literal{value.NewTime(t)}
