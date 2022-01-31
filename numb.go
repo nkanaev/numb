@@ -8,7 +8,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/nkanaev/numb/pkg/parser"
 	"github.com/nkanaev/numb/pkg/runtime"
 	"golang.org/x/term"
 )
@@ -17,6 +16,11 @@ var prompt = "> "
 var prefix = "  "
 
 var loadfiles = ""
+
+type poserror interface {
+	error
+	Pos() (int, int)
+}
 
 func repl(rt *runtime.Runtime) {
 	state, err := term.MakeRaw(int(os.Stdin.Fd()))
@@ -46,10 +50,14 @@ func repl(rt *runtime.Runtime) {
 		}
 		out, err := rt.Eval(line)
 		if err != nil {
-			if syntaxerr, ok := err.(*parser.SyntaxError); ok {
-				out = strings.Repeat(" ", syntaxerr.Pos) + "^\n"
-				out += prefix + syntaxerr.Error()
-			} else {
+			switch err.(type) {
+			case poserror:
+				err := err.(poserror)
+				start, end := err.Pos()
+				out = strings.Repeat(" ", start)
+				out += strings.Repeat("^", end-start+1) + "\n"
+				out += prefix + err.Error()
+			default:
 				out = err.Error()
 			}
 		}

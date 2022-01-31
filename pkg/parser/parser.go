@@ -16,18 +16,26 @@ type parser struct {
 }
 
 type SyntaxError struct {
-	Pos int
 	Err string
+	PosStart, PosEnd int
+}
+
+func (e *SyntaxError) Pos() (int, int) {
+	return e.PosStart, e.PosEnd
 }
 
 func (e *SyntaxError) Error() string {
 	return e.Err
 }
 
+func synerror(msg string, start, end int) error {
+	return &SyntaxError{Err: msg, PosStart: start, PosEnd: end}
+}
+
 func (p *parser) expect(t token.Token) {
 	if p.s.Token != t {
-		err := "expected " + t.String() + ", got " + p.s.Token.String()
-		panic(&SyntaxError{Pos: p.s.Pos(), Err: err})
+		msg := "expected " + t.String() + ", got " + p.s.Token.String()
+		panic(synerror(msg, p.s.Pos(), p.s.Pos()))
 	}
 	p.s.Scan()
 }
@@ -84,9 +92,9 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		}
 		return &ast.Var{Name: name}
 	case token.Illegal:
-		panic(&SyntaxError{Pos: p.s.Pos(), Err: "illegal character"})
+		panic(synerror("illegal character", p.s.Pos(), p.s.Pos()))
 	}
-	panic(&SyntaxError{Pos: p.s.Pos(), Err: "unexpected token: " + p.s.Token.String()})
+	panic(synerror("unexpected token: " + p.s.Token.String(), p.s.Pos(), p.s.Pos()))
 }
 
 func (p *parser) parseUnaryExpr() ast.Node {
@@ -163,7 +171,7 @@ func Parse(line string) (node ast.Node, err error) {
 	s.Scan()
 	node = p.parseExpr()
 	if s.Token != token.END {
-		panic(&SyntaxError{Pos: p.s.Pos(), Err: "invalid syntax"})
+		panic(errors.New("invalid syntax"))
 	}
 	return
 }
