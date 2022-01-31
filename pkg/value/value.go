@@ -2,7 +2,6 @@ package value
 
 import (
 	"math/big"
-	"time"
 
 	"github.com/nkanaev/numb/pkg/token"
 )
@@ -55,15 +54,4 @@ func Int64(x int64) Number {
 
 func Float64(x float64) Number {
 	return Number{Num: new(big.Rat).SetFloat64(x)}
-}
-
-func GetNamedTime(name string) *Time {
-	switch name {
-	case "now":
-		return &Time{ts: time.Now(), fmt: time.ANSIC}
-	case "time":
-		return &Time{ts: time.Now(), fmt: "15:04"}
-		// TODO: date
-	}
-	return nil
 }

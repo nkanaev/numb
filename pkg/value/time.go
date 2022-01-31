@@ -83,3 +83,24 @@ func (t Time) String() string {
 	}
 	return t.ts.Format(t.fmt)
 }
+
+func GetNamedTime(name string) *Time {
+	now := time.Now()
+
+	datefmt := "02 Jan 2006"
+
+	switch name {
+	case "now":
+		return &Time{ts: now, fmt: time.ANSIC}
+	case "time":
+		return &Time{ts: now, fmt: "15:04"}
+	case "date", "today":
+		return &Time{ts: now, fmt: datefmt}
+	case "tomorrow":
+		return &Time{ts: now.Add(time.Hour*24), fmt: datefmt}
+	case "yesterday":
+		return &Time{ts: now.Add(-time.Hour*24), fmt: datefmt}
+	}
+
+	return nil
+}
