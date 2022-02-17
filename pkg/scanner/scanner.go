@@ -1,11 +1,25 @@
 package scanner
 
 import (
+	"fmt"
 	"strings"
 	"unicode"
 
 	"github.com/nkanaev/numb/pkg/token"
 )
+
+type idxerror struct {
+	msg string
+	idx int
+}
+
+func (e *idxerror) Error() string {
+	return e.msg
+}
+
+func (e *idxerror) Pos() (int, int) {
+	return e.idx, e.idx
+}
 
 type Scanner struct {
 	src []rune
@@ -17,6 +31,8 @@ type Scanner struct {
 	Token token.Token
 	Value string
 	TokenStart, TokenEnd int
+
+	Error error
 }
 
 func New(line string) *Scanner {
@@ -47,6 +63,11 @@ func isDecimal(ch rune) bool { return '0' <= ch && ch <= '9' }
 func (s *Scanner) skipWhitespace() {
 	for ; unicode.IsSpace(s.ch); s.next() {
 	}
+}
+
+func (s *Scanner) illegalToken(msg string, pos int) {
+	s.Token = token.Illegal
+	s.Error = &idxerror{msg, pos}
 }
 
 func (s *Scanner) scan() {
@@ -86,7 +107,7 @@ func (s *Scanner) scan() {
 		s.next()
 		if s.ch != ch {
 			s.cur -= 1
-			s.Token = token.Illegal
+			s.illegalToken(fmt.Sprintf("expected %c", ch), s.TokenStart+1)
 			return
 		}
 		s.next()
@@ -104,7 +125,7 @@ func (s *Scanner) scan() {
 			s.next()
 		}
 		if s.ch == 0 {
-			s.Token = token.Illegal
+			s.illegalToken("dangling date (missing `}`)", s.TokenStart)
 			return
 		}
 		s.next()
@@ -118,7 +139,8 @@ func (s *Scanner) scan() {
 			ch = s.ch
 		}
 		if len(letters) == 0 {
-			s.Token = token.Illegal
+			s.illegalToken("unexpected character", s.TokenStart)
+			return
 		} else {
 			word := string(letters)
 			if tok, ok := token.StringToOperator[word]; ok {
