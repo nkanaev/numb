@@ -96,8 +96,8 @@ func TestParseWord(t *testing.T) {
 	s := New(text)
 	for i := 0; i < len(want); i++ {
 		s.Scan()
-		if s.Token != token.WORD {
-			t.Fatalf("expected %s, got %s", token.WORD, s.Token)
+		if s.Token != token.IDENT {
+			t.Fatalf("expected %s, got %s", token.IDENT, s.Token)
 		}
 		have = append(have, s.Value)
 	}
@@ -114,7 +114,7 @@ func TestParseWord(t *testing.T) {
 }
 
 func TestParseKeywords(t *testing.T) {
-	want := []token.Token{token.TO, token.IN, token.NAME}
+	want := []token.Token{token.TO, token.IN, token.FORMAT}
 	have := make([]token.Token, 0)
 	text := " to in hex"
 

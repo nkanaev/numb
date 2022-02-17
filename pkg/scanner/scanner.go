@@ -128,7 +128,7 @@ func (s *Scanner) scan() {
 					s.namemode = true
 				}
 			} else {
-				s.Token = token.WORD
+				s.Token = token.IDENT
 				s.Value = word
 			}
 		}
@@ -247,6 +247,6 @@ func (s *Scanner) scanname() {
 	for ; s.ch != 0 && !unicode.IsSpace(s.ch); s.next() {
 		chars = append(chars, s.ch)
 	}
-	s.Token = token.NAME
+	s.Token = token.FORMAT
 	s.Value = string(chars)
 }

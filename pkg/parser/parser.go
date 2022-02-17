@@ -74,9 +74,9 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 		}
 		p.s.Scan()
 		return &ast.Literal{value.NewTime(t)}
-	case token.WORD:
+	case token.IDENT:
 		name := p.s.Value
-		p.expect(token.WORD)
+		p.expect(token.IDENT)
 		if p.s.Token == token.LPAREN {
 			args := make([]ast.Node, 0)
 			p.expect(token.LPAREN)
@@ -114,7 +114,7 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 		implicit := false
 		prec := tok.Precedence()
 
-		if tok == token.WORD {
+		if tok == token.IDENT {
 			tok = token.MUL
 			implicit = true
 			prec = tok.Precedence()
@@ -130,7 +130,7 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 
 		if tok == token.IN {
 			name := p.s.Value
-			p.expect(token.NAME)
+			p.expect(token.FORMAT)
 			lhs = &ast.Format{Expr: lhs, Fmt: name}
 		} else if tok == token.ASSIGN || tok == token.COLON {
 			if _, ok := lhs.(*ast.Var); !ok {

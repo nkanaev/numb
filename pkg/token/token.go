@@ -39,8 +39,8 @@ const (
 	NUM_OCT // 0o127
 	NUM_BIN // 0b101
 	NUM_SCI // 1e2, 1.2e-7
-	WORD
-	NAME
+	IDENT   // foobar
+	FORMAT  // dec, hex, America/New_York
 	DATE    // {11/12/2021}
 )
 
@@ -72,8 +72,8 @@ var tokenToString = map[Token]string{
 	NUM_OCT: "NUM_OCT",
 	NUM_BIN: "NUM_BIN",
 	NUM_SCI: "NUM_SCI",
-	WORD:    "WORD",
-	NAME:    "NAME",
+	IDENT:   "IDENT",
+	FORMAT:  "FORMAT",
 
 	IN: "in",
 	TO: "to",
