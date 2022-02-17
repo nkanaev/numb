@@ -1,27 +1,28 @@
 grammar:
 
-    expr → expr `in` name
-    expr → expr <var expr>          ; implicit multiplication
+    expr → expr `in` fmt
+    expr → expr <var expr>         ; implicit multiplication
     expr → expr op expr
     expr → `+` | `-` expr
     expr → `(` expr `)`
     expr → num
     expr → var
-    expr → var `=` expr
-    expr → var `:` expr
-    expr → var `(` args `)`         ; function call
+    expr → id `=` expr
+    expr → id `:` expr
+    expr → id `(` args `)`         ; function call
 
     args → expr | args `,` expr
 
     op   → `+` | `-` | `*` | `to` ...
-    name → [^\s]+
+
+    id   → [^\s*/+-()=^:]+ | `{` [^}]+ `}`
+    fmt  → [^\s]+
 
     num  → int | hex | oct | bin
     int  → [0-9]+
     hex  → `0x` [0-f]+
     oct  → `0o` [0-7]+
     bin  → `0b` [01]+
-    var  → [^\s*/+-()=^:]+ | `{` [^}]+ `}`
 
 operators:
 
