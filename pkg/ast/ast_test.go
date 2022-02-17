@@ -9,7 +9,11 @@ import (
 
 func TestASTLiteral(t *testing.T) {
 	root := &Literal{value.Int64(123)}
-	have := root.Eval(nil).String()
+	val, err := root.Eval(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	have := val.String()
 	want := "123"
 	if have != want {
 		t.Fatalf("\nwant: %s\nhave: %s", want, have)
@@ -39,7 +43,11 @@ func TestASTBinOPEval(t *testing.T) {
 			Rhs: &Literal{value.Int64(2)},
 			Op:  testcase.tok,
 		}
-		have := root.Eval(nil).String()
+		val, err := root.Eval(nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		have := val.String()
 		want := testcase.str
 		if have != want {
 			t.Errorf("\nexpr: %s\nwant: %s\nhave: %s", root, want, have)
