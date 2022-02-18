@@ -31,7 +31,7 @@ func (e *syntaxerror) Error() string {
 func (p *parser) expect(t token.Token) {
 	if p.s.Token != t {
 		msg := "expected " + t.String() + ", got " + p.s.Token.String()
-		panic(&syntaxerror{msg, p.s.Pos(), p.s.Pos()})
+		panic(&syntaxerror{msg, p.s.TokenStart, p.s.TokenEnd})
 	}
 	p.s.Scan()
 }

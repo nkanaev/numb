@@ -45,10 +45,6 @@ func New(line string) *Scanner {
 	return s
 }
 
-func (s *Scanner) Pos() int {
-	return s.cur
-}
-
 func (s *Scanner) next() {
 	s.cur += 1
 	if s.cur < len(s.src) {
