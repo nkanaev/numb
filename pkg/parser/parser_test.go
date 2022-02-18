@@ -10,13 +10,12 @@ import (
 	"github.com/nkanaev/numb/pkg/value"
 )
 
-var tests = []struct {
+var tests = map[string]struct {
 	name   string
 	expr string
 	want ast.Node
 }{
-	{
-		name: "BinOp",
+	"BinOp": {
 		expr: "1 + 2",
 		want: &ast.BinOP{
 			Lhs: &ast.Literal{value.Int64(1)},
@@ -24,8 +23,7 @@ var tests = []struct {
 			Op:  token.ADD,
 		},
 	},
-	{
-		name:   "Paren",
+	"Paren": {
 		expr: "(1 + 2) * 3",
 		want: &ast.BinOP{
 			Lhs: &ast.ParenExpr{
@@ -39,13 +37,11 @@ var tests = []struct {
 			Op:  token.MUL,
 		},
 	},
-	{
-		name: "Unary",
+	"Unary": {
 		expr: "-100",
 		want: &ast.Unary{Op: token.SUB, Expr: &ast.Literal{value.Int64(100)}},
 	},
-	{
-		name: "BitOps",
+	"BitOps": {
 		expr: "0b101 and 0b111",
 		want: &ast.BinOP{
 			Lhs: &ast.Literal{value.Number{Num: ratutils.Must("5"), Fmt: value.BIN}},
@@ -53,16 +49,14 @@ var tests = []struct {
 			Op:  token.AND,
 		},
 	},
-	{
-		name: "Assignment",
+	"Assignment": {
 		expr: "foo = 123",
 		want: &ast.Assign{
 			Name: "foo",
 			Expr: &ast.Literal{value.Int64(123)},
 		},
 	},
-	{
-		name: "Var",
+	"Var": {
 		expr: "foo + 123",
 		want: &ast.BinOP{
 			Lhs: &ast.Var{Name: "foo"},
@@ -70,8 +64,7 @@ var tests = []struct {
 			Op:  token.ADD,
 		},
 	},
-	{
-		name: "Format",
+	"Format": {
 		expr: "10 + 1 in hex",
 		want: &ast.Format{
 			Expr: &ast.BinOP{
@@ -82,8 +75,7 @@ var tests = []struct {
 			Fmt: "hex",
 		},
 	},
-	{
-		name: "FunCall",
+	"FunCall": {
 		expr: "sin(2 radian)",
 		want: &ast.FunCall{
 			Name: "sin",

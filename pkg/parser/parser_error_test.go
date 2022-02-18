@@ -10,46 +10,31 @@ type poserror interface {
 	Pos() (int, int)
 }
 
-var errortestcases = []struct{
-	name, expr, err string
+var errortestcases = map[string]struct {
+	expr, err  string
 	start, end int
 }{
-	{
-		name: "lsh",
-		expr: "1 <! 2",
-		err: "expected <",
-		start: 4,
+	"lsh": {
+		expr: "1 <! 2", err: "expected <", start: 4,
 	},
-	{
-		name: "rsh",
-		expr: "1 >= 2",
-		err: "expected >",
-		start: 4,
+	"rsh": {
+		expr: "1 >= 2", err: "expected >", start: 4,
 	},
-	{
-		name: "dangling_curly",
-		expr: "  {123",
-		err: "date :: }",
-		start: 3,
+	"dangling_curly": {
+		expr: "  {123", err: "date :: }", start: 3,
 	},
-	{
-		name: "notident",
-		expr: "!varname",
-		err: "unexpected",
-		start: 1,
+	"notident": {
+		expr: "!varname", err: "unexpected", start: 1,
 	},
-	{
-		name: "notassign",
-		expr: "x === 2",
-		err: "unexpected",
-		start: 4,
+	"notassign": {
+		expr: "x === 2", err: "unexpected", start: 4,
 	},
 }
 
 func TestParserErrors(t *testing.T) {
-	for _, tc := range errortestcases {
+	for name, tc := range errortestcases {
 		tc := tc
-		t.Run(tc.name, func(t *testing.T) {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
 			node, err := Parse(tc.expr)
@@ -67,14 +52,14 @@ func TestParserErrors(t *testing.T) {
 			if tc.start != 0 && tc.start != start {
 				t.Fatalf(
 					"error start position does not match\n"+
-					"error: %s\nexpr: %#v\nwant: %d\nhave: %d",
+						"error: %s\nexpr: %#v\nwant: %d\nhave: %d",
 					err, tc.expr, tc.start, start,
 				)
 			}
 			if tc.end != 0 && tc.end != end {
 				t.Fatalf(
 					"error start position does not match\n"+
-					"error: %s\nexpr: %s\nwant: %d\nhave: %d",
+						"error: %s\nexpr: %s\nwant: %d\nhave: %d",
 					err, tc.expr, tc.end, end,
 				)
 			}
