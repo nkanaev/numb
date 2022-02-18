@@ -11,7 +11,7 @@ import (
 )
 
 var tests = map[string]struct {
-	name   string
+	name string
 	expr string
 	want ast.Node
 }{

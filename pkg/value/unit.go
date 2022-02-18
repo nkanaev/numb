@@ -70,7 +70,7 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 		case token.QUO:
 			tmpu := a.Units.Quo(b.Units)
 			newu := tmpu.Simplify()
-	
+
 			tmpn := new(big.Rat).Quo(a.Num, b.Num)
 			newn, _ := unit.Convert(tmpn, tmpu, newu)
 

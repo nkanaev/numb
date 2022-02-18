@@ -9,7 +9,7 @@ func TestParse(t *testing.T) {
 	year := time.Now().Year()
 
 	tz := time.Local
-	tcases := []struct{
+	tcases := []struct {
 		Date string
 		Want time.Time
 	}{

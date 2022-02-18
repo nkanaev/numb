@@ -23,16 +23,16 @@ func (a Time) BinOP(op token.Token, b Value) (Value, error) {
 	case Time:
 		b := b.(Time)
 		switch op {
-			case token.SUB:
-				maxYears := 200
-				ayear := a.ts.Year()
-				byear := b.ts.Year()
-				if math.Abs(float64(ayear-byear)) > float64(maxYears) {
-					return nil, fmt.Errorf("time difference exceedes limitation (%d years)", maxYears)
-				}
-				ns_i64 := a.ts.Sub(b.ts).Nanoseconds()
-				ns_rat := new(big.Rat).SetInt64(ns_i64)
-				return Unit{Num: ns_rat, Units: unit.Must("nanosecond")}, nil
+		case token.SUB:
+			maxYears := 200
+			ayear := a.ts.Year()
+			byear := b.ts.Year()
+			if math.Abs(float64(ayear-byear)) > float64(maxYears) {
+				return nil, fmt.Errorf("time difference exceedes limitation (%d years)", maxYears)
+			}
+			ns_i64 := a.ts.Sub(b.ts).Nanoseconds()
+			ns_rat := new(big.Rat).SetInt64(ns_i64)
+			return Unit{Num: ns_rat, Units: unit.Must("nanosecond")}, nil
 		}
 	case Unit:
 		b := b.(Unit)
@@ -97,9 +97,9 @@ func GetNamedTime(name string) *Time {
 	case "date", "today":
 		return &Time{ts: now, fmt: datefmt}
 	case "tomorrow":
-		return &Time{ts: now.Add(time.Hour*24), fmt: datefmt}
+		return &Time{ts: now.Add(time.Hour * 24), fmt: datefmt}
 	case "yesterday":
-		return &Time{ts: now.Add(-time.Hour*24), fmt: datefmt}
+		return &Time{ts: now.Add(-time.Hour * 24), fmt: datefmt}
 	}
 
 	return nil

@@ -30,19 +30,19 @@ func FindLocation(name string) (*time.Location, error) {
 }
 
 func findLocationFromDir(name, rootdir, subdir string) *time.Location {
-    files, _ := ioutil.ReadDir(rootdir + "/" + subdir)
+	files, _ := ioutil.ReadDir(rootdir + "/" + subdir)
 
-    for _, f := range files {
-        if !unicode.IsUpper(rune(f.Name()[0])) {
-            continue
-        }
+	for _, f := range files {
+		if !unicode.IsUpper(rune(f.Name()[0])) {
+			continue
+		}
 
-        if f.IsDir() && len(subdir) == 0 {
-			if loc := findLocationFromDir(name, rootdir, subdir + "/" + f.Name()); loc != nil {
+		if f.IsDir() && len(subdir) == 0 {
+			if loc := findLocationFromDir(name, rootdir, subdir+"/"+f.Name()); loc != nil {
 				return loc
 			}
-        } else {
-			tzname := strings.TrimLeft(subdir + "/" + f.Name(), "/")
+		} else {
+			tzname := strings.TrimLeft(subdir+"/"+f.Name(), "/")
 			if tzNameMatches(name, tzname) {
 				if tzdata, err := os.ReadFile(rootdir + "/" + tzname); err == nil {
 					if tzinfo, err := time.LoadLocationFromTZData(tzname, tzdata); err == nil {
@@ -50,8 +50,8 @@ func findLocationFromDir(name, rootdir, subdir string) *time.Location {
 					}
 				}
 			}
-        }
-    }
+		}
+	}
 	return nil
 }
 

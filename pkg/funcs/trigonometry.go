@@ -40,7 +40,7 @@ func trigOp(fn func(float64) float64, inUnit, outUnit bool, args ...value.Value)
 
 	if outUnit {
 		return value.Unit{
-			Num: new(big.Rat).SetFloat64(fn(f64)),
+			Num:   new(big.Rat).SetFloat64(fn(f64)),
 			Units: unit.Must("rad"),
 		}, nil
 	}

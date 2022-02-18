@@ -78,7 +78,8 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 			args := make([]ast.Node, 0)
 			var arg ast.Node
 
-			argloop: for {
+		argloop:
+			for {
 				switch p.s.Token {
 				case token.COMMA:
 					if arg == nil {

@@ -28,8 +28,8 @@ type Scanner struct {
 
 	namemode bool
 
-	Token token.Token
-	Value string
+	Token                token.Token
+	Value                string
 	TokenStart, TokenEnd int
 
 	Error error
@@ -46,7 +46,7 @@ func New(line string) *Scanner {
 }
 
 func (s *Scanner) Pos() int {
-   return s.cur
+	return s.cur
 }
 
 func (s *Scanner) next() {
@@ -156,7 +156,7 @@ func (s *Scanner) scan() {
 			}
 		}
 	}
-	s.TokenEnd = s.cur-1
+	s.TokenEnd = s.cur - 1
 }
 
 func isWordChar(ch rune) bool {

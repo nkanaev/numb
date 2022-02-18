@@ -36,7 +36,7 @@ func Clean(line string) string {
 
 func (r *Runtime) Eval(line string) (string, error) {
 	line = Clean(line)
-	
+
 	trimmedline := strings.TrimSpace(line)
 	if len(trimmedline) == 0 {
 		return line, nil
