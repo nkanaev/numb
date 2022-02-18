@@ -144,7 +144,6 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 
 		if tok == token.IN {
 			name := p.s.Value
-			// TODO: strict format
 			p.expect(token.FORMAT)
 			lhs = &ast.Format{Expr: lhs, Fmt: name}
 		} else if tok == token.ASSIGN || tok == token.COLON {

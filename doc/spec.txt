@@ -15,14 +15,21 @@ grammar:
 
     op   → `+` | `-` | `*` | `to` ...
 
-    id   → [^\s*/+-()=^:]+ | `{` [^}]+ `}`
-    fmt  → [^\s]+
+    id   → idw | ids
+    idw  → L (L | N | `_`)*
+    ids  → Cs | `%`
+
+    fmt  → L (L | `/` | `_`)*
 
     num  → int | hex | oct | bin
     int  → [0-9]+
     hex  → `0x` [0-f]+
     oct  → `0o` [0-7]+
     bin  → `0b` [01]+
+
+    L    → unicode letter
+    N    → unicode number
+    Cs   → unicode currency symbol
 
 operators:
 

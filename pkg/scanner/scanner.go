@@ -26,7 +26,7 @@ type Scanner struct {
 	cur int
 	ch  rune
 
-	namemode bool
+	formatMode bool
 
 	Token                token.Token
 	Value                string
@@ -72,6 +72,11 @@ func (s *Scanner) scan() {
 
 	if s.cur >= len(s.src) {
 		s.Token = token.END
+		return
+	}
+
+	if s.formatMode {
+		s.scanFormat()
 		return
 	}
 
@@ -129,35 +134,38 @@ func (s *Scanner) scan() {
 		s.Token = token.DATE
 		s.Value = string(runes)
 	default:
-		letters := make([]rune, 0)
-		for isWordChar(ch) {
-			letters = append(letters, ch)
-			s.next()
-			ch = s.ch
-		}
-		if len(letters) == 0 {
-			s.illegalToken("unexpected character", s.TokenStart)
-			return
-		} else {
-			word := string(letters)
-			if tok, ok := token.StringToOperator[word]; ok {
-				s.Token = tok
-				s.Value = word
-				if tok == token.IN {
-					s.namemode = true
-				}
-			} else {
-				s.Token = token.IDENT
-				s.Value = word
-			}
-		}
+		s.scanIdent()
 	}
 	s.TokenEnd = s.cur - 1
 }
 
-func isWordChar(ch rune) bool {
-	// L/N/Sc/Pc = letters/numbers/currency symbols/connector punctuation
-	return !strings.Contains(token.SpecialChars, string(ch)) && (unicode.In(ch, unicode.L, unicode.N, unicode.Sc, unicode.Pc) || ch == '%')
+func (s *Scanner) scanIdent() {
+	if unicode.In(s.ch, unicode.Sc) || s.ch == '%' {
+		// currency symbol or `%`
+		s.Token = token.IDENT
+		s.Value = string(s.ch)
+		s.next()
+		return
+	} else if unicode.In(s.ch, unicode.Letter) {
+		chars := make([]rune, 0)
+		for unicode.In(s.ch, unicode.Letter, unicode.Number) || s.ch == '_' {
+			chars = append(chars, s.ch)
+			s.next()
+		}
+		value := string(chars)
+		if op, ok := token.StringToOperator[value]; ok {
+			s.Token = op
+			s.Value = value
+			if op == token.IN {
+				s.formatMode = true
+			}
+		} else {
+			s.Token = token.IDENT
+			s.Value = value
+		}
+	} else {
+		s.illegalToken("unexpected character", s.TokenStart)
+	}
 }
 
 func (s *Scanner) digits(base int) string {
@@ -248,26 +256,21 @@ func (s *Scanner) scanNumber() (token.Token, string) {
 func (s *Scanner) Scan() bool {
 	s.skipWhitespace()
 	s.Value = ""
-
-	if s.namemode {
-		s.scanname()
-	} else {
-		s.scan()
-	}
+	s.scan()
 	return s.Token != token.Illegal && s.Token != token.END
 }
 
-func (s *Scanner) scanname() {
-	if s.cur >= len(s.src) {
-		s.Token = token.END
-		s.Value = ""
-		return
-	}
-
+func (s *Scanner) scanFormat() {
 	chars := make([]rune, 0)
-	for ; s.ch != 0 && !unicode.IsSpace(s.ch); s.next() {
-		chars = append(chars, s.ch)
+	if unicode.IsLetter(s.ch) {
+		// must cover tz database names & numeric formats
+		for unicode.In(s.ch, unicode.Letter) || s.ch == '/' || s.ch == '_' {
+			chars = append(chars, s.ch)
+			s.next()
+		}
+		s.Token = token.FORMAT
+		s.Value = string(chars)
+	} else {
+		s.illegalToken("unexpected symbol for format: "+string(s.ch), s.TokenStart)
 	}
-	s.Token = token.FORMAT
-	s.Value = string(chars)
 }
