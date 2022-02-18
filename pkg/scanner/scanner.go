@@ -71,12 +71,13 @@ func (s *Scanner) illegalToken(msg string, pos int) {
 }
 
 func (s *Scanner) scan() {
+	s.TokenStart = s.cur
+	s.TokenEnd = s.cur
+
 	if s.cur >= len(s.src) {
 		s.Token = token.END
 		return
 	}
-
-	s.TokenStart = s.cur
 
 	ch := s.ch
 	switch {
@@ -164,6 +165,8 @@ func isWordChar(ch rune) bool {
 }
 
 func (s *Scanner) digits(base int) string {
+	// TODO: prohibit , as a separator. ambiguity: gcd(1,2) == gcd(12) || gcd(1, 2)?
+	// TODO: space-delimited numbers `100 500`?
 	separators := ",_"
 	digits := make([]rune, 0)
 	accept := "0123456789abcdef"[:base]

@@ -15,27 +15,23 @@ type parser struct {
 	s *scanner.Scanner
 }
 
-type SyntaxError struct {
-	Err string
+type syntaxerror struct {
+	Err              string
 	PosStart, PosEnd int
 }
 
-func (e *SyntaxError) Pos() (int, int) {
+func (e *syntaxerror) Pos() (int, int) {
 	return e.PosStart, e.PosEnd
 }
 
-func (e *SyntaxError) Error() string {
+func (e *syntaxerror) Error() string {
 	return e.Err
-}
-
-func synerror(msg string, start, end int) error {
-	return &SyntaxError{Err: msg, PosStart: start, PosEnd: end}
 }
 
 func (p *parser) expect(t token.Token) {
 	if p.s.Token != t {
 		msg := "expected " + t.String() + ", got " + p.s.Token.String()
-		panic(synerror(msg, p.s.Pos(), p.s.Pos()))
+		panic(&syntaxerror{msg, p.s.Pos(), p.s.Pos()})
 	}
 	p.s.Scan()
 }
@@ -70,31 +66,48 @@ func (p *parser) parsePrimaryExpr() ast.Node {
 	case token.DATE:
 		t, err := timeutil.Parse(p.s.Value)
 		if err != nil {
-			panic(synerror(err.Error(), p.s.TokenStart, p.s.TokenEnd))
+			panic(&syntaxerror{err.Error(), p.s.TokenStart, p.s.TokenEnd})
 		}
 		p.s.Scan()
 		return &ast.Literal{value.NewTime(t)}
 	case token.IDENT:
 		name := p.s.Value
-		p.expect(token.IDENT)
+		p.s.Scan()
 		if p.s.Token == token.LPAREN {
+			p.s.Scan()
 			args := make([]ast.Node, 0)
-			p.expect(token.LPAREN)
-			for p.s.Token != token.RPAREN {
-				args = append(args, p.parseExpr())
-				if p.s.Token == token.COMMA {
-					p.expect(token.COMMA)
-					continue
+			var arg ast.Node
+
+			argloop: for {
+				switch p.s.Token {
+				case token.COMMA:
+					if arg == nil {
+						panic(&syntaxerror{"missing expression before comma", p.s.TokenStart, p.s.TokenStart})
+					}
+					p.s.Scan()
+					args = append(args, arg)
+					arg = nil
+				case token.RPAREN:
+					p.s.Scan()
+					if arg != nil {
+						args = append(args, arg)
+						arg = nil
+					}
+					break argloop
+				case token.END:
+					panic(&syntaxerror{"unexpected end of line, expected )", p.s.TokenStart, p.s.TokenStart})
+				default:
+					arg = p.parseExpr()
 				}
 			}
-			p.expect(token.RPAREN)
 			return &ast.FunCall{Name: name, Args: args}
 		}
 		return &ast.Var{Name: name}
 	case token.Illegal:
 		panic(p.s.Error)
+	default:
+		panic(&syntaxerror{"unexpected token: " + p.s.Token.String(), p.s.TokenStart, p.s.TokenEnd})
 	}
-	panic(synerror("unexpected token: " + p.s.Token.String(), p.s.TokenStart, p.s.TokenStart))
 }
 
 func (p *parser) parseUnaryExpr() ast.Node {
@@ -130,6 +143,7 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 
 		if tok == token.IN {
 			name := p.s.Value
+			// TODO: strict format
 			p.expect(token.FORMAT)
 			lhs = &ast.Format{Expr: lhs, Fmt: name}
 		} else if tok == token.ASSIGN || tok == token.COLON {
@@ -174,7 +188,7 @@ func Parse(line string) (node ast.Node, err error) {
 		panic(s.Error)
 	}
 	if s.Token != token.END {
-		panic(errors.New("invalid syntax"))
+		panic(&syntaxerror{"invalid syntax", s.TokenStart, s.TokenStart})
 	}
 	return
 }

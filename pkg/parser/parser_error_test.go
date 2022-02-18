@@ -29,6 +29,22 @@ var errortestcases = map[string]struct {
 	"notassign": {
 		expr: "x === 2", err: "unexpected", start: 4,
 	},
+	"invaliddate": {
+		expr: "{notadate}", err: "unknown time format", start: 1, end: 10,
+	},
+	// leftover after parsing expression
+	"notend": {
+		expr: "foo(bar) 123", err: "invalid syntax", start: 10,
+	},
+	"unclosedfunction": {
+		expr: "gcd(1, 2", err: "end of line :: )", start: 9,
+	},
+	"functionargumentemptyarg1": {
+		expr: "foo(,bar)", err: "missing expression before comma", start: 5,
+	},
+	"functionargumentemptyarg2": {
+		expr: "foo(bar,,baz)", err: "missing expression before comma", start: 9,
+	},
 }
 
 func TestParserErrors(t *testing.T) {
@@ -39,7 +55,10 @@ func TestParserErrors(t *testing.T) {
 
 			node, err := Parse(tc.expr)
 			if err == nil {
-				t.Fatalf("expected error, got result: %#v", node)
+				t.Fatalf(
+					"expected error, got result\nexpr: %s\nerr: %s\nresult: %s",
+					tc.expr, tc.err, node,
+				)
 			}
 			poserr, ok := err.(poserror)
 			if !ok {
