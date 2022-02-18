@@ -254,6 +254,9 @@ func (s *Scanner) scanNumber() (token.Token, string) {
 }
 
 func (s *Scanner) Scan() bool {
+	if s.Error != nil {
+		return false
+	}
 	s.skipWhitespace()
 	s.Value = ""
 	s.scan()

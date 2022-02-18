@@ -45,6 +45,9 @@ var errortestcases = map[string]struct {
 	"functionargumentemptyarg2": {
 		expr: "foo(bar,,baz)", err: "missing expression before comma", start: 9,
 	},
+	"invalidformat": {
+		expr: "123 in ???", err: "unexpected symbol :: ?", start: 8,
+	},
 }
 
 func TestParserErrors(t *testing.T) {

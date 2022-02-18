@@ -143,6 +143,9 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 		}
 
 		if tok == token.IN {
+			if p.s.Error != nil {
+				panic(p.s.Error)
+			}
 			name := p.s.Value
 			p.expect(token.FORMAT)
 			lhs = &ast.Format{Expr: lhs, Fmt: name}
