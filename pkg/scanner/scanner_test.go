@@ -19,8 +19,8 @@ func TestParseNumber(t *testing.T) {
 		{token.NUM_OCT, "0o123", "0o123"},
 		{token.NUM_DEC, "123.456", "123.456"},
 		{token.NUM_DEC, "100200300", "100200300"},
-		{token.NUM_DEC, "100200300", "100,200,300"},
-		{token.NUM_DEC, "100.200300", "100.200,300"},
+		{token.NUM_DEC, "100200300", "100_200_300"},
+		{token.NUM_DEC, "100.200300", "100.200_300"},
 		{token.NUM_DEC, "0", "0"},
 		{token.NUM_DEC, "123", "0123"},
 		{token.NUM_DEC, "1.23", "01.23"},
@@ -32,7 +32,7 @@ func TestParseNumber(t *testing.T) {
 
 	text := ""
 	for _, c := range cases {
-		text += " " + c.have
+		text += "   " + c.have
 	}
 
 	s := New(text)

@@ -169,9 +169,7 @@ func (s *Scanner) scanIdent() {
 }
 
 func (s *Scanner) digits(base int) string {
-	// TODO: prohibit , as a separator. ambiguity: gcd(1,2) == gcd(12) || gcd(1, 2)?
-	// TODO: space-delimited numbers `100 500`?
-	separators := ",_"
+	separators := " _"
 	digits := make([]rune, 0)
 	accept := "0123456789abcdef"[:base]
 	if base == 16 {
@@ -186,6 +184,10 @@ loop:
 			s.next()
 		case strings.ContainsRune(separators, ch):
 			s.next()
+			// allow only a single delimiter
+			if !strings.ContainsRune(accept, s.ch) {
+				break loop
+			}
 		default:
 			break loop
 		}

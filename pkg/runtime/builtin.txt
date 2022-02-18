@@ -37,7 +37,7 @@ g : gram : MASS / 1000
 lb: 0.45359237 kg
 pound : lb
 t : tonne : metricton : 1000 kg
-Da : dalton : u : mu : 1.660,539,066,60 * 10^-27 kg
+Da : dalton : u : mu : 1.660_539_066_60 * 10^-27 kg
 dr : 1/256 pound
 dram : dr
 oz : 1/16 pound
@@ -59,7 +59,7 @@ yd2 : sqyd : yd^2
 mi2 : sqmi : mi^2
 
 acre : 4046.86 m^2
-ha : 10,000 m^2
+ha : 10_000 m^2
 hectare : ha
 
 # digital
