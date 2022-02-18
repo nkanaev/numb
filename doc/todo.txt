@@ -2,4 +2,6 @@
 - documentation
 - test coverage
   go test ./... -coverprofile=cover.out
+  # cross-package
+  go test ./... -coverpkg $(go list ./pkg... | tr '\n' ',') -coverprofile=cover.out
   go tool cover -html=cover.out -o coverage.html
