@@ -273,6 +273,7 @@ func (s *Scanner) scanFormat() {
 		}
 		s.Token = token.FORMAT
 		s.Value = string(chars)
+		s.formatMode = false
 	} else {
 		s.illegalToken("unexpected symbol for format: "+string(s.ch), s.TokenStart)
 	}
