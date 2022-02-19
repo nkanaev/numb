@@ -173,7 +173,7 @@ mph : mi / h
 kn : knot : 1.852 kmph
 
 # data rate
-kbps : kbit / s
-Mbps : Mbit / s
-Gbps : Gbit / s
-Tbps : Tbit / s
+kbps = kbit / s
+Mbps = Mbit / s
+Gbps = Gbit / s
+Tbps = Tbit / s
