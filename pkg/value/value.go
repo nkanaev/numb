@@ -55,3 +55,8 @@ func Int64(x int64) Number {
 func Float64(x float64) Number {
 	return Number{Num: new(big.Rat).SetFloat64(x)}
 }
+
+var (
+	defaultSep = ""
+	defaultPrec = 2
+)

@@ -16,7 +16,7 @@ type Unit struct {
 }
 
 func (a Unit) String() string {
-	return formatNum(a.Num, a.Fmt, ",", 2) + " " + a.Units.String()
+	return formatNum(a.Num, a.Fmt, defaultSep, defaultPrec) + " " + a.Units.String()
 }
 
 func (a Unit) BinOP(op token.Token, b Value) (Value, error) {

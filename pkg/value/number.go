@@ -36,7 +36,7 @@ type Number struct {
 }
 
 func (a Number) String() string {
-	return formatNum(a.Num, a.Fmt, "", 2)
+	return formatNum(a.Num, a.Fmt, defaultSep, defaultPrec)
 }
 
 func (a Number) BinOP(op token.Token, b Value) (Value, error) {
