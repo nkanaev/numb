@@ -20,15 +20,16 @@ func (a Unit) String() string {
 }
 
 func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
-	// TODO: preserve format
 	switch b.(type) {
 	case Number:
 		bnum := b.(Number).Num
 		switch op {
 		case token.MUL:
-			return Unit{Num: new(big.Rat).Mul(a.Num, bnum), Units: a.Units}, nil
+			num := new(big.Rat).Mul(a.Num, bnum)
+			return Unit{Num: num, Units: a.Units, Fmt: a.Fmt}, nil
 		case token.QUO:
-			return Unit{Num: new(big.Rat).Quo(a.Num, bnum), Units: a.Units}, nil
+			num := new(big.Rat).Quo(a.Num, bnum)
+			return Unit{Num: num, Units: a.Units, Fmt: a.Fmt}, nil
 		case token.EXP:
 			if !bnum.IsInt() {
 				return nil, errors.New("exponentiation does not support non-integer power")
@@ -39,7 +40,7 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			if u.Dimension().IsPure() {
 				return Number{Num: n}, nil
 			}
-			return Unit{Num: n, Units: u}, nil
+			return Unit{Num: n, Units: u, Fmt: a.Fmt}, nil
 		}
 	case Unit:
 		b := b.(Unit)
@@ -49,13 +50,15 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			if err != nil {
 				return nil, err
 			}
-			return Unit{Num: new(big.Rat).Add(a.Num, bnum), Units: a.Units}, nil
+			num := new(big.Rat).Add(a.Num, bnum)
+			return Unit{Num: num, Units: a.Units, Fmt: a.Fmt}, nil
 		case token.SUB:
 			bnum, err := unit.Convert(b.Num, b.Units, a.Units)
 			if err != nil {
 				return nil, err
 			}
-			return Unit{Num: new(big.Rat).Sub(a.Num, bnum), Units: a.Units}, nil
+			num := new(big.Rat).Sub(a.Num, bnum)
+			return Unit{Num: num, Units: a.Units, Fmt: a.Fmt}, nil
 		case token.MUL:
 			tmpu := a.Units.Mul(b.Units)
 			newu := tmpu.Simplify()
@@ -66,7 +69,7 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			if newu.Dimension().IsPure() {
 				return Number{Num: newn}, nil
 			}
-			return Unit{Num: newn, Units: newu}, nil
+			return Unit{Num: newn, Units: newu, Fmt: a.Fmt}, nil
 		case token.QUO:
 			tmpu := a.Units.Quo(b.Units)
 			newu := tmpu.Simplify()
@@ -77,7 +80,7 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			if newu.Dimension().IsPure() {
 				return Number{Num: newn}, nil
 			}
-			return Unit{Num: newn, Units: newu}, nil
+			return Unit{Num: newn, Units: newu, Fmt: a.Fmt}, nil
 		case token.TO:
 			if b.Num.Cmp(ratutils.ONE) != 0 {
 				return nil, errors.New("cannot convert to a unit with a value: " + b.String())
@@ -86,7 +89,7 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 			if err != nil {
 				return nil, err
 			}
-			return Unit{Num: num, Units: b.Units}, nil
+			return Unit{Num: num, Units: b.Units, Fmt: a.Fmt}, nil
 		}
 	}
 	return nil, UnsupportedBinOP{a: a, b: b, op: op}
@@ -94,7 +97,8 @@ func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 
 func (a Unit) UnOP(op token.Token) (Value, error) {
 	if op == token.SUB {
-		return Unit{Num: new(big.Rat).Neg(a.Num), Units: a.Units}, nil
+		num := new(big.Rat).Neg(a.Num)
+		return Unit{Num: num, Units: a.Units, Fmt: a.Fmt}, nil
 	}
 	return nil, errors.New("unsupported unary operation: %s" + op.String())
 }
