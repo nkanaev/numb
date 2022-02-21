@@ -127,5 +127,3 @@ func TestParseKeywords(t *testing.T) {
 		t.Fatalf("\nwant: %s\nhave: %s", want, have)
 	}
 }
-
-// TODO: syntax error markers
