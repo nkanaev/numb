@@ -40,10 +40,6 @@ func (a Number) String() string {
 }
 
 func (a Number) BinOP(op token.Token, b Value) (Value, error) {
-	// TODO: int type casts lose precision
-	if op == token.TO {
-		return nil, errors.New("unitless conversion")
-	}
 	switch b.(type) {
 	case Number:
 		b := b.(Number)
@@ -58,8 +54,9 @@ func (a Number) BinOP(op token.Token, b Value) (Value, error) {
 		case token.QUO:
 			n = new(big.Rat).Quo(a.Num, b.Num)
 		case token.EXP:
+			// TODO: nth root & rational powers
 			if !b.Num.IsInt() {
-				return nil, errors.New("exponentiation does not support non-integer power")
+				return nil, errors.New("exponentiation does not support non-integer power yet")
 			}
 			n = ratutils.ExpInt(a.Num, int(b.Num.Num().Int64()))
 		case token.REM:

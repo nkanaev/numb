@@ -1,4 +1,4 @@
 # convert errors
-1 to kg      | !unitless
+1 to kg      | !unsupported
 kg to cm     | !incompatible
 1 kg to 2 kg | !unit with a value
