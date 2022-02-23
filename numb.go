@@ -15,8 +15,6 @@ import (
 var prompt = "> "
 var prefix = "  "
 
-var loadfiles = ""
-
 type poserror interface {
 	error
 	Pos() (int, int)
@@ -121,17 +119,11 @@ func read(rt *runtime.Runtime, r io.Reader) {
 }
 
 func main() {
-	flag.StringVar(&loadfiles, "load", os.Getenv("NUMB_LOAD"), "list of files to preload")
-	flag.Parse()
-
 	rt := runtime.NewRuntime()
 	rt.LoadBuiltins()
 
-	if loadfiles != "" {
-		for _, path := range strings.Split(loadfiles, ";") {
-			rt.LoadFile(path)
-		}
-	}
+	// TODO: check for ~/.numbrc instead
+	// rt.LoadFile(path)
 
 	if flag.NArg() == 1 {
 		path := flag.Arg(0)
