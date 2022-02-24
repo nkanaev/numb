@@ -26,6 +26,7 @@ https://en.wikipedia.org/wiki/International_yard_and_pound
 https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement
 https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement
 https://en.wikipedia.org/wiki/Pint
+https://en.wikipedia.org/wiki/Nth_root
 
 # discussion: gnu units
 https://news.ycombinator.com/item?id=25657311
