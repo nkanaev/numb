@@ -8,3 +8,27 @@ https://www.gnu.org/software/bc/
 https://www.gnu.org/software/units/
 https://documentation.soulver.app/
 https://github.com/Qalculate/libqalculate
+
+https://github.com/araddon/dateparse
+https://support.google.com/websearch/answer/3284611
+https://github.com/josdejong/mathjs/issues/792
+   
+https://en.wikipedia.org/wiki/Dimensional_analysis
+https://en.wikipedia.org/wiki/Conversion_of_units
+https://en.wikipedia.org/wiki/Dimensionless_quantity
+https://en.wikipedia.org/wiki/Non-SI_units_mentioned_in_the_SI
+https://en.wikipedia.org/wiki/Mass_versus_weight
+https://en.wikipedia.org/wiki/United_States_customary_units
+https://en.wikipedia.org/wiki/Imperial_units
+http://stateoftheunit.com/
+https://en.wikipedia.org/wiki/Burning_of_Parliament
+https://en.wikipedia.org/wiki/International_yard_and_pound
+https://en.wikipedia.org/wiki/List_of_humorous_units_of_measurement
+https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement
+https://en.wikipedia.org/wiki/Pint
+
+# discussion: gnu units
+https://news.ycombinator.com/item?id=25657311
+
+# discussion: numi
+https://news.ycombinator.com/item?id=26624386
