@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/nkanaev/numb/pkg/runtime"
@@ -122,8 +123,10 @@ func main() {
 	rt := runtime.NewRuntime()
 	rt.LoadBuiltins()
 
-	// TODO: check for ~/.numbrc instead
-	// rt.LoadFile(path)
+	rcfile := path.Join(os.Getenv("HOME"), ".numbrc")
+	if info, err := os.Stat(rcfile); err == nil && info.Mode().IsRegular() {
+		rt.LoadFile(rcfile)
+	}
 
 	if flag.NArg() == 1 {
 		path := flag.Arg(0)
