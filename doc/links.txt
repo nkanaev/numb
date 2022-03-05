@@ -28,6 +28,9 @@ https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement
 https://en.wikipedia.org/wiki/Pint
 https://en.wikipedia.org/wiki/Nth_root
 
+https://xkcd.com/2585/
+https://en.wikipedia.org/wiki/Module:Convert/data
+
 # discussion: gnu units
 https://news.ycombinator.com/item?id=25657311
 
