@@ -31,6 +31,8 @@ https://en.wikipedia.org/wiki/Nth_root
 https://xkcd.com/2585/
 https://en.wikipedia.org/wiki/Module:Convert/data
 
+https://github.com/antonmedv/numbr
+
 # discussion: gnu units
 https://news.ycombinator.com/item?id=25657311
 
