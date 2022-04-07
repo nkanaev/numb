@@ -1,7 +1,13 @@
 # misc
-kg   | 1 kg
+
+1 ns             | 1 ns
+1 ms             | 1 ms
+kg               | 1 kg
+1 Kg             | 1 kg
+1 kIloGram       | 1 kilogram
 
 # suffixes
+
 puppy : 3 kg
 potato : 10 oz
 kgs           | 1 kg
@@ -12,12 +18,15 @@ kilograms     | 1 kilogram
 1 kilopotatoes| 1 kilopotato
 
 # conversion
+
 7 feet to meter  | 2.13 meter
 7 ft to m        | 2.13 m
 
 # currency
+
 USD : CURRENCY
 $ : CURRENCY
 
 # operations
+
 100 / m          | 100 m^-1
