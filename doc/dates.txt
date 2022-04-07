@@ -1,0 +1,42 @@
+# adding subtracting
+
+10 June + 3 weeks                          | 1 July
+April 1, 2019 − 3 months 5 days            | 25 December 2018
+Yesterday + 1 week                         | 11 June
+Today − 1 month                            | 5 May
+3:35 am + 7 hours 15 minutes               | 10:50 am
+12/02/1988 + 32 years                      | 12 February 2020
+01.05.2005 + 3 years 2 months 3 weeks      | 22 July 2008
+3 weeks after March 14, 2019               | 4 April 2019
+
+# intervals
+
+March 20 to June 5                         | 11 weeks
+
+March 20 to June 5 in days                 | 77 days
+Days between March 20 and June 5           | 77 days
+
+17:30 to 20:45                             | 3 hours 15 min
+1978 to 2021                               | 42 years
+
+# points
+today + 3 weeks                          | 24 December (for example)
+now + 3 hours 15 minutes                 | 7:00 pm (for example)
+days until December 25                   | 22 days
+
+# workdays
+
+workdays in 3 weeks                            | 15 workdays
+10 March to 17 March in workdays               | 5 workdays
+workdays from April 12 to June 15              | 45 workdays
+$500/workday × 4 weeks                         | $10,000.00
+
+
+# unspecified years
+# In December 2019
+
+// next year is assumed, as the nearest January is in the future
+January 12 + 3 weeks                       | 2 February 2020
+
+// this year is assumed, as the month is still recently in the past
+November 1 - 5 days                        | 27 October 2019
