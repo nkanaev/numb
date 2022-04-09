@@ -28,47 +28,27 @@ func (u unitDef) ToUnits(name string) Units {
 	return Units{unitEntry{name: name, unit: u, exp: 1}}
 }
 
-func Get(name string) (Units, bool) {
-	return resolveUnit(name, true)
-}
-
-func resolveUnit(name string, subsuffix bool) (Units, bool) {
-	// 1. find the exact definition
-	if def, ok := db[name]; ok {
-		return def.ToUnits(name), true
+func Get(name string) (unit Units, ok bool) {
+	if unit, ok = resolveUnit(name); ok {
+		return
 	}
 
-	// 2. substitute suffixes
-	if subsuffix {
-		suffixes := map[string]string{
-			"s":   "",
-			"es":  "",
-			"ies": "y",
-		}
-		for suffix, substitute := range suffixes {
+	// substitute suffixes
+	suffixes := map[string]string{"s": "", "es": "", "ies": "y"}
+	for suffix, substitute := range suffixes {
+		if strings.HasSuffix(name, suffix) {
 			newname := strings.TrimSuffix(name, suffix) + substitute
-			if u, ok := resolveUnit(newname, false); ok {
-				return u, ok
+			if unit, ok = resolveUnit(newname); ok {
+				return
 			}
 		}
 	}
 
-	// 3. search with prefix
-	for prefix, prefixVal := range prefixes {
-		if strings.HasPrefix(name, prefix) {
-			newname := strings.TrimPrefix(name, prefix)
-			if def, ok := db[name]; ok && def.offset == nil {
-				newval := new(big.Rat).Mul(def.value, prefixVal)
-				newdef := unitDef{value: newval, dim: def.dim}
-				return newdef.ToUnits(newname), true
-			}
-		}
-	}
-
-	// 4. if all else fails, try case-insensitive match
+	// if all else fails, try case-insensitive match
 	for unitname, unitdef := range db {
 		if strings.EqualFold(name, unitname) {
-			return unitdef.ToUnits(unitname), true
+			unit, ok = unitdef.ToUnits(unitname), true
+			return
 		}
 	}
 	for prefix, prefixVal := range prefixes {
@@ -79,14 +59,33 @@ func resolveUnit(name string, subsuffix bool) (Units, bool) {
 			}
 
 			newname := prefix + unitname
-			if strings.EqualFold(name, newname) {
+			if strings.EqualFold(name, newname) && unitdef.offset == nil {
 				newval := new(big.Rat).Mul(unitdef.value, prefixVal)
 				newdef := unitDef{value: newval, dim: unitdef.dim}
-				return newdef.ToUnits(newname), true
+				unit, ok = newdef.ToUnits(newname), true
+				return
 			}
 		}
 	}
 
+	return nil, false
+}
+
+func resolveUnit(name string) (Units, bool) {
+	if def, ok := db[name]; ok {
+		return def.ToUnits(name), true
+	}
+
+	for prefix, prefixVal := range prefixes {
+		if strings.HasPrefix(name, prefix) {
+			newname := strings.TrimPrefix(name, prefix)
+			if def, ok := db[newname]; ok && def.offset == nil {
+				newval := new(big.Rat).Mul(def.value, prefixVal)
+				newdef := unitDef{value: newval, dim: def.dim}
+				return newdef.ToUnits(name), true
+			}
+		}
+	}
 	return nil, false
 }
 
