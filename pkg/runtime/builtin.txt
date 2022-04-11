@@ -168,8 +168,8 @@ T : tesla : Wb/m^2
 Gy : gray : J/kg
 
 # speed
-kmph : km / h
-mph : mi / h
+kmph = km / h
+mph = mi / h
 kn : knot : 1.852 kmph
 
 # data rate

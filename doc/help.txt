@@ -1,30 +1,81 @@
 `numb` is an arbitrary precision calculator language with support for
-unit conversion & date handling.
+unit conversion & date handling.  There are 3 basic elements in `numb`:
+numbers, units & times.
 
-There are 3 basic elements in `numb`:
+NUMBER
 
-    number : arbitrary precision rational number
-    unit   : number with the standard for measurement
-    date   : timestamp with timezone
+    Arbitrary precision rational number. The numbers are stored with
+    the numerical system (decimal, octal etc.). Numbers can be declared
+    in decimal, hexadecimal, octal, binary & scientific notation:
 
-Numbers:
+        123  123.456  0x0123456789ABCDEF  0o1234567  0b1010  1.2e3
 
-    Formats:
+UNIT
 
-        dec   decimal
-        hex   hexadecimal
-        oct   octal
-        bin   binary
-        rat   rational (x/y)
-        sci   scientific (-1.23e+45)
+    Number with the standard for measurement. The application comes with
+    a list of builtin units:
 
-Units:
+        terabyte  g  second  km/h  ft^3/s
 
-Dates:
+TIME
 
-Expressions:
+    Timestamp with nanosecond precision. All time instances come with
+    the (local by default) time zone information. On Unix systems, it
+    consults TZ environment variable or /etc/localtime to determine
+    the local timezone.
+    Time is declared either as a formatted representation within `{` and `}`,
+    or by using special constants that resolve to the current running time:
 
-Operators:
+        {2021/01/01}  {1649674271}  today  tomorrow  now
+
+EXPRESSIONS
+
+    Everything in `numb` is an expression. Even assignments.
+
+    Numbers support all the arithmetic and logical operations (see OPERATORS).
+
+        > 0b1001 << 1 + 0xFF in hex
+
+    Units can only be added/subtracted/multiplied/divided with other units,
+    and multiplied/divided/exponentiated with numbers.
+
+        > 10 kmph * 5 hours
+        > m^2
+
+    Time can only be subtracted from other time, and added to or subtracted
+    from time units.
+
+        > {2022/01/01} - {2020/01/01} to days
+        > now - 1 day
+        > now + 1 hour
+
+    All types can be stored in variables. The syntax is a name followed by
+    `=` and an expression. For ex.:
+
+        > total = 10 + 20
+
+    Units can be declared from units or numbers. To create one, `:` is used:
+
+        > metricton : 1000 kg
+        > rad : 1
+
+    All 3 types support a special operator `in`, which changes the representation
+    of the value. For numbers/units, these are:
+
+        dec   | decimal
+        hex   | hexadecimal
+        oct   | octal
+        bin   | binary
+        rat   | rational (x/y)
+        sci   | scientific (-1.23e+45)
+
+    For time, it's the TZ database name, full or partial:
+
+        > time in newyork
+        > time in New_York
+        > time in America/New_York
+
+OPERATORS
 
     +     addition
     -     subtraction / negation
@@ -45,24 +96,24 @@ Operators:
     in    format number
     to    unit conversion
 
-Operator precedence (highest to lowest):
+    Operator precedence (highest to lowest):
 
-    ^
-    *  /  <<  >>  and  mod
-    +  -  or  xor
-    in to
-    =  :
+        ^
+        *  /  <<  >>  and  mod
+        +  -  or  xor
+        in to
+        =  :
 
-Grammar:
+GRAMMAR
 
     expr : expr `in` fmt
-    expr : expr <var expr>         ; implicit multiplication
+    expr : expr <id expr>          ; implicit multiplication
     expr : expr op expr
     expr : `+` | `-` expr
     expr : `(` expr `)`
     expr : num
-    expr : var
-    expr : id `=` expr
+    expr : id
+    expr : id (`=` expr
     expr : id `:` expr
     expr : id `(` args `)`         ; function call
 
