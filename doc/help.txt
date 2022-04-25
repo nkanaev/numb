@@ -1,56 +1,56 @@
-`numb` is an arbitrary precision calculator language with support for
-unit conversion & date handling.  There are 3 basic elements in `numb`:
-numbers, units & times.
+`numb` is an arbitrary precision calculator language with support for unit conversion & date handling. It comes with built-in list of units of measurements, constants and common math functions.
 
-NUMBER
+TYPES
 
-    Arbitrary precision rational number. The numbers are stored with
-    the numerical system (decimal, octal etc.). Numbers can be declared
-    in decimal, hexadecimal, octal, binary & scientific notation:
+    There are 3 basic elements in `numb`: numbers, units & times.
 
-        123  123.456  0x0123456789ABCDEF  0o1234567  0b1010  1.2e3
+    `Number` is an arbitrary precision rational number. The numbers are stored with the numerical system representation (decimal, octal etc.). Numbers can be declared in various notations:
 
-UNIT
+        * decimal         123
+        * hexadecimal     0xDEADBEEF
+        * octal           0o123
+        * binary          0b1010
+        * scientific      1.2e3
 
-    Number with the standard for measurement. The application comes with
-    a list of builtin units:
+    `Unit` is a number with the unit standard for measurement. `numb` includes SI, Customary and few historical measurement units. Units can be resolved with SI & digital prefixes. If the exact unit name is not found, `numb` will search the name by ignoring plural suffixes 's', 'es' & 'ies' or using case-insensitive comparison.
 
-        terabyte  g  second  km/h  ft^3/s
+    `Time` is a timestamp with nanosecond precision and representation format. All time instances have (local by default) time zone information. On Unix systems, it consults TZ environment variable or /etc/localtime to determine the local timezone.
+    Time are declared as a formatted string within `{` and `}`. The supported formats are:
 
-TIME
+        {YYYY-MM-DD}
+        {DD-MM-YYYY}
+        {YYYY-MM-DDTHH:MM}
+        {YYYY-MM-DD HH:MM}
 
-    Timestamp with nanosecond precision. All time instances come with
-    the (local by default) time zone information. On Unix systems, it
-    consults TZ environment variable or /etc/localtime to determine
-    the local timezone.
-    Time is declared either as a formatted representation within `{` and `}`,
-    or by using special constants that resolve to the current running time:
+    '-', '/', '.' or ' ' (empty space) can be used as day/month/year separators. Days/months don't have to be zero-padded. Month can be either a number (1-12) or short/long name (for ex.: Jan, January).
 
-        {2021/01/01}  {1649674271}  today  tomorrow  now
+    Certain words are resolved to time instances during runtime:
+
+        now  time  date  today  tomorrow  yesterday
 
 EXPRESSIONS
 
-    Everything in `numb` is an expression. Even assignments.
+    Everything in `numb` is an expression.
 
     Numbers support all the arithmetic and logical operations (see OPERATORS).
 
         > 0b1001 << 1 + 0xFF in hex
 
-    Units can only be added/subtracted/multiplied/divided with other units,
-    and multiplied/divided/exponentiated with numbers.
+    Units can only be added/subtracted/multiplied/divided with other units, and multiplied/divided/exponentiated with numbers.
+
+        + - * /   (unit)
+        * / ^     (numbers)
 
         > 10 kmph * 5 hours
         > m^2
 
-    Time can only be subtracted from other time, and added to or subtracted
-    from time units.
+    Time can only be subtracted from other time, and added to or subtracted from time units.
 
         > {2022/01/01} - {2020/01/01} to days
         > now - 1 day
         > now + 1 hour
 
-    All types can be stored in variables. The syntax is a name followed by
-    `=` and an expression. For ex.:
+    All types can be stored in variables. The syntax is a name followed by `=` and an expression. For ex.:
 
         > total = 10 + 20
 
@@ -59,8 +59,7 @@ EXPRESSIONS
         > metricton : 1000 kg
         > rad : 1
 
-    All 3 types support a special operator `in`, which changes the representation
-    of the value. For numbers/units, these are:
+    All 3 types support a special operator `in`, which changes the representation of the value. For numbers/units, these are:
 
         dec   | decimal
         hex   | hexadecimal
@@ -96,43 +95,9 @@ OPERATORS
     in    format number
     to    unit conversion
 
-    Operator precedence (highest to lowest):
-
+    The operator precedence (highest to lowest):
         ^
         *  /  <<  >>  and  mod
         +  -  or  xor
         in to
         =  :
-
-GRAMMAR
-
-    expr : expr `in` fmt
-    expr : expr <id expr>          ; implicit multiplication
-    expr : expr op expr
-    expr : `+` | `-` expr
-    expr : `(` expr `)`
-    expr : num
-    expr : id
-    expr : id (`=` expr
-    expr : id `:` expr
-    expr : id `(` args `)`         ; function call
-
-    args : expr | args `,` expr
-
-    op   : `+` | `-` | `*` | `to` ...
-
-    id   : idw | ids
-    idw  : L (L | N | `_`)*
-    ids  : Cs | `%`
-
-    fmt  : L (L | `/` | `_`)*
-
-    num  : int | hex | oct | bin
-    int  : [0-9]+
-    hex  : `0x` [0-f]+
-    oct  : `0o` [0-7]+
-    bin  : `0b` [01]+
-
-    L    : unicode letter
-    N    : unicode number
-    Cs   : unicode currency symbol
