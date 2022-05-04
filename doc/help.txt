@@ -1,83 +1,33 @@
-`numb` is an arbitrary precision calculator language with support for unit conversion & date handling. It comes with built-in list of units of measurements, constants and common math functions.
+`numb` is a tool for working with numbers, units & date.
 
-TYPES
+There are 3 available types: numbers & units & dates.
 
-    There are 3 basic elements in `numb`: numbers, units & times.
+`Number` is a sequence of digits, for ex.:
 
-    `Number` is an arbitrary precision rational number. The numbers are stored with the numerical system representation (decimal, octal etc.). Numbers can be declared in various notations:
+	> 123
 
-        * decimal         123
-        * hexadecimal     0xDEADBEEF
-        * octal           0o123
-        * binary          0b1010
-        * scientific      1.2e3
+Spaces between digits are allowed:
 
-    `Unit` is a number with the unit standard for measurement. `numb` includes SI, Customary and few historical measurement units. Units can be resolved with SI & digital prefixes. If the exact unit name is not found, `numb` will search the name by ignoring plural suffixes 's', 'es' & 'ies' or using case-insensitive comparison.
+	> 123 000
 
-    `Time` is a timestamp with nanosecond precision and representation format. All time instances have (local by default) time zone information. On Unix systems, it consults TZ environment variable or /etc/localtime to determine the local timezone.
-    Time are declared as a formatted string within `{` and `}`. The supported formats are:
+Floating point numbers are declared with `.` sign:
 
-        {YYYY-MM-DD}
-        {DD-MM-YYYY}
-        {YYYY-MM-DDTHH:MM}
-        {YYYY-MM-DD HH:MM}
+	> 123.45
 
-    '-', '/', '.' or ' ' (empty space) can be used as day/month/year separators. Days/months don't have to be zero-padded. Month can be either a number (1-12) or short/long name (for ex.: Jan, January).
+The numbers support scientific notation, with exponentiation after `e`:
 
-    Certain words are resolved to time instances during runtime:
+	> 1.23e10
 
-        now  time  date  today  tomorrow  yesterday
+You can declare hexadecimal, octal, binary integers (prefixed with `0x`, `0o`, `0b`):
 
-EXPRESSIONS
+	> 0xDEADBEEF
+	> 0o1234567
+	> 0b1010
 
-    Everything in `numb` is an expression.
-
-    Numbers support all the arithmetic and logical operations (see OPERATORS).
-
-        > 0b1001 << 1 + 0xFF in hex
-
-    Units can only be added/subtracted/multiplied/divided with other units, and multiplied/divided/exponentiated with numbers.
-
-        + - * /   (unit)
-        * / ^     (numbers)
-
-        > 10 kmph * 5 hours
-        > m^2
-
-    Time can only be subtracted from other time, and added to or subtracted from time units.
-
-        > {2022/01/01} - {2020/01/01} to days
-        > now - 1 day
-        > now + 1 hour
-
-    All types can be stored in variables. The syntax is a name followed by `=` and an expression. For ex.:
-
-        > total = 10 + 20
-
-    Units can be declared from units or numbers. To create one, `:` is used:
-
-        > metricton : 1000 kg
-        > rad : 1
-
-    All 3 types support a special operator `in`, which changes the representation of the value. For numbers/units, these are:
-
-        dec   | decimal
-        hex   | hexadecimal
-        oct   | octal
-        bin   | binary
-        rat   | rational (x/y)
-        sci   | scientific (-1.23e+45)
-
-    For time, it's the TZ database name, full or partial:
-
-        > time in newyork
-        > time in New_York
-        > time in America/New_York
-
-OPERATORS
+Numbers support the operations listed below:
 
     +     addition
-    -     subtraction / negation
+    -     subtraction
     *     multiplication
     /     division
     mod   modulo
@@ -89,15 +39,110 @@ OPERATORS
     or    bitwise or
     xor   bitwise xor
 
-    =     assign (variable)
-    :     assign (unit)
+Numbers can be stored in variables:
 
-    in    format number
-    to    unit conversion
+    > sum = 100
+    > avg = sum / 4
 
-    The operator precedence (highest to lowest):
-        ^
-        *  /  <<  >>  and  mod
-        +  -  or  xor
-        in to
-        =  :
+Numbers can be represented in different formats. `in` operator is used for that. It expects following names after the operator:
+
+	dec   decimal
+	rat   decimal in rational
+	hex   hexadecimal
+	oct   octal
+	bin   binary
+	sci   scientific
+
+For ex.:
+
+	> 123 in oct
+	> 0b1001 xor 0b100 in hex
+	> 1920/1080 in rat
+
+`Unit` is a keyword:
+
+    > kg
+    > centimeter
+    > kelvin
+
+Numbers can be followed by units:
+
+	> 123 kg
+
+This is implicit multiplication, which is the same as:
+
+	> 123 * kg
+
+Units support following operations:
+
+	+ - * /     with other unit
+	* / ^       with numbers
+
+For ex.:
+
+	> 3 kg + 1 lbs
+	> 10 m/s
+	> 51 mole / 3
+
+Just like numbers, units can be represented in different formats:
+
+	> 10 kg in hex
+
+To convert units, `to` operator is used:
+
+	> 25 degC to degF
+	> 5 m^2 to liter
+
+`Date` can be declared within `{` and `}`:
+
+	> {2020/03/06}
+	> {1990.01.01 03:55}
+
+The following formats are supported:
+
+	{YYYY-MM-DD}
+	{DD-MM-YYYY}
+	{YYYY-MM-DDTHH:MM}
+	{YYYY-MM-DD HH:MM}
+
+'-', '/', '.' or ' ' (empty space) can be used as day/month/year separators:
+
+	> {2010-01-01}
+	> {2010 01 01}
+
+Days/months don't have to be zero-padded:
+
+	> {2010-1-1}
+
+Month can be either a number (1-12) or short/long name (for ex.: Jan, January):
+
+	> {2010/Jan/1}
+	> {2010 January 1}
+
+Certain keywords resolve to the current time (with local timezone):
+
+	> now
+	> time
+	> date
+	> today
+	> tomorrow
+	> yesterday
+
+Dates can be subtracted from other dates, the result is time unit:
+
+	> {2022/01/01} - {2020/01/01} to days
+
+Dates can be added to or subtracted from other time units:
+
+	> today - 5 days
+	> now + 3 hours
+
+Dates can be displayed in other timezones via `in` operator:
+
+	> time in London
+
+Timezone name can be full or partial:
+
+	> time in newyork
+	> time in New_York
+	> time in America/New_York
