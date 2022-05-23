@@ -1,3 +1,4 @@
+- formatter
 - documentation
 - test coverage
   go test ./... -coverprofile=cover.out
