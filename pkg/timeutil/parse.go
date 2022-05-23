@@ -7,33 +7,33 @@ import (
 	"time"
 )
 
-// TODO: update according to doc/help.txt
 var dateLayouts = []string{
 	"2006-01-02",
-	"2006/01/02",
-	"2006.01.02",
-	"2006 01 02",
-
-	"02 Jan 2006",
-	"_2 Jan 2006",
-	"02 January 2006",
-	"_2 January 2006",
-
-	"02/01/2006",
-	"02.01.2006",
-	"02 01 2006",
-	"2/1/2006",
-	"2.1.2006",
-	"2 1 2006",
+	"2006-1-2",
+	"02-Jan-2006",
+	"_2-Jan-2006",
+	"02-January-2006",
+	"_2-January-2006",
+    "2006-Jan-02",
+    "2006-Jan-_2",
+    "2006-January-02",
+    "2006-January-_2",
+	"02-01-2006",
+	"2-1-2006",
 
 	"2006-01-02T15:04",
-	"2006/01/02 15:04",
-
-	"02 Jan 2006 15:04",
-	"_2 Jan 2006 15:04",
-	"02 January 2006 15:04",
-	"_2 January 2006 15:04",
+	"02-Jan-2006T15:04",
+	"_2-Jan-2006T15:04",
+	"02-January-2006T15:04",
+	"_2-January-2006T15:04",
 }
+
+var (
+    dateSeparators = []string{"-", "/", ".", " "}
+    timeSeparators = []string{"T", " "}
+    defaultDateSep = "-"
+    defaultTimeSep = "T"
+)
 
 var thisYearLayouts = []string{
 	"2 Jan",
@@ -48,9 +48,15 @@ func parseLocal(layout, value string) (time.Time, error) {
 
 func Parse(value string) (time.Time, error) {
 	for _, layout := range dateLayouts {
-		if t, err := parseLocal(layout, value); err == nil {
-			return t, nil
-		}
+        for _, dateSep := range dateSeparators {
+            for _, timeSep := range timeSeparators {
+                layout := strings.ReplaceAll(layout, defaultDateSep, dateSep)
+                layout = strings.ReplaceAll(layout, defaultTimeSep, timeSep)
+                if t, err := parseLocal(layout, value); err == nil {
+                    return t, nil
+                }
+            }
+        }
 	}
 
 	for _, layout := range thisYearLayouts {
