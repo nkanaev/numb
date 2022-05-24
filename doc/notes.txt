@@ -42,6 +42,12 @@ with multidimensional units:
     # 10 GB file over 10 MB/s broadband
     10GB / 10MB/s
 
-Hence `numb`'s implicit multiplication precedence is
+Another example:
+
+    feet : 1/3 yard
+    # 1 / (3 yard) = 0.33 yard^-1 (incorrect)
+    # (1 / 3) yard = 0.33 yard    (correct
+
+Hence numb's implicit multiplication precedence is
 the same as the explicit multiplication and division
 (as in `frink`).
