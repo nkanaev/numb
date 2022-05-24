@@ -19,6 +19,10 @@ func (a Unit) String() string {
 	return formatNum(a.Num, a.Fmt, defaultSep, defaultPrec) + " " + a.Units.String()
 }
 
+func (a Unit) Format(tsep string, prec int) string {
+	return formatNum(a.Num, a.Fmt, tsep, prec) + " " + a.Units.String()
+}
+
 func (a Unit) BinOP(op token.Token, b Value) (Value, error) {
 	switch b.(type) {
 	case Number:

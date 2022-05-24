@@ -16,6 +16,10 @@ import (
 //go:embed builtin.txt
 var builtin string
 
+type Formatter interface {
+    Format(tsep string, prec int) string
+}
+
 type Runtime struct {
 	Prec int
 	Tsep string
@@ -25,7 +29,6 @@ type Runtime struct {
 func NewRuntime() *Runtime {
 	return &Runtime{
 		Prec: 2,
-		Tsep: ",",
 		Env:  make(map[string]value.Value),
 	}
 }
@@ -53,7 +56,10 @@ func (r *Runtime) Eval(line string) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		return val.String(), nil //val.Format(r.Tsep, r.Prec), nil
+        if val, ok := val.(Formatter); ok {
+            return val.Format(r.Tsep, r.Prec), nil
+        }
+		return val.String(), nil
 	}
 }
 
@@ -75,7 +81,7 @@ func (r *Runtime) EvalConfig(line string) (string, error) {
 		}
 		r.Prec = prec
 	case "tsep":
-		r.Tsep = ","
+		r.Tsep = " "
 	case "notsep":
 		r.Tsep = ""
 	}
