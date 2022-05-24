@@ -131,7 +131,7 @@ func (p *parser) parseBinaryExpr(prec1 int) ast.Node {
 		if tok == token.IDENT {
 			tok = token.MUL
 			implicit = true
-			prec = tok.Precedence()
+			prec = token.IMUL.Precedence()
 		}
 
 		if prec < prec1 {

@@ -18,13 +18,14 @@ const (
 	TO // to
 
 	chars_beg
-	SHL // <<
-	SHR // >>
-	ADD // +
-	SUB // -
-	MUL // *
-	QUO // /
-	EXP // ^
+	SHL  // <<
+	SHR  // >>
+	ADD  // +
+	SUB  // -
+	MUL  // *
+	IMUL // implicit multiplication
+	QUO  // /
+	EXP  // ^
 	operator_end
 
 	LPAREN // (
@@ -97,8 +98,10 @@ func (t Token) Precedence() int {
 		return 3
 	case MUL, QUO, REM, SHL, SHR, AND:
 		return 4
-	case EXP:
+	case IMUL:
 		return 5
+	case EXP:
+		return 6
 	}
 	return LowestPrec
 }
