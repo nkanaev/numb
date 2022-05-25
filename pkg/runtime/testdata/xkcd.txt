@@ -1,0 +1,25 @@
+# xkcd2585
+s01 = 17 mph                        |  17 mi/h
+s02 = round(s01 to meters/sec)      |   8 meter/sec
+s03 = round(s02 to knots)           |  16 knot
+s04 = round(s03 to fathoms/sec)     |   5 fathom/sec
+s05 = round(s04 to furlongs/min)    |   3 furlong/min
+s06 = round(s05 to fathoms/sec)     |   6 fathom/sec
+s07 = round(s06 to kph)             |  40 km/h
+s08 = round(s07 to knots)           |  22 knot
+s09 = round(s08 to kph)             |  41 km/h
+s10 = round(s09 to furlongs/hr)     | 204 furlong/hr
+s11 = round(s10 to mph)             |  26 mi/h
+s12 = round(s11 to m/s)             |  12 m/s
+s13 = round(s12 to furlongs/min)    |   4 furlong/min
+s14 = round(s13 to yards/sec)       |  15 yard/sec
+s15 = round(s14 to fathoms/sec)     |   8 fathom/sec
+s16 = round(s15 to m/s)             |  15 m/s
+s17 = round(s16 to mph)             |  34 mi/h
+s18 = round(s17 to furlongs/min)    |   5 furlong/min
+s19 = round(s18 to knots)           |  33 knot
+s20 = round(s19 to yards/sec)       |  19 yard/sec
+s21 = round(s20 to fathoms/sec)     |  10 fathom/sec
+s22 = round(s21 to knots)           |  36 knot
+s23 = round(s22 to furlongs/min)    |   6 furlong/min
+s24 = round(s23 to mph)             |  45 mi/h

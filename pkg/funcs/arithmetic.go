@@ -125,9 +125,43 @@ func Trunc(args ...value.Value) (value.Value, error) {
 		return nil, fmt.Errorf("expected one argument")
 	}
 	arg := args[0]
-	if value.Type(arg) != value.TYPE_NUMBER {
-		return nil, fmt.Errorf("%s is not a number type", arg)
+	switch arg.(type) {
+	case value.Number:
+		arg := arg.(value.Number)
+		return value.Number{Num: ratutils.Trunc(arg.Num)}, nil
+	case value.Unit:
+		arg := arg.(value.Unit)
+		ret := value.Unit{
+			Num:   ratutils.Trunc(arg.Num),
+			Units: arg.Units,
+			Fmt:   arg.Fmt,
+		}
+		return ret, nil
 	}
-	num := arg.(value.Number).Num
-	return value.Number{Num: ratutils.Trunc(num)}, nil
+	return nil, fmt.Errorf("%s: unsupported type (%s)", arg, value.Type(arg).String())
+}
+
+func Round(args ...value.Value) (value.Value, error) {
+	if len(args) != 1 {
+		return nil, fmt.Errorf("expected one argument")
+	}
+	arg := args[0]
+	switch arg.(type) {
+    case value.Number:
+        arg := arg.(value.Number)
+        tmp := value.Number{
+            Num: new(big.Rat).Add(arg.Num, big.NewRat(1, 2)),
+            Fmt: arg.Fmt,
+        }
+        return Trunc(tmp)
+	case value.Unit:
+		arg := arg.(value.Unit)
+		tmp := value.Unit{
+            Num: new(big.Rat).Add(arg.Num, big.NewRat(1, 2)),
+            Units: arg.Units,
+            Fmt: arg.Fmt,
+        }
+        return Trunc(tmp)
+	}
+	return nil, fmt.Errorf("%s: unsupported type (%s)", arg, value.Type(arg).String())
 }

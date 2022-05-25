@@ -28,7 +28,6 @@ https://pypi.org/project/numericalunits/
 https://support.google.com/websearch/answer/3284611
 https://www.gnu.org/software/bc/
 https://www.gnu.org/software/units/
-https://xkcd.com/2585/
 https://frinklang.org/
 http://stateoftheunit.com/
 https://documentation.soulver.app/

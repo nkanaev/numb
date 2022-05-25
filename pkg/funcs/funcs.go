@@ -20,7 +20,7 @@ var db = map[string]Func{
 	"ceil":  Ceil,
 	"floor": Floor,
 	"trunc": Trunc,
-	//"round": nop,
+	"round": Round,
 	"abs": Abs,
 
 	"gcd": GCD,

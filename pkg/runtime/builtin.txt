@@ -8,7 +8,7 @@ pi  = 3.14159265358979323846264338327950288419716939937510582097494459  | https:
 # time
 s : sec : second : TIME
 min : minute : 60 s
-h : hour : 60 min
+h : hr : hour : 60 min
 d : day : 24 h
 week : 7 d
 year : 365.25 d
@@ -25,6 +25,8 @@ m: metre : meter : LENGTH
 yd : yard : 0.9144 m  | International Yard
 ft : foot : feet : 1/3 yd
 inch : 1/12 ft
+fathom : 6 ft
+furlong : 220 yd
 mi : mile : 1760 yd
 angstrom : 10^-10 m
 au : astronomicalunit : 149597870700 m
@@ -168,7 +170,7 @@ T : tesla : Wb/m^2
 Gy : gray : J/kg
 
 # speed
-kmph = km / h
+kph = kmph = km / h
 mph = mi / h
 kn : knot : 1.852 kmph
 
