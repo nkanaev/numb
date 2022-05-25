@@ -26,23 +26,23 @@ You can declare hexadecimal, octal, binary integers (prefixed with `0x`, `0o`, `
 
 Numbers support the operations listed below:
 
-    +     addition
-    -     subtraction
-    *     multiplication
-    /     division
-    mod   modulo
-    ^     exponent
+	+     addition
+	-     subtraction
+	*     multiplication
+	/     division
+	mod   modulo
+	^     exponent
 
-    <<    shift left
-    >>    shift right
-    and   bitwise and
-    or    bitwise or
-    xor   bitwise xor
+	<<    shift left
+	>>    shift right
+	and   bitwise and
+	or    bitwise or
+	xor   bitwise xor
 
 Numbers can be stored in variables:
 
-    > sum = 100
-    > avg = sum / 4
+	> sum = 100
+	> avg = sum / 4
 
 Numbers can be represented in different formats. `in` operator is used for that. It expects following names after the operator:
 
@@ -61,9 +61,9 @@ For ex.:
 
 `Unit` is a keyword:
 
-    > kg
-    > centimeter
-    > kelvin
+	> kg
+	> centimeter
+	> kelvin
 
 Numbers can be followed by units:
 
@@ -84,7 +84,7 @@ For ex.:
 	> 10 m/s
 	> 51 mole / 3
 
-Just like numbers, units can be represented in different formats:
+Like numbers, units can be represented in different formats:
 
 	> 10 kg in hex
 
@@ -92,6 +92,11 @@ To convert units, `to` operator is used:
 
 	> 25 degC to degF
 	> 5 m^2 to liter
+
+Declaring units is similar to variables, but `:` operator is used instead:
+
+	mile : 1760 yard
+	donkeypower : 250 watts
 
 `Date` can be declared within `{` and `}`:
 
@@ -105,7 +110,7 @@ The following formats are supported:
 	{YYYY-MM-DDTHH:MM}
 	{YYYY-MM-DD HH:MM}
 
-'-', '/', '.' or ' ' (empty space) can be used as day/month/year separators:
+'-', '/', '.' or ' ' (empty space) can be used as day/month/year separators instead:
 
 	> {2010-01-01}
 	> {2010 01 01}
