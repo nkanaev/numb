@@ -36,7 +36,7 @@ func (a Time) BinOP(op token.Token, b Value) (Value, error) {
 		}
 	case Unit:
 		b := b.(Unit)
-		if b.Units.Dimension().Equals(dimension.TIME) {
+		if !b.Units.Dimension().Equals(dimension.TIME) {
 			return nil, fmt.Errorf("%s is not a measure of time", b)
 		}
 

@@ -24,6 +24,10 @@ examples:
       26.67 minute
     > time in London
       13:04
+    > today + 10 days
+      05 Jun 2022
+    > today - {1999-09-09} to months
+      272.54 month
 
 install:
 
