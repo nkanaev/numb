@@ -31,4 +31,12 @@ examples:
 
 install:
 
+    # build with Go >= 1.16
     $ go install github.com/nkanaev/numb@latest
+
+more:
+
+    doc/help.txt     manual, examples
+    doc/spec.txt     syntax, grammar
+    doc/dump.txt     various design notes
+    doc/todo.txt     todo list

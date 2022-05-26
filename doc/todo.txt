@@ -1,7 +1,16 @@
-- formatter
+- refine output formatter
 - documentation
-- test coverage
-  go test ./... -coverprofile=cover.out
-  # cross-package
-  go test ./... -coverpkg $(go list ./pkg... | tr '\n' ',') -coverprofile=cover.out
-  go tool cover -html=cover.out -o coverage.html
+  - revise help.txt
+  - embedded documentation
+  - list units/functions documentation
+  - .help
+- functions
+  - round to decimals # round(1.234, 2) -> 1.2
+  - financial
+- tool to update currencies
+- nonlinear units?
+  - might require lambda expressions
+- rational power?  # 2^0.5
+- complex numbers?
+- syntax for arrays?
+- handling dimensionless units properly?
