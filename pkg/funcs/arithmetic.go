@@ -149,15 +149,23 @@ func Round(args ...value.Value) (value.Value, error) {
 	switch arg.(type) {
     case value.Number:
         arg := arg.(value.Number)
+        sign := 1
+        if arg.Num.Cmp(ratutils.ZERO) < 0 {
+            sign = -1
+        }
         tmp := value.Number{
-            Num: new(big.Rat).Add(arg.Num, big.NewRat(1, 2)),
+            Num: new(big.Rat).Add(arg.Num, big.NewRat(1*int64(sign), 2)),
             Fmt: arg.Fmt,
         }
         return Trunc(tmp)
 	case value.Unit:
 		arg := arg.(value.Unit)
+        sign := 1
+        if arg.Num.Cmp(ratutils.ZERO) < 0 {
+            sign = -1
+        }
 		tmp := value.Unit{
-            Num: new(big.Rat).Add(arg.Num, big.NewRat(1, 2)),
+            Num: new(big.Rat).Add(arg.Num, big.NewRat(1*int64(sign), 2)),
             Units: arg.Units,
             Fmt: arg.Fmt,
         }
