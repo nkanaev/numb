@@ -4,6 +4,7 @@
   - embedded documentation
   - list units/functions documentation
   - .help
+- more time parsers (rfc/iso/etc)
 - functions
   - round to decimals # round(1.234, 2) -> 1.2
   - financial
