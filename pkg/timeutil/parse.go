@@ -81,9 +81,14 @@ func Parse(value string) (time.Time, error) {
 			return time.UnixMilli(num), nil
 		case len(value) <= 17:
 			// min: 1973-03-03T09:46:40 (100000000000000 us -> 100000000 s)
-			// max: 5138-11-16T09:46:39 (100000000000000 us -> 100000000 s)
+			// max: 5138-11-16T09:46:39 (99999999999999999 us -> 99999999999 s)
 			num, _ := strconv.ParseInt(value, 10, 64)
 			return time.UnixMicro(num), nil
+		case len(value) <= 20:
+			// min: 1973-03-03T09:46:40 (100000000000000000 ns -> 100000000 s)
+			// max: 5138-11-16T09:46:39 (99999999999999999999 ns -> 99999999999 s)
+			num, _ := strconv.ParseInt(value, 10, 64)
+			return time.Unix(0, num), nil
 		default:
 			return time.Time{}, errors.New("timestamp value out of range")
 		}
