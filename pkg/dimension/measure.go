@@ -31,7 +31,7 @@ var Measures = map[string]Dimension{
 	"catalyctic activity":               {AmountOfSubstance: 1, Time: -1},
 	"luminous flux/intensity":           {LuminousIntensity: 1},
 	"illuminance":                       {LuminousIntensity: 1, Length: -1},
-	"speed":                             {Length: 1, Time: -1},
+	"speed/velocity":                    {Length: 1, Time: -1},
 	"data rate":                         {Digital: 1, Time: -1},
 	"density":                           {Mass: 1, Length: -3},
 	"flow":                              {Length: 3, Time: -1},

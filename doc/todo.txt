@@ -9,9 +9,11 @@
   - round to decimals # round(1.234, 2) -> 1.2
   - financial
 - tool to update currencies
-- nonlinear units?
-  - might require lambda expressions
 - rational power?  # 2^0.5
 - complex numbers?
 - syntax for arrays?
+  makes easier to write function that break units.
+  for ex: hour/min/sec, foot/inch
+- syntax for lambdas?
+  to write custom functions & declare non-linear units
 - handling dimensionless units properly?
