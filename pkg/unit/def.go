@@ -155,6 +155,7 @@ var prefixes = map[string]*big.Rat{
 	"yocto": r.Exp(10, -24),
 	"da":    r.Exp(10, 1),
 	"deca":  r.Exp(10, 1),
+	"deka":  r.Exp(10, 1),
 	"h":     r.Exp(10, 2),
 	"hecto": r.Exp(10, 2),
 	"k":     r.Exp(10, 3),
@@ -190,4 +191,8 @@ var prefixes = map[string]*big.Rat{
 	"zebi": r.Exp(1024, 7),
 	"Yi":   r.Exp(1024, 8),
 	"yobi": r.Exp(1024, 8),
+
+    // historic
+    "myria": r.Exp(10, 4),
+    // TODO: u vs. m for milli?
 }

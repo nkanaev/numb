@@ -1,12 +1,18 @@
-# consts
-e   = 2.71828182845904523536028747135266249775724709369995957496696763  | https://oeis.org/A001113
-pi  = 3.14159265358979323846264338327950288419716939937510582097494459  | https://oeis.org/A000796
+# SI base dimensions
+m: metre : meter : LENGTH
+s : sec : second : TIME
+g : gram : MASS / 1000
+A : amp : ampere : ELECTRIC_CURRENT
+K : kelvin : degK : TEMPERATURE
+mol : mole : AMOUNT_OF_SUBSTANCE
+rad : radian : 1    | angle
+sr : steradian : 1  | solid angle
+cd : candela : LUMINOUS_INTENSITY
 
 # ratio
 % : 1/100
 
 # time
-s : sec : second : TIME
 min : minute : 60 s
 h : hr : hour : 60 min
 d : day : 24 h
@@ -17,11 +23,7 @@ decade : 10 year
 century : 100 year
 millenium : 1000 year
 
-# temperature
-K : kelvin : degK : TEMPERATURE
-
 # length
-m: metre : meter : LENGTH
 yd : yard : 0.9144 m  | International Yard
 ft : foot : feet : 1/3 yd
 inch : 1/12 ft
@@ -35,7 +37,6 @@ lightsecond : 299792458 m
 ly : lightyear : lightsecond * (year / s)
 
 # mass
-g : gram : MASS / 1000
 lb: 0.45359237 kg
 pound : lb
 t : tonne : metricton : 1000 kg
@@ -46,7 +47,6 @@ oz : 1/16 pound
 once : ounce : oz
 
 # angle
-rad : radian : 1
 deg : pi/180 rad
 degree : deg
 arcsec : pi/648000 rad
@@ -115,12 +115,6 @@ Bq : becquierel : s^-1
 Ci : curie : 3.7 * 10^10 Bq
 Rd : rutherford : 10^6 Bq
 
-# amount of substance
-mol : mole : AMOUNT_OF_SUBSTANCE
-
-# electric current
-A : amp : ampere : ELECTRIC_CURRENT
-
 # catalyctic activity
 kat : katal : mol/s
 
@@ -139,9 +133,6 @@ F : farad : C/V
 # electric conductance
 S : siemens : A/V
 
-# solid angle
-sr : steradian : 1
-
 # electric inductance
 H : henry : Wb/A
 
@@ -150,9 +141,6 @@ ohm : V/A
 
 # frequency
 Hz : hertz : 1/s
-
-# luminous intensity
-cd : candela : LUMINOUS_INTENSITY
 
 # luminous flux
 lm : lumen : cd sr
@@ -179,3 +167,10 @@ kbps = kbit / s
 Mbps = Mbit / s
 Gbps = Gbit / s
 Tbps = Tbit / s
+
+# consts
+e   = 2.71828182845904523536028747135266249775724709369995957496696763  | https://oeis.org/A001113
+pi  = 3.14159265358979323846264338327950288419716939937510582097494459  | https://oeis.org/A000796
+EulerMascheroniConstant = 0.577215664901532860606512090082402431042159335939923598805767234884867726777664670936947063291746749
+c : light : lightspeed : 299792458 m/s
+
