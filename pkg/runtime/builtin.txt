@@ -9,19 +9,76 @@ rad : radian : 1    | angle
 sr : steradian : 1  | solid angle
 cd : candela : LUMINOUS_INTENSITY
 
-# ratio
-% : 1/100
+# Names of some numbers
+one =                    1
+two =                    2
+double =                 2
+couple =                 2
+three =                  3
+triple =                 3
+four =                   4
+quadruple =              4
+five =                   5
+quintuple =              5
+six =                    6
+seven =                  7
+eight =                  8
+nine =                   9
+ten =                    10
+twenty =                 20
+thirty =                 30
+forty =                  40
+fifty =                  50
+sixty =                  60
+seventy =                70
+eighty =                 80
+ninety =                 90
+hundred =                100
+thousand =               1000
+million =                1e6
+# indian
+lakh = lac =             100 thousand
+crore =                  10 million
+
+# SI derived units (officially accepted)
+N : newton : kg m / s^2   | force
+Pa : pascal : N / m^2     | pressure
+J : joule : N m           | energy
+W : watt : J / s          | power
+C : coulomb : s A         | electric charge
+V : volt : J/C            | electric potential
+ohm : V/A                 | electric resistance
+S : siemens : mho : A/V   | electric conductance
+F : farad : C/V           | electric capacitance
+Wb : weber : V s          | magnetic flux
+H : henry : Wb/A          | electric inductance
+T : tesla : Wb/m^2        | magnetic flux density
+Hz : hertz : 1/s          | frequency
 
 # time
-min : minute : 60 s
-h : hr : hour : 60 min
-d : day : 24 h
-week : 7 d
-year : 365.25 d
+min : minute : 60 sec
+h : hour : 60 min
+d : day : 24 hour
+wk : week : 7 day
+sennight : 7 day
+fortnight : 14 day
+year : 365.25 day
 month : 1/12 year
 decade : 10 year
 century : 100 year
 millenium : 1000 year
+
+shake : 10e-8 sec
+svedberg : 10e-13 sec
+
+# consts
+e   = 2.71828182845904523536028747135266249775724709369995957496696763  | https://oeis.org/A001113
+pi  = 3.14159265358979323846264338327950288419716939937510582097494459  | https://oeis.org/A000796
+EulerMascheroniConstant = 0.577215664901532860606512090082402431042159335939923598805767234884867726777664670936947063291746749
+c : light : lightspeed : 299792458 m/s
+
+# ratio
+% : percent : 1/100
 
 # length
 yd : yard : 0.9144 m  | International Yard
@@ -30,16 +87,20 @@ inch : 1/12 ft
 fathom : 6 ft
 furlong : 220 yd
 mi : mile : 1760 yd
-angstrom : 10^-10 m
+angstrom : 10e-10 m
 au : astronomicalunit : 149597870700 m
 pc : parsec : 648000 / pi au
 lightsecond : 299792458 m
 ly : lightyear : lightsecond * (year / s)
+micron : micrometer
+bicron : picometer
+xu : xunit : siegbahn : 1.00202e-13 meter
+fermi : 1 femtometer
 
 # mass
+t : tonne : metricton : 1000 kg
 lb: 0.45359237 kg
 pound : lb
-t : tonne : metricton : 1000 kg
 Da : dalton : u : mu : 1.660_539_066_60 * 10^-27 kg
 dr : 1/256 pound
 dram : dr
@@ -47,53 +108,64 @@ oz : 1/16 pound
 once : ounce : oz
 
 # angle
-deg : pi/180 rad
-degree : deg
-arcsec : pi/648000 rad
-arcmin : pi/10800 rad
+circle : 2 pi radian
+cycle : turn : revolution : rev : circle
+deg : degree : 1/360 circle
+arcdec : arcdegree : degree
+arcmin : arcminute : 1/60 degree
+arcsec : arcsecond : 1/60 arcmin
+mas : milliarcsecond
+rightangle : 90 degrees
+quadrant : 1/4 circle
+quintant : 1/5 circle
+sextant : 1/6 circle
+sign : 1/12 circle       | zodiac sign
+gon : grade : 1/100 rightangle
 grad : pi/200 rad
-cycle : pi/2 rad
 
 # area
 in2 : sqin : inch^2
 ft2 : sqft : ft^2
 yd2 : sqyd : yd^2
 mi2 : sqmi : mi^2
-
 acre : 4046.86 m^2
 ha : 10_000 m^2
 hectare : ha
+are : 100 m^2
+b : barn : 10e-28 m^2
+shed : 10e-24 barn
 
 # digital
 bit : DIGITAL
 B : byte : 8 bit
 
 # volume
-l : lt : L : liter : litre : 1 dm^2
+cc : cm^3
+l : lt : L : liter : litre : 1000 cc
+oldliter : 1.000028 dm^3
 m3  : m^3
 in3 : cuin : inch^3
 ft3 : cuft : ft^3
 yd3 : cuyd : yd^3
 teaspoon : 5 mL
 tablespoon : 15 mL
+lambda : microliter
 
 # force
-N : newton : kg m / s^2
 dyn : dyne : 10^-5 N
 lbf : 4.4482216152605 N
 poundforce : lbf
 kip : 4448.2216 N
 pdl : 0.138254954376 N
 poundal : pdl
+sthene : funal : 1 kilonewton
 
 # energy
-J : joule : N m
 Wh : watthour : 3600 J
 electronvolt : 1.602176565e-19 J
 erg : 10^-7 J
 
 # pressure
-Pa : pascal : N / m^2
 bar : 100000 Pa
 psi : 6894.757 Pa
 at : 98066.5 Pa
@@ -104,9 +176,9 @@ torr : 101325/760 Pa
 mmHg : 133.322387415 Pa
 mmH2O : 9.80665 Pa
 cmH20 : 98.0665 Pa
+pieze : sthene / m^2
 
 # power
-W : watt : J / s
 hp : 745.69987158227 W
 horsepower : hp
 
@@ -118,30 +190,6 @@ Rd : rutherford : 10^6 Bq
 # catalyctic activity
 kat : katal : mol/s
 
-# electric charge
-C : coulomb : s A
-
-# electric potential
-V : volt : J/C
-
-# magnetic flux
-Wb : weber : V s
-
-# electric capacitance
-F : farad : C/V
-
-# electric conductance
-S : siemens : A/V
-
-# electric inductance
-H : henry : Wb/A
-
-# electric resistance
-ohm : V/A
-
-# frequency
-Hz : hertz : 1/s
-
 # luminous flux
 lm : lumen : cd sr
 
@@ -150,9 +198,6 @@ lx : lux : lm/m^2
 
 # ionizing radiation
 Sv : sievert : J/kg
-
-# magnetic flux density
-T : tesla : Wb/m^2
 
 # radiation dose
 Gy : gray : J/kg
@@ -168,9 +213,14 @@ Mbps = Mbit / s
 Gbps = Gbit / s
 Tbps = Tbit / s
 
-# consts
-e   = 2.71828182845904523536028747135266249775724709369995957496696763  | https://oeis.org/A001113
-pi  = 3.14159265358979323846264338327950288419716939937510582097494459  | https://oeis.org/A000796
-EulerMascheroniConstant = 0.577215664901532860606512090082402431042159335939923598805767234884867726777664670936947063291746749
-c : light : lightspeed : 299792458 m/s
+# misc
+brewster : 10e-12 m^2 / N   | measures stress-optical coef
+dioptre : diopter : m^-1    | measures reciprocal of lens focal length
+fresnel : terahertz         | occasionally used in spectroscopy
 
+| TODO: billion etc.
+| TODO: blink/ce/cron/watch/bell
+| TODO: vac/mho/galvat/barn/shed
+| TODO: quintal/centner
+| TODO: vac = millibar?
+| TODO: galvat/gamma?

@@ -186,7 +186,7 @@ var prefixes = map[string]*big.Rat{
 	"Pi":   r.Exp(1024, 5),
 	"pebi": r.Exp(1024, 5),
 	"Ei":   r.Exp(1024, 6),
-	"exi":  r.Exp(1024, 6),
+	"exbi": r.Exp(1024, 6),
 	"Zi":   r.Exp(1024, 7),
 	"zebi": r.Exp(1024, 7),
 	"Yi":   r.Exp(1024, 8),
@@ -194,5 +194,22 @@ var prefixes = map[string]*big.Rat{
 
     // historic
     "myria": r.Exp(10, 4),
-    // TODO: u vs. m for milli?
+
+    // guard against local variable "shadow"
+    "unit_": big.NewRat(1, 1),
+
+    // misc
+    "quarter": big.NewRat(1, 4),
+    "semi": big.NewRat(1, 2),
+    "demi": big.NewRat(1, 2),
+    "hemi": big.NewRat(1, 2),
+    "half": big.NewRat(1, 2),
+    "third": big.NewRat(1, 3),
+    "eighth": big.NewRat(8, 1),
+    "double": big.NewRat(2, 1),
+    "triple": big.NewRat(3, 1),
+    "treble": big.NewRat(3, 1),
+    "uni": big.NewRat(1, 1),
+    "bi": big.NewRat(2, 1),
+    "tri": big.NewRat(3, 1),
 }

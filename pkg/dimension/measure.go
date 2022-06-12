@@ -39,4 +39,13 @@ var Measures = map[string]Dimension{
 	"momentum":                          {Length: 1, Mass: 1, Time: -1},
 	"electric current density":          {Current: 1, Mass: -2},
 	"price per mass":                    {Currency: 1, Mass: -1},
+    /* TODO: more dimensions?
+       surface tension?
+       surface charge density
+       electric charge density
+       electric field strength
+       magnetic field strength
+       heat capacity
+       specific heat capacity
+    */
 }
