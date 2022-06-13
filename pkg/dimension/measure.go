@@ -47,5 +47,7 @@ var Measures = map[string]Dimension{
        magnetic field strength
        heat capacity
        specific heat capacity
+       magnetic reluctance
+       permeability
     */
 }

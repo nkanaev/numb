@@ -56,6 +56,7 @@ T : tesla : Wb/m^2        | magnetic flux density
 Hz : hertz : 1/s          | frequency
 
 # time
+| TODO: tropical/julian/etc year
 min : minute : 60 sec
 h : hour : 60 min
 d : day : 24 hour
@@ -63,19 +64,20 @@ wk : week : 7 day
 sennight : 7 day
 fortnight : 14 day
 year : 365.25 day
-month : 1/12 year
-decade : 10 year
-century : 100 year
+month : mo : 1/12 year
+decade : 10 years
+century : 100 years
 millenium : 1000 year
+lustrum : 5 years
+cron : 1e6 years
 
-shake : 10e-8 sec
-svedberg : 10e-13 sec
+shake : 1e-8 sec
+svedberg : 1e-13 sec
 
 # consts
 e   = 2.71828182845904523536028747135266249775724709369995957496696763  | https://oeis.org/A001113
 pi  = 3.14159265358979323846264338327950288419716939937510582097494459  | https://oeis.org/A000796
 EulerMascheroniConstant = 0.577215664901532860606512090082402431042159335939923598805767234884867726777664670936947063291746749
-c : light : lightspeed : 299792458 m/s
 
 # ratio
 % : percent : 1/100
@@ -87,7 +89,7 @@ inch : 1/12 ft
 fathom : 6 ft
 furlong : 220 yd
 mi : mile : 1760 yd
-angstrom : 10e-10 m
+angstrom : 1e-10 m
 au : astronomicalunit : 149597870700 m
 pc : parsec : 648000 / pi au
 lightsecond : 299792458 m
@@ -106,6 +108,7 @@ dr : 1/256 pound
 dram : dr
 oz : 1/16 pound
 once : ounce : oz
+metricounce : mounce : 25 g
 
 # angle
 circle : 2 pi radian
@@ -120,8 +123,26 @@ quadrant : 1/4 circle
 quintant : 1/5 circle
 sextant : 1/6 circle
 sign : 1/12 circle       | zodiac sign
-gon : grade : 1/100 rightangle
-grad : pi/200 rad
+gon : grad : grade : 1/100 rightangle
+centesimalminute : 1/100 grade
+centesimalsecond : 1/100 centesimalminute
+mrad : 1/1000 rad
+milangle : 1/6400 circle
+pointangle : 1/32 circle
+centrad : 1/100 radian
+brad : 1/256 circle
+
+pulsatance : radian / sec
+
+# solid angle
+sphere :              4 pi sr
+squaredegree :        1/180^2 pi^2 sr
+squareminute :        1/60^2 squaredegree
+squaresecond :        1/60^2 squareminute
+squarearcmin :        squareminute
+squarearcsec :        squaresecond
+sphericalrightangle : 1/2 pi sr
+octant :              1/2 pi sr
 
 # area
 in2 : sqin : inch^2
@@ -132,8 +153,8 @@ acre : 4046.86 m^2
 ha : 10_000 m^2
 hectare : ha
 are : 100 m^2
-b : barn : 10e-28 m^2
-shed : 10e-24 barn
+b : barn : 1e-28 m^2
+shed : 1e-24 barn
 
 # digital
 bit : DIGITAL
@@ -206,6 +227,7 @@ Gy : gray : J/kg
 kph = kmph = km / h
 mph = mi / h
 kn : knot : 1.852 kmph
+c : light : lightspeed : lightsecond/s
 
 # data rate
 kbps = kbit / s
@@ -214,9 +236,13 @@ Gbps = Gbit / s
 Tbps = Tbit / s
 
 # misc
-brewster : 10e-12 m^2 / N   | measures stress-optical coef
-dioptre : diopter : m^-1    | measures reciprocal of lens focal length
-fresnel : terahertz         | occasionally used in spectroscopy
+brewster : 1e-12 m^2 / N   | measures stress-optical coef
+dioptre : diopter : m^-1   | measures reciprocal of lens focal length
+fresnel : terahertz        | occasionally used in spectroscopy
+preece : 1e13 ohm m        | resistivity
+daraf : 1/farad            | elastance (inverse of farad)
+poiseuille : Pl : Pa s     | viscosity
+mu0 : magneticconstant : permeabilityofvacuum : 1.256 637 062 12e-6 H/m  | CODATA 2018
 
 | TODO: billion etc.
 | TODO: blink/ce/cron/watch/bell
@@ -224,3 +250,9 @@ fresnel : terahertz         | occasionally used in spectroscopy
 | TODO: quintal/centner
 | TODO: vac = millibar?
 | TODO: galvat/gamma?
+| TODO: spat - astronomical or angular unit?
+| TODO: planck/sturgeon/leo/mired/mayer/crocodile/finsenunit/fluxunit/jansky
+| TODO: mu0 (old vs. new definition)
+| TODO: epsilon0
+| TODO: proof (US vs EU)
+| TODO: rankine
