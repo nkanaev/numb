@@ -153,7 +153,7 @@ acre : 4046.86 m^2
 ha : 10_000 m^2
 hectare : ha
 are : 100 m^2
-b : barn : 1e-28 m^2
+barn : 1e-28 m^2
 shed : 1e-24 barn
 
 # digital
